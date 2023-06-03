@@ -1,0 +1,6 @@
+//algorithme de recommandations des topics : 
+
+ratio_upvote_downvote = (tt_les_upvote_du_topic / tt_les_downvote_du_topic) / nb_msg_du_topic
+ratio_vue_follow = nb_vue_du_topic / nb_follow_du_topic
+
+algorithme = ratio_upvote_downvote * ratio_vue_follow

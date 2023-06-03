@@ -1,0 +1,49 @@
+// Users
+//Permissons par "défaut"
+1. | change_own_nickname | Allow to change own user nickname
+2. | change_own_avatar | Allow to change own user avatar
+3. | change_own_description | Allow to change own user description
+//Permissions qui peuvent être accordées par un admin
+4. | change_any_nickname | Allow to change any user nickname
+5. | delete_any_avatar | Allow to delete any user avatar
+6. | delete_any_description | Allow to delete any user description
+7. | delete_user | Allow to delete any user
+
+
+// Messages
+//Permissions par "défaut"
+8. | send_messages | Allow to send messages
+9. | edit_messages | Allow to edit own messages
+10. | delete_own_messages | Allow to delete own messages
+11. | react_messages | Allow to react to any messages
+//Permissions qui peuvent être accordées par un admin
+12. | delete_any_messages | Allow to delete any messages
+
+
+// Files 
+//Permissions par "défaut"
+13. | upload_files | Allow to upload files
+14. | download_files | Allow to download any files
+//Permissions qui peuvent être accordées par un admin
+15. | delete_any_files | Allow to delete any files
+
+
+// Topics
+//Permissions par "défaut"
+16. | create_topics | Allow to create topics
+17. | delete_own_topics | Allow to delete own topics
+18. | edit_own_topics | Allow to edit own topics
+19. | follow_topics | Allow to follow topics
+//Permissions qui peuvent être accordées par un admin
+20. | delete_any_topics | Allow to delete any topics
+21. | edit_any_topics | Allow to edit any topics
+
+//Roles --> les permissions accordées dans la catégorie roles se limitent à la hauteur du role de l'utilisateur (comme discord)
+22. | create_roles | Allow to create roles
+23. | delete_roles | Allow to delete roles
+24. | edit_roles | Allow to edit roles
+25. | assign_roles | Allow to assign roles
+26. | unassign_roles | Allow to unassign roles
+
+
+
