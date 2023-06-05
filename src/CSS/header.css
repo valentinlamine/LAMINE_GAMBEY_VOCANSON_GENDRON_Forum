@@ -1,0 +1,52 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+#reddit-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #1a1a1b;
+    height: 100px;
+}
+
+#logo img {
+    height: 50px;
+}
+
+#logo h1 {
+    color: #ffffff; 
+    font-size: 24px; 
+}
+
+#search-box {
+    display: flex;
+}
+
+#search-input {
+    margin-right: 10px;
+}
+
+#login-section {
+    display: flex;
+    width: 200px;
+    height: 60px;
+}
+
+#login-section login-button {
+    display: flex;
+    background: #FF4500;
+    border-radius: 15px;
+}
+
+#login-section signup-button {
+    display: flex;
+    background: #ffffff;
+    border-radius: 15px;
+}
