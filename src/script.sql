@@ -45,6 +45,7 @@ CREATE TABLE IF NOT EXISTS files (
     file MEDIUMBLOB NOT NULL
 ) ENGINE = InnoDB;
 
+
 CREATE TABLE IF NOT EXISTS messages(
     id INT AUTO_INCREMENT PRIMARY KEY,
     content VARCHAR(255) NOT NULL,
@@ -96,6 +97,8 @@ CREATE TABLE IF NOT EXISTS messages(
         FOREIGN KEY(user_id) REFERENCES users(id),
         FOREIGN KEY(message_id) REFERENCES messages(id)
     ) ENGINE = InnoDB;
+
+
 
     CREATE TABLE IF NOT EXISTS users_followed_topics(
         user_id INT NOT NULL,

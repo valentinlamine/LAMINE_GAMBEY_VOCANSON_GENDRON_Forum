@@ -76,13 +76,6 @@ type Users_followed_topics struct {
 	topic_id int
 }
 
-type test struct {
-	username string
-	topic_id int
-	name     string
-	role     string
-}
-
 type GetUser struct {
 	id            int
 	username      string
@@ -90,4 +83,67 @@ type GetUser struct {
 	email         string
 	register_date string
 	birth_date    string
+}
+
+type GetTopic struct {
+	id          int
+	name        string
+	description string
+	private     bool
+	user_id     int
+}
+
+type GetRole struct {
+	id    int
+	name  string
+	color string
+}
+type RoleUser struct {
+	id       int
+	name     string
+	color    string
+	username string
+}
+type TagTopic struct {
+	name  string
+	color string
+}
+
+type MessageUser struct {
+	id            int
+	content       string
+	creation_date string
+	updated_at    string
+	username      string
+	topic_id      int
+	status        string
+	user_id       int
+}
+
+type GetPermission struct {
+	id          int
+	name        string
+	description string
+}
+
+type GetMessage struct {
+	id         int
+	content    string
+	user_id    int
+	topic_id   int
+	created_at string
+	updated_at string
+}
+
+type GetFile struct {
+	id         int
+	name       string
+	file       string
+	created_at string
+}
+
+type GetTag struct {
+	id    int
+	name  string
+	color string
 }

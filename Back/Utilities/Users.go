@@ -6,41 +6,7 @@ import (
 	"log"
 )
 
-func Usertest(db *sql.DB) {
-	// Executes the SQL query our database. Check err to ensure there was no error.
-	rows, err := db.Query(`SELECT users.username, users_followed_topics.topic_id, permions.name, roles.name
-    FROM users_followed_topics
-    INNER JOIN users ON users_lowed_topics.user_id = users.id
-    INNER JOIN topic ON users_followed_topics.topic_id = topic.i
-    INNER JOIN roles ON users.id = roles.id
-    INNER JOIN roles_permissions ON roles.i
-    INNER JOIN roles_permissions ON roles.id = roles_permissions.role_id
-    INNER JOIN permissions ON roles_permissions.permission_id = permissions.id
-    WHERE users.username = 'katsuLeBG'`)
-	if err != nil {
-		panic(err.Error())
-	}
-	defer rows.Close()
-
-	var users []test
-	for rows.Next() {
-		var t test
-
-		err := rows.Scan(&t.username, &t.topic_id, &t.name, &t.role)
-		if err != nil {
-			log.Fatal(err)
-		}
-		users = append(users, t)
-
-	}
-	if err := rows.Err(); err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(users)
-}
-
 func UsersAdd(db *sql.DB, email string, username string, password string) {
-	// fmt.Println(`Insert INTO users (email,username,password) VALUES ( ` + email + `, ` + username + `, ` + password + `);`)
 	_, err := db.Exec(`Insert INTO users (email,username,password) VALUES (?,?,?)`, email, username, password)
 	if err != nil {
 		panic(err.Error())
@@ -49,7 +15,6 @@ func UsersAdd(db *sql.DB, email string, username string, password string) {
 }
 
 func UsersGet(db *sql.DB, id int) {
-	// Executes the SQL query in our database. Check err to ensure there was no error.
 	rows, err := db.Query(`SELECT users.id,users.username,users.email,users.password,users.register_date,users.birth_date FROM users WHERE id = ?`, id)
 
 	if err != nil {
@@ -75,7 +40,6 @@ func UsersGet(db *sql.DB, id int) {
 }
 
 func UsersUpdate(db *sql.DB, id int, email string, username string, password string, description string, birth_date string) {
-	// Executes the SQL query in our database. Check err to ensure there was no error.
 	if description == "" {
 		description = "Not set"
 	}
@@ -86,10 +50,84 @@ func UsersUpdate(db *sql.DB, id int, email string, username string, password str
 }
 
 func UsersDelete(db *sql.DB, id int) {
-	// Executes the SQL query in our datae. Check err to ensure there was no error.
 	_, err := db.Exec(`DELETE FROM users WHERE id = ?`, id)
 
 	if err != nil {
 		panic(err.Error())
 	}
+}
+
+func UserRoles(db *sql.DB, id int) {
+	rows, err := db.Query(`SELECT roles.name,roles.color FROM users_roles INNER JOIN roles ON users_roles.role_id = roles.id WHERE users_roles.user_id = ?`, id)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var roles []RoleUser
+	for rows.Next() {
+		var r RoleUser
+
+		err := rows.Scan(&r.name, &r.color)
+		if err != nil {
+			log.Fatal(err)
+		}
+		roles = append(roles, r)
+
+	}
+	if err := rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(roles)
+}
+
+func UserFollowedTopics(db *sql.DB, id int) {
+	rows, err := db.Query(`SELECT topic.name FROM users_followed_topics INNER JOIN topic ON users_followed_topics.topic_id = topic.id WHERE users_followed_topics.user_id = ?`, id)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var topics []string
+	for rows.Next() {
+		var t string
+
+		err := rows.Scan(&t)
+		if err != nil {
+			log.Fatal(err)
+		}
+		topics = append(topics, t)
+
+	}
+	if err := rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(topics)
+}
+
+func UserMessagesInteractions(db *sql.DB, id int) {
+	rows, err := db.Query(`SELECT messages.id,messages.content,messages.creation_date,messages.user_id,messages.topic_id,users_messages_interactions.status FROM users_messages_interactions INNER JOIN messages ON users_messages_interactions.message_id = messages.id WHERE users_messages_interactions.user_id = ?`, id)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var messages []MessageUser
+	for rows.Next() {
+		var m MessageUser
+
+		err := rows.Scan(&m.id, &m.content, &m.creation_date, &m.user_id, &m.topic_id, &m.status)
+		if err != nil {
+			log.Fatal(err)
+		}
+		messages = append(messages, m)
+
+	}
+	if err := rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(messages)
 }

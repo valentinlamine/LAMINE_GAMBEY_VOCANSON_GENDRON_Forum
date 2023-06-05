@@ -14,6 +14,6 @@ func main() {
 		panic(err.Error())
 	}
 	defer db.Close()
-	utilities.UsersAdd(db, "test@znertf", "test", "test")
+	utilities.TagsDelete(db, 7)
 
 }

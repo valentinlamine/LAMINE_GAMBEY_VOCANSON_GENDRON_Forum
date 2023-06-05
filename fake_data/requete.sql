@@ -41,6 +41,7 @@ INSERT INTO topic_tags (topic_id,tag_id) VALUES (3,5);
 INSERT INTO topic_tags (topic_id,tag_id) VALUES (4,6);
 
 INSERT INTO users_followed_topics (user_id,topic_id) VALUES (1,1);
+INSERT INTO users_followed_topics (user_id,topic_id) VALUES (1,4);
 INSERT INTO users_followed_topics (user_id,topic_id) VALUES (6,2);
 INSERT INTO users_followed_topics (user_id,topic_id) VALUES (5,3);
 INSERT INTO users_followed_topics (user_id,topic_id) VALUES (4,4);
@@ -53,6 +54,18 @@ INSERT INTO permissions (name) VALUES ("edit_topic");
 INSERT INTO roles_permissions (role_id,permission_id) VALUES (1,1);
 INSERT INTO roles_permissions (role_id,permission_id) VALUES (1,2);
 
+INSERT INTO users_roles (user_id,role_id) VALUES (1,1);
+
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 1, 'like');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 3, 'like');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 1, 'like');
+
+INSERT INTO files (name, file) VALUES ("test", "test");
+INSERT INTO files (name, file) VALUES ("test2", "test2");
+
+INSERT INTO messages_files (message_id, file_id) VALUES (1, 1);
+INSERT INTO messages_files (message_id, file_id) VALUES (1, 2);
+INSERT INTO messages_files (message_id, file_id) VALUES (2, 1);
 
 -- recupere les messages d'un topic avec l'id d'un topic
 SELECT messages.content, messages.user_id, messages.topic_id, users.username, topic.name
