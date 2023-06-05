@@ -26,12 +26,12 @@ INSERT INTO messages (content,user_id,topic_id) VALUES ("L'environnement et le c
 INSERT INTO messages (content,user_id,topic_id) VALUES ("L'environnement et le changement climatique sont des sujets qui me tiennent à coeur. Je pense que nous devrions tous prendre le temps de nous occuper de notre bien-être et de notre santé mentale.",1,5);
 INSERT INTO messages (content,user_id,topic_id) VALUES ("L'environnement et le changement climatique sont des sujets qui me tiennent à coeur. Je pense que nous devrions tous prendre le temps de nous occuper de notre bien-être et de notre santé mentale.",1,5);
 
-INSERT INTO tag (name) VALUES ("IA");
-INSERT INTO tag (name) VALUES ("Voyage");
-INSERT INTO tag (name) VALUES ("Tourisme");
-INSERT INTO tag (name) VALUES ("Santé mentale");
-INSERT INTO tag (name) VALUES ("Bien-être");
-INSERT INTO tag (name) VALUES ("Jeux vidéo");
+INSERT INTO tag (name, color) VALUES ("IA", "#FF0000");
+INSERT INTO tag (name) VALUES ("Voyage", "#0000FF");
+INSERT INTO tag (name) VALUES ("Tourisme", "#0000FF");
+INSERT INTO tag (name) VALUES ("Santé mentale", "#00FF00");
+INSERT INTO tag (name) VALUES ("Bien-être", "#00FF00");
+INSERT INTO tag (name) VALUES ("Jeux vidéo", "#FFFF00");
 
 INSERT INTO topic_tags (topic_id,tag_id) VALUES (1,1);
 INSERT INTO topic_tags (topic_id,tag_id) VALUES (2,2);

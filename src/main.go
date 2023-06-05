@@ -13,11 +13,6 @@ type User struct {
 	Password string
 }
 
-type UserInput struct {
-	Name     string
-	Password string
-}
-
 var u []User = getUsers()
 
 func main() {
@@ -46,14 +41,29 @@ func Index(w http.ResponseWriter, r *http.Request) {
 		tmpl1.Execute(w, nil)
 		return
 	}
-	details := UserInput{
-		Name:     r.FormValue("name"),
-		Password: r.FormValue("password"),
-	}
+	details := User{}
 	tmpl1.Execute(w, details)
 	Test(r, w)
 }
 
 func Test(r *http.Request, w http.ResponseWriter) {
-	fmt.Println(r.FormValue("name") + "\n" + r.FormValue("password"))
+	var name = r.FormValue("nameLogin")
+	var password = r.FormValue("passwordLogin")
+	if name == "" {
+		fmt.Println("Login: " + name + ", " + password)
+	} else {
+		fmt.Println("register: " + r.FormValue("name") + ", " + r.FormValue("password"))
+	}
+	//fmt.Println(logCmp(name, password))
+}
+
+func logCmp(name string, password string) bool {
+	for i := 0; i != len(u); i++ {
+		if u[i].Name == name {
+			if u[i].Password == password {
+				return true
+			}
+		}
+	}
+	return false
 }
