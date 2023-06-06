@@ -60,6 +60,15 @@ INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1,
 INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 3, 'downvote');
 INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 1, 'report');
 
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 2, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 3, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 5, 'upvote');
+
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 4, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 4, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 3, 'downvote');
+
+
 INSERT INTO files (name, file) VALUES ("test", "test");
 INSERT INTO files (name, file) VALUES ("test2", "test2");
 

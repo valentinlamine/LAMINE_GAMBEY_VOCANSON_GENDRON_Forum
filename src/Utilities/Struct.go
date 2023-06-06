@@ -157,6 +157,7 @@ type GetTag struct {
 }
 
 type Ratio struct {
+	Id    int
 	Ratio float64
 }
 

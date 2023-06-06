@@ -33,14 +33,43 @@ func RatioVueFollow(db *sql.DB, id int) []Ratio {
 
 		err := rows.Scan(&r.Ratio)
 		if err != nil {
-			panic(err.Error())
+			r.Ratio = 0
 		}
+		r.Id = id
 		ratio = append(ratio, r)
-
 	}
 	if err := rows.Err(); err != nil {
 		panic(err.Error())
 	}
 	return ratio
+}
 
+func SortTopics(db *sql.DB) []GetTopic {
+	var aled [][]Ratio
+	var r []Ratio
+	var TopicSorted []GetTopic = TopicsGetAll(db)
+	var NewTopicSort []GetTopic
+	var isDone = false
+	fmt.Println(RatioVueFollow(db, 2))
+	fmt.Println(len(TopicSorted))
+	for i := 1; i <= len(TopicSorted); i++ {
+		aled = append(aled, RatioVueFollow(db, i))
+	}
+	fmt.Println(aled[0])
+
+	for !isDone {
+		isDone = true
+		var i = 0
+		for i < len(r)-1 {
+			if r[i].Ratio > r[i+1].Ratio {
+				r[i].Ratio, r[i+1].Ratio = r[i+1].Ratio, r[i].Ratio
+				isDone = false
+			}
+			i++
+		}
+	}
+	for i := 0; i < len(r); i++ {
+		NewTopicSort = append(NewTopicSort, TopicSorted[r[i].Id])
+	}
+	return NewTopicSort
 }

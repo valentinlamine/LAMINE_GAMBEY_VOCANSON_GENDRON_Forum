@@ -38,6 +38,31 @@ func TopicsGet(db *sql.DB, id int) {
 	fmt.Println(topics)
 }
 
+func TopicsGetAll(db *sql.DB) []GetTopic {
+	rows, err := db.Query(`SELECT topic.id,topic.name,topic.description,topic.private,topic.user_id FROM topic`)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var topics []GetTopic
+	for rows.Next() {
+		var t GetTopic
+
+		err := rows.Scan(&t.Id, &t.Name, &t.Description, &t.Private, &t.User_id)
+		if err != nil {
+			panic(err.Error())
+		}
+		topics = append(topics, t)
+
+	}
+	if err := rows.Err(); err != nil {
+		panic(err.Error())
+	}
+	return topics
+}
+
 func TopicsUpdate(db *sql.DB, id int, name string, description string, private bool, user_id int) {
 	_, err := db.Exec(`UPDATE topic SET name = ?, description = ?, private = ?, user_id = ? WHERE id = ?`, name, description, private, user_id, id)
 	if err != nil {
