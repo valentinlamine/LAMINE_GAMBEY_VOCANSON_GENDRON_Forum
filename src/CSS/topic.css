@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.topic-item {
+    display: flex;
+    width: 1320px;
+    border-radius: 10px;
+    background-color: #1A1A1B;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.topic-interactions {
+    width: 70px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #161617;
+}
+
+.topic-right {
+    width: calc(100% - 70px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.topic-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topic-header-left {
+    display: flex;
+    align-items: center;
+}
+
+.topic-tag-list {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-right: 10px;
+}
+
+.topic-tag{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.topic-tag p {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 21px;
+    border-radius: 5px;
+    padding: 0 5px;
+    background: #45546B;
+}
+
+.topic-header-info p {
+    font-style: normal;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 21px;
+    color: #818384;
+}
+
+button .btn-topic-header-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 23px;
+    padding: 5px 10px;
+}
+
+
+.topic-title {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 47px;
+}
+
+.topic-description {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 31px;
+}
+
+.topic-footer {
+    display: flex;
+    align-items: center;
+}
+
+.topic-section {
+    display: flex;
+    align-items: center;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 31px;
+    color: #797B7C;
+    margin-right: 20px;
+}
+
+.topic-section img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
