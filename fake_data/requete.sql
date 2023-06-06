@@ -56,9 +56,9 @@ INSERT INTO roles_permissions (role_id,permission_id) VALUES (1,2);
 
 INSERT INTO users_roles (user_id,role_id) VALUES (1,1);
 
-INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 1, 'like');
-INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 3, 'like');
-INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 1, 'like');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 1, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 3, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 1, 'report');
 
 INSERT INTO files (name, file) VALUES ("test", "test");
 INSERT INTO files (name, file) VALUES ("test2", "test2");

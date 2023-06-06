@@ -38,6 +38,31 @@ func MessagesGet(db *sql.DB, id int) {
 	fmt.Println(messages)
 }
 
+func MessagesGetAllTopic(db *sql.DB, id int) []GetMessage {
+	rows, err := db.Query(`SELECT messages.id,messages.content,messages.user_id,messages.topic_id FROM messages WHERE topic_id = ?`, id)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var messages []GetMessage
+	for rows.Next() {
+		var m GetMessage
+
+		err := rows.Scan(&m.Id, &m.Content, &m.User_id, &m.Topic_id)
+		if err != nil {
+			panic(err.Error())
+		}
+		messages = append(messages, m)
+
+	}
+	if err := rows.Err(); err != nil {
+		panic(err.Error())
+	}
+	return messages
+}
+
 func MessagesUpdate(db *sql.DB, id int, content string, user_id int, topic_id int) {
 	_, err := db.Exec(`UPDATE messages SET content = ?, user_id = ?, topic_id = ? WHERE id = ?`, content, user_id, topic_id, id)
 	if err != nil {
