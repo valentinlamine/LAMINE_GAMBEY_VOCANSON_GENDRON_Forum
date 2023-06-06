@@ -8,7 +8,7 @@ body {
     font-family: Arial, sans-serif;
 }
 
-#reddit-header {
+.header-ctn {
     display: flex;
     justify-content: space-between;
     padding: 20px;
@@ -27,26 +27,49 @@ body {
 
 #search-box {
     display: flex;
+    box-sizing: border-box;
+    width: 700px;
+    height: 60px;
+    background: #272729;
+    border: 1px solid #343536;
+    border-radius: 15px;
 }
 
-#search-input {
-    margin-right: 10px;
-}
-
-#login-section {
+.login-section {
     display: flex;
-    width: 200px;
+    justify-content: space-between;
+    width: 300px;
     height: 60px;
 }
 
-#login-section login-button {
+.button1  {
     display: flex;
+    width: 200px;
+    height: 60px;
     background: #FF4500;
     border-radius: 15px;
 }
 
-#login-section signup-button {
+#login-button {
     display: flex;
+    width: 200px;
+    height: 60px;
+    background: #FF4500;
+    border-radius: 15px;
+}
+
+.button2 {
+    display: flex;
+    width: 200px;
+    height: 60px;
+    background: #ffffff;
+    border-radius: 15px;
+}
+
+#signup-button {
+    display: flex;
+    width: 200px;
+    height: 60px;
     background: #ffffff;
     border-radius: 15px;
 }
