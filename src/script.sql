@@ -107,3 +107,10 @@ CREATE TABLE IF NOT EXISTS messages(
         FOREIGN KEY(user_id) REFERENCES users(id),
         FOREIGN KEY(topic_id) REFERENCES topic(id)
     ) ENGINE = InnoDB;
+
+
+//ALGO RECOMMANDATION : 
+ratio_upvote_downvote = (tt_les_upvote_du_topic / tt_les_downvote_du_topic) / nb_msg_du_topic
+ratio_vue_follow = nb_vue_du_topic / nb_follow_du_topic
+
+algorithme = ratio_upvote_downvote * ratio_vue_follow
