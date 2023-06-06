@@ -25,7 +25,7 @@ func PermissionsGet(db *sql.DB, id int) {
 	for rows.Next() {
 		var p GetPermission
 
-		err := rows.Scan(&p.id, &p.name, &p.description)
+		err := rows.Scan(&p.Id, &p.Name, &p.Description)
 		if err != nil {
 			panic(err.Error())
 		}

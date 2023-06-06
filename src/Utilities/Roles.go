@@ -25,7 +25,7 @@ func RoleGet(db *sql.DB, id int) {
 	for rows.Next() {
 		var r GetRole
 
-		err := rows.Scan(&r.id, &r.name, &r.color)
+		err := rows.Scan(&r.Id, &r.Name, &r.Color)
 		if err != nil {
 			panic(err.Error())
 		}

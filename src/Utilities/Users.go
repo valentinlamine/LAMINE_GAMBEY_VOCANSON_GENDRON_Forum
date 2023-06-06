@@ -26,7 +26,7 @@ func UsersGet(db *sql.DB, id int) {
 	for rows.Next() {
 		var u GetUser
 
-		err := rows.Scan(&u.username, &u.username, &u.email, &u.password, &u.register_date, &u.birth_date)
+		err := rows.Scan(&u.Id, &u.Username, &u.Email, &u.Password, &u.Register_date, &u.Birth_date)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -37,6 +37,31 @@ func UsersGet(db *sql.DB, id int) {
 		log.Fatal(err)
 	}
 	fmt.Println(users)
+}
+
+func UsersGetAll(db *sql.DB) []GetUsersAll {
+	rows, err := db.Query(`SELECT users.id,users.username,users.email,users.password,users.register_date FROM users`)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var users []GetUsersAll
+	for rows.Next() {
+		var u GetUsersAll
+
+		err := rows.Scan(&u.Id, &u.Username, &u.Email, &u.Password, &u.Register_date)
+		if err != nil {
+			log.Fatal(err)
+		}
+		users = append(users, u)
+
+	}
+	if err := rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+	return users
 }
 
 func UsersUpdate(db *sql.DB, id int, email string, username string, password string, description string, birth_date string) {
@@ -69,7 +94,7 @@ func UserRoles(db *sql.DB, id int) {
 	for rows.Next() {
 		var r RoleUser
 
-		err := rows.Scan(&r.name, &r.color)
+		err := rows.Scan(&r.Name, &r.Color)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -119,7 +144,7 @@ func UserMessagesInteractions(db *sql.DB, id int) {
 	for rows.Next() {
 		var m MessageUser
 
-		err := rows.Scan(&m.id, &m.content, &m.creation_date, &m.user_id, &m.topic_id, &m.status)
+		err := rows.Scan(&m.Id, &m.Content, &m.Creation_date, &m.User_id, &m.Topic_id, &m.Status)
 		if err != nil {
 			log.Fatal(err)
 		}

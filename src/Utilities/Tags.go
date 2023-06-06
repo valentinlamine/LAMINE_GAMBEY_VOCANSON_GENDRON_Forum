@@ -25,7 +25,7 @@ func TagsGet(db *sql.DB, id int) {
 	for rows.Next() {
 		var t GetTag
 
-		err := rows.Scan(&t.id, &t.name, &t.color)
+		err := rows.Scan(&t.Id, &t.Name, &t.Color)
 		if err != nil {
 			panic(err.Error())
 		}

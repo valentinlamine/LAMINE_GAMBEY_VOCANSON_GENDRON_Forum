@@ -25,7 +25,7 @@ func FilesGet(db *sql.DB, id int) {
 	for rows.Next() {
 		var f GetFile
 
-		err := rows.Scan(&f.id, &f.name, &f.file)
+		err := rows.Scan(&f.Id, &f.Name, &f.File)
 		if err != nil {
 			panic(err.Error())
 		}

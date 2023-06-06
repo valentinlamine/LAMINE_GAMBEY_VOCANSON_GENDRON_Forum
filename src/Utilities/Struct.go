@@ -77,73 +77,81 @@ type Users_followed_topics struct {
 }
 
 type GetUser struct {
-	id            int
-	username      string
-	password      string
-	email         string
-	register_date string
-	birth_date    string
+	Id            int
+	Username      string
+	Password      string
+	Email         string
+	Register_date string
+	Birth_date    string
+}
+
+type GetUsersAll struct {
+	Id            int
+	Username      string
+	Password      string
+	Email         string
+	Register_date string
 }
 
 type GetTopic struct {
-	id          int
-	name        string
-	description string
-	private     bool
-	user_id     int
+	Id          int
+	Name        string
+	Description string
+	Private     bool
+	User_id     int
 }
 
 type GetRole struct {
-	id    int
-	name  string
-	color string
+	Id    int
+	Name  string
+	Color string
 }
 type RoleUser struct {
-	id       int
-	name     string
-	color    string
-	username string
+	Id       int
+	Name     string
+	Color    string
+	Username string
 }
 type TagTopic struct {
-	name  string
-	color string
+	Name  string
+	Color string
 }
 
 type MessageUser struct {
-	id            int
-	content       string
-	creation_date string
-	updated_at    string
-	username      string
-	topic_id      int
-	status        string
-	user_id       int
+	Id            int
+	Content       string
+	Creation_date string
+	Updated_at    string
+	Username      string
+	Topic_id      int
+	Status        string
+	User_id       int
 }
 
 type GetPermission struct {
-	id          int
-	name        string
-	description string
+	Id          int
+	Name        string
+	Description string
 }
 
 type GetMessage struct {
-	id         int
-	content    string
-	user_id    int
-	topic_id   int
-	created_at string
-	updated_at string
+	Id         int
+	Content    string
+	User_id    int
+	Topic_id   int
+	Created_at string
+	Updated_at string
 }
 
 type GetFile struct {
-	id         int
-	name       string
-	file       string
-	created_at string
+	Id         int
+	Name       string
+	File       string
+	Created_at string
 }
 
 type GetTag struct {
-	id    int
-	name  string
-	color string
+	Id    int
+	Name  string
+	Color string
 }

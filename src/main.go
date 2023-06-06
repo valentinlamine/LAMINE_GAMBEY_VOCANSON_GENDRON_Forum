@@ -1,37 +1,25 @@
 package main
 
 import (
-	"html/template"
-	// "log"
 	"fmt"
+	utilities "forum/Utilities"
+	"html/template"
 	"net/http"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
-type User struct {
-	Id       int
-	Name     string
-	Password string
-}
-
-var u []User = getUsers()
+var db = utilities.OpenDB()
+var u []utilities.GetUsersAll = utilities.UsersGetAll(db)
 
 func main() {
+	// db := utilities.OpenDB()
+	// fmt.Println(utilities.UsersGetAll(db))
 	fmt.Println("server is running on port 8080 : http://localhost:8080")
 	fs := http.FileServer(http.Dir("css"))
 	http.Handle("/css/", http.StripPrefix("/css/", fs))
 	http.HandleFunc("/", Index)
 	http.ListenAndServe(":8080", nil)
-}
-
-func getUsers() []User {
-	var ret []User
-	var user1 = User{0, "test1", "root"}
-	var user2 = User{1, "test2", "root"}
-	var user3 = User{2, "test3", "root"}
-	var user4 = User{3, "test4", "root"}
-	var user5 = User{4, "test5", "root"}
-	ret = append(ret, user1, user2, user3, user4, user5)
-	return ret
 }
 
 func Index(w http.ResponseWriter, r *http.Request) {
@@ -41,25 +29,20 @@ func Index(w http.ResponseWriter, r *http.Request) {
 		tmpl1.Execute(w, nil)
 		return
 	}
-	details := User{}
-	tmpl1.Execute(w, details)
+	details := utilities.GetUsersAll{}
 	Test(r, w)
+	tmpl1.Execute(w, details)
 }
 
 func Test(r *http.Request, w http.ResponseWriter) {
-	var name = r.FormValue("nameLogin")
-	var password = r.FormValue("passwordLogin")
-	if name == "" {
-		fmt.Println("Login: " + name + ", " + password)
-	} else {
-		fmt.Println("register: " + r.FormValue("name") + ", " + r.FormValue("password"))
+	if r.FormValue("submit") == "login" {
+		fmt.Println(logCmp(r.FormValue("loginName"), r.FormValue("loginPassword")))
 	}
-	//fmt.Println(logCmp(name, password))
 }
 
 func logCmp(name string, password string) bool {
 	for i := 0; i != len(u); i++ {
-		if u[i].Name == name {
+		if u[i].Username == name {
 			if u[i].Password == password {
 				return true
 			}

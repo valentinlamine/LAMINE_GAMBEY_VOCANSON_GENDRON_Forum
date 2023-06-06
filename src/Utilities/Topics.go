@@ -25,7 +25,7 @@ func TopicsGet(db *sql.DB, id int) {
 	for rows.Next() {
 		var t GetTopic
 
-		err := rows.Scan(&t.id, &t.name, &t.description, &t.private, &t.user_id)
+		err := rows.Scan(&t.Id, &t.Name, &t.Description, &t.Private, &t.User_id)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -64,7 +64,7 @@ func TopicTag(db *sql.DB, id int) {
 	for rows.Next() {
 		var r TagTopic
 
-		err := rows.Scan(&r.name, &r.color)
+		err := rows.Scan(&r.Name, &r.Color)
 		if err != nil {
 			log.Fatal(err)
 		}

@@ -25,7 +25,7 @@ func MessagesGet(db *sql.DB, id int) {
 	for rows.Next() {
 		var m GetMessage
 
-		err := rows.Scan(&m.id, &m.content, &m.user_id, &m.topic_id)
+		err := rows.Scan(&m.Id, &m.Content, &m.User_id, &m.Topic_id)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -64,7 +64,7 @@ func MessageFile(db *sql.DB, id int) {
 	for rows.Next() {
 		var f GetFile
 
-		err := rows.Scan(&f.name, &f.file)
+		err := rows.Scan(&f.Name, &f.File)
 		if err != nil {
 			panic(err.Error())
 		}
