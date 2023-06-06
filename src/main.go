@@ -42,7 +42,7 @@ func Test(r *http.Request, w http.ResponseWriter) {
 
 func logCmp(name string, password string) bool {
 	for i := 0; i != len(u); i++ {
-		if u[i].Username == name {
+		if u[i].Email == name {
 			if u[i].Password == password {
 				return true
 			}
