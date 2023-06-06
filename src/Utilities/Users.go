@@ -6,11 +6,9 @@ import (
 	"log"
 )
 
-func UsersAdd(db *sql.DB, email string, username string, password string) {
+func UsersAdd(db *sql.DB, email string, username string, password string) error {
 	_, err := db.Exec(`Insert INTO users (email,username,password) VALUES (?,?,?)`, email, username, password)
-	if err != nil {
-		panic(err.Error())
-	}
+	return err
 
 }
 

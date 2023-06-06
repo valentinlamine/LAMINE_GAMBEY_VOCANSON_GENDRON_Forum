@@ -155,3 +155,11 @@ type GetTag struct {
 	Name  string
 	Color string
 }
+
+type Ratio struct {
+	Ratio float64
+}
+
+type TopicSorted struct {
+	topics []Topic
+}
