@@ -116,3 +116,9 @@
     height: 20px;
     margin-right: 10px;
 }
+
+@media screen and (max-width: 768px) {
+    .topic-right {
+        background-color: red;
+    }
+}
