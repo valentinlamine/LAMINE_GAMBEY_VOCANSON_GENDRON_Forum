@@ -128,82 +128,64 @@ INNER JOIN messages ON users_messages_interactions.message_id = messages.id
 WHERE users_messages_interactions.status = 'downvote'
 GROUP BY messages.topic_id
 
--- ratio upvote / downvote
+-- ratio upvote / downvote sur un topic
 SELECT (total_upvote / (total_upvote + total_downvote)) * 100 AS ratio_upvote_downvote, messages.topic_id
-FROM (
+FROM messages
+INNER JOIN users_messages_interactions ON messages.id = users_messages_interactions.message_id
+INNER JOIN (
     SELECT COUNT(users_messages_interactions.status) AS total_upvote, messages.topic_id
     FROM users_messages_interactions
     INNER JOIN messages ON users_messages_interactions.message_id = messages.id
     WHERE users_messages_interactions.status = 'upvote'
     GROUP BY messages.topic_id
-) AS total_upvote
+) AS total_upvote ON messages.topic_id = total_upvote.topic_id
 INNER JOIN (
     SELECT COUNT(users_messages_interactions.status) AS total_downvote, messages.topic_id
     FROM users_messages_interactions
     INNER JOIN messages ON users_messages_interactions.message_id = messages.id
     WHERE users_messages_interactions.status = 'downvote'
     GROUP BY messages.topic_id
-) AS total_downvote ON total_upvote.topic_id = total_downvote.topic_id
+) AS total_downvote ON messages.topic_id = total_downvote.topic_id
+GROUP BY messages.topic_id
 
 -- nombre de vue est stocké dans la table topic sur l'attribut nb_views
 -- nombre de follow d'un topic est stocké dans sa propre table user_followed_topic contenant user id et topic id
 ---- calcul nb total user_followed_topic
-SELECT COUNT(users_followed_topics.topic_id) AS nb_follow_du_topic, users_followed_topics.topic_id
+SELECT COUNT(users_followed_topics.topic_id) AS nb_follow_du_topic, messages.topic_id
 FROM users_followed_topics
-GROUP BY users_followed_topics.topic_id
-
+INNER JOIN messages ON users_followed_topics.topic_id = messages.topic_id
+GROUP BY messages.topic_id
 
 -- calcul du score
-SELECT ((ratio_upvote_downvote * topic.nb_views) + (nb_follow_du_topic * 10)) AS score, topic.id
-FROM (
+SELECT (ratio_upvote_downvote * topic.nb_views) + (nb_follow_du_topic * 10) AS score, messages.topic_id
+FROM messages
+INNER JOIN users_messages_interactions ON messages.id = users_messages_interactions.message_id
+INNER JOIN topic on messages.topic_id = topic.id 
+INNER JOIN (
     SELECT (total_upvote / (total_upvote + total_downvote)) * 100 AS ratio_upvote_downvote, messages.topic_id
-    FROM (
+    FROM messages
+    INNER JOIN users_messages_interactions ON messages.id = users_messages_interactions.message_id
+    INNER JOIN (
         SELECT COUNT(users_messages_interactions.status) AS total_upvote, messages.topic_id
         FROM users_messages_interactions
         INNER JOIN messages ON users_messages_interactions.message_id = messages.id
         WHERE users_messages_interactions.status = 'upvote'
         GROUP BY messages.topic_id
-    ) AS total_upvote
+    ) AS total_upvote ON messages.topic_id = total_upvote.topic_id
     INNER JOIN (
         SELECT COUNT(users_messages_interactions.status) AS total_downvote, messages.topic_id
         FROM users_messages_interactions
         INNER JOIN messages ON users_messages_interactions.message_id = messages.id
         WHERE users_messages_interactions.status = 'downvote'
         GROUP BY messages.topic_id
-    ) AS total_downvote ON total_upvote.topic_id = total_downvote.topic_id
-) AS ratio_upvote_downvote
+    ) AS total_downvote ON messages.topic_id = total_downvote.topic_id
+    GROUP BY messages.topic_id
+) AS ratio_upvote_downvote ON messages.topic_id = ratio_upvote_downvote.topic_id
 INNER JOIN (
-    SELECT COUNT(users_followed_topics.topic_id) AS nb_follow_du_topic, users_followed_topics.topic_id
+    SELECT COUNT(users_followed_topics.topic_id) AS nb_follow_du_topic, messages.topic_id
     FROM users_followed_topics
-    GROUP BY users_followed_topics.topic_id
-) AS nb_follow_du_topic ON ratio_upvote_downvote.topic_id = nb_follow_du_topic.topic_id
-INNER JOIN topic ON ratio_upvote_downvote.topic_id = topic.id
-ORDER BY score DESC
-
-
-
-SELECT ((ratio_upvote_downvote * topic.nb_views) + (nb_follow_du_topic * 10)) AS score, topic.id
-FROM (
-    SELECT (total_upvote / (total_upvote + total_downvote)) * 100 AS ratio_upvote_downvote, messages.topic_id
-    FROM (
-        SELECT COUNT(users_messages_interactions.status) AS total_upvote, messages.topic_id
-        FROM users_messages_interactions
-        INNER JOIN messages ON users_messages_interactions.message_id = messages.id
-        WHERE users_messages_interactions.status = 'upvote'
-        GROUP BY messages.topic_id
-    ) AS total_upvote
-    INNER JOIN (
-        SELECT COUNT(users_messages_interactions.status) AS total_downvote, messages.topic_id
-        FROM users_messages_interactions
-        INNER JOIN messages ON users_messages_interactions.message_id = messages.id
-        WHERE users_messages_interactions.status = 'downvote'
-        GROUP BY messages.topic_id
-    ) AS total_downvote ON total_upvote.topic_id = total_downvote.topic_id
-) AS ratio_upvote_downvote
-INNER JOIN (
-    SELECT COUNT(users_followed_topics.topic_id) AS nb_follow_du_topic, users_followed_topics.topic_id
-    FROM users_followed_topics
-    GROUP BY users_followed_topics.topic_id
-) AS nb_follow_du_topic ON ratio_upvote_downvote.topic_id = nb_follow_du_topic.topic_id
-INNER JOIN topic ON ratio_upvote_downvote.topic_id = topic.id
-ORDER BY score DESC;
+    INNER JOIN messages ON users_followed_topics.topic_id = messages.topic_id
+    GROUP BY messages.topic_id
+) AS nb_follow_du_topic ON messages.topic_id = nb_follow_du_topic.topic_id
+GROUP BY messages.topic_id
+ORDER BY score DESC   
