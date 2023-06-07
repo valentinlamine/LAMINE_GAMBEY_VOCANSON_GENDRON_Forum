@@ -8,6 +8,7 @@
 .topic-item {
     display: flex;
     width: 100%;
+    height: auto;
     border-radius: 10px;
     background-color: #1A1A1B;
     color: #ffffff;
@@ -117,8 +118,9 @@
     margin-right: 10px;
 }
 
-@media screen and (max-width: 768px) {
+
+@media all and (max-width: 768px) {
     .topic-right {
-        background-color: red;
+        background: red !important;
     }
 }

@@ -1,5 +1,7 @@
 package utilities
 
+import "time"
+
 type Users struct {
 	id            int
 	username      string
@@ -167,11 +169,17 @@ type TopicSorted struct {
 }
 
 type TopicSortedDrop struct {
-	topic_id          int
-	topic_name        string
-	topic_private     bool
-	topic_description string
-	user_username     string
-	tag_name          string
-	tag_color         string
+	Topic_id          int
+	Topic_name        string
+	Topic_private     bool
+	Topic_description string
+	Topic_nb_views    int
+	Topic_created_at  time.Time
+	User_username     string
+	Nb_messages       int
+	Tags              []GetTag
+}
+
+type Data struct {
+	Data []TopicSortedDrop
 }

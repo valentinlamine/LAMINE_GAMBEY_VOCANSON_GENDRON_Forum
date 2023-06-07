@@ -14,23 +14,35 @@ var db = utilities.OpenDB()
 var u []utilities.GetUsersAll = utilities.UsersGetAll(db)
 
 func main() {
-	db := utilities.OpenDB()
-	utilities.GetTopicsSorted(db)
 	fmt.Println("server is running on port 8080 : http://localhost:8080")
-	fs := http.FileServer(http.Dir("css"))
-	http.Handle("/css/", http.StripPrefix("/css/", fs))
+	fs := http.FileServer(http.Dir("CSS"))
+	http.Handle("/CSS/", http.StripPrefix("/CSS/", fs))
+	fs2 := http.FileServer(http.Dir("JS"))
+	http.Handle("/JS/", http.StripPrefix("/JS/", fs2))
+	fs3 := http.FileServer(http.Dir("assets"))
+	http.Handle("/assets/", http.StripPrefix("/assets/", fs3))
 	http.HandleFunc("/", Index)
 	http.ListenAndServe(":8080", nil)
 }
 
-func Index(w http.ResponseWriter, r *http.Request) {
-	tmpl1 := template.Must(template.ParseFiles("index.html"))
+func GetData() []utilities.TopicSortedDrop {
+	var data []utilities.TopicSortedDrop
+	var resultAlgoPopular = utilities.GetTopicsSorted(db)
+	// fmt.Println(utilities.GetTopicsSorted(db))
+	for i := 0; i != len(resultAlgoPopular); i++ {
+		//fmt.Println(resultAlgoPopular[i].Topic_id)
+		data = append(data, utilities.GetTopicById(db, resultAlgoPopular[i].Topic_id))
 
-	if r.Method != http.MethodPost {
-		tmpl1.Execute(w, nil)
-		return
 	}
-	details := utilities.Ratio{}
+	return data
+}
+
+func Index(w http.ResponseWriter, r *http.Request) {
+	tmpl1 := template.Must(template.ParseFiles("test.html"))
+
+	details := utilities.Data{
+		Data: GetData(),
+	}
 	Test(r, w)
 	tmpl1.Execute(w, details)
 }
@@ -58,11 +70,7 @@ func register(email string, username string, password string) bool {
 	if !Security(email, 0) || !Security(username, 1) || !Security(password, 2) {
 		return false
 	} else {
-
-		if utilities.UsersAdd(db, email, username, password) == nil {
-			return true
-		}
-		return false
+		return utilities.UsersAdd(db, email, username, password) == nil
 	}
 }
 

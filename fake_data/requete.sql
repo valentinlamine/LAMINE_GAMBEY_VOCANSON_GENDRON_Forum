@@ -39,6 +39,7 @@ INSERT INTO topic_tags (topic_id,tag_id) VALUES (2,3);
 INSERT INTO topic_tags (topic_id,tag_id) VALUES (3,4);
 INSERT INTO topic_tags (topic_id,tag_id) VALUES (3,5);
 INSERT INTO topic_tags (topic_id,tag_id) VALUES (4,6);
+INSERT INTO topic_tags (topic_id,tag_id) VALUES (5,1);
 
 INSERT INTO users_followed_topics (user_id,topic_id) VALUES (1,1);
 INSERT INTO users_followed_topics (user_id,topic_id) VALUES (1,4);
@@ -272,10 +273,35 @@ GROUP BY messages.topic_id
 
 
 -- topic join avec user.username et tag et topic_tags
-SELECT topic.id, topic.name, topic.private,topic.description, users.username, tag.name, tag.color
+(SELECT topic.id, topic.name, topic.private, topic.description, users.username
 FROM topic
 INNER JOIN users ON topic.user_id = users.id
-INNER JOIN topic_tags ON topic.id = topic_tags.topic_id
-INNER JOIN tag ON topic_tags.tag_id = tag.id
-WHERE topic.id = 1
+WHERE topic.id = 2);
+(SELECT tag.id, tag.name, tag.color
+FROM tag
+INNER JOIN topic_tags ON tag.id = topic_tags.tag_id
+WHERE topic_tags.topic_id = 2);
 
+
+SELECT title, p.content, u.username, GROUP_CONCAT(DISTINCT tags.name SEPARATOR ";") as "tags", 
+(SELECT COUNT(pr.post_id) from post_reactions as pr where pr.post_id = p.id and pr.reaction_id = 1) as "upvote",
+(SELECT COUNT(pr.post_id) from post_reactions as pr where pr.post_id = p.id and pr.reaction_id = 2) as "downvote"
+    FROM topics as t
+    LEFT JOIN topic_tags AS tag ON t.id = tag.topic_id
+    JOIN tags ON tag.tag_id = tags.id
+    JOIN topic_first_posts AS fp ON t.id = fp.topic_id
+    JOIN posts AS p ON fp.post_id = p.id
+    LEFT JOIN users as u ON t.user_id = u.id
+    WHERE t.id = 1
+
+
+    (SELECT topic.id, topic.name, topic.private, topic.description, users.username
+    FROM topic
+    INNER JOIN users ON topic.user_id = users.id
+    WHERE topic.id = 2);
+    (SELECT tag.id, tag.name, tag.color
+    FROM tag
+    INNER JOIN topic_tags ON tag.id = topic_tags.tag_id
+    WHERE topic_tags.topic_id = 2);
+
+SELECT COUNT(messages.id) FROM messages  JOIN topic ON messages.topic_id=topic.id WHERE topic.id = 2
