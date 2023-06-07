@@ -162,5 +162,16 @@ type Ratio struct {
 }
 
 type TopicSorted struct {
-	topics []Topic
+	Score    float64
+	Topic_id int
+}
+
+type TopicSortedDrop struct {
+	topic_id          int
+	topic_name        string
+	topic_private     bool
+	topic_description string
+	user_username     string
+	tag_name          string
+	tag_color         string
 }

@@ -5,71 +5,61 @@ import (
 	"fmt"
 )
 
-//algorithme de recommandations des topics :
+// topic join avec user.username et tag et topic_tag
 
-// ratio_upvote_downvote = (tt_les_upvote_du_topic / tt_les_downvote_du_topic) / nb_msg_du_topic
-// ratio_vue_follow = nb_vue_du_topic / nb_follow_du_topic
+func GetTopicsSorted(db *sql.DB) {
 
-// algorithme = ratio_upvote_downvote * ratio_vue_follow
-
-func RatioVote(db *sql.DB, id int) {
-	fmt.Println(MessagesGetAllTopic(db, id))
-}
-
-func RatioVueFollow(db *sql.DB, id int) []Ratio {
-	rows, err := db.Query(`SELECT
-	((SELECT COUNT(users_messages_interactions.user_id) FROM users_messages_interactions INNER JOIN messages ON users_messages_interactions.message_id=messages.id WHERE users_messages_interactions.status = "upvote" AND messages.topic_id=?)/
-	(SELECT COUNT(users_messages_interactions.user_id) FROM users_messages_interactions INNER JOIN messages ON users_messages_interactions.message_id=messages.id WHERE users_messages_interactions.status = "downvote" AND messages.topic_id=?))/ 
-	(SELECT COUNT(messages.id) FROM messages WHERE messages.topic_id=?) AS "count"`, id, id, id)
-
+	rows, err := db.Query(`SELECT (ratio_upvote_downvote * topic.nb_views) + (nb_follow_du_topic * 10) AS score, messages.topic_id
+	FROM messages
+	INNER JOIN users_messages_interactions ON messages.id = users_messages_interactions.message_id
+	INNER JOIN topic on messages.topic_id = topic.id 
+	INNER JOIN (
+		SELECT (total_upvote / (total_upvote + total_downvote)) * 100 AS ratio_upvote_downvote, messages.topic_id
+		FROM messages
+		INNER JOIN users_messages_interactions ON messages.id = users_messages_interactions.message_id
+		INNER JOIN (
+			SELECT COUNT(users_messages_interactions.status) AS total_upvote, messages.topic_id
+			FROM users_messages_interactions
+			INNER JOIN messages ON users_messages_interactions.message_id = messages.id
+			WHERE users_messages_interactions.status = 'upvote'
+			GROUP BY messages.topic_id
+		) AS total_upvote ON messages.topic_id = total_upvote.topic_id
+		INNER JOIN (
+			SELECT COUNT(users_messages_interactions.status) AS total_downvote, messages.topic_id
+			FROM users_messages_interactions
+			INNER JOIN messages ON users_messages_interactions.message_id = messages.id
+			WHERE users_messages_interactions.status = 'downvote'
+			GROUP BY messages.topic_id
+		) AS total_downvote ON messages.topic_id = total_downvote.topic_id
+		GROUP BY messages.topic_id
+	) AS ratio_upvote_downvote ON messages.topic_id = ratio_upvote_downvote.topic_id
+	INNER JOIN (
+		SELECT COUNT(users_followed_topics.topic_id) AS nb_follow_du_topic, messages.topic_id
+		FROM users_followed_topics
+		INNER JOIN messages ON users_followed_topics.topic_id = messages.topic_id
+		GROUP BY messages.topic_id
+	) AS nb_follow_du_topic ON messages.topic_id = nb_follow_du_topic.topic_id
+	GROUP BY messages.topic_id
+	ORDER BY score DESC`)
 	if err != nil {
-		panic(err.Error())
+		fmt.Println(err)
+		return
 	}
 	defer rows.Close()
 
-	var ratio []Ratio
+	var sorted []TopicSorted
 	for rows.Next() {
-		var r Ratio
-
-		err := rows.Scan(&r.Ratio)
+		var s TopicSorted
+		err = rows.Scan(&s.Score, &s.Topic_id)
 		if err != nil {
-			r.Ratio = 0
+			fmt.Println(err)
+			return
 		}
-		r.Id = id
-		ratio = append(ratio, r)
+		sorted = append(sorted, s)
+
 	}
 	if err := rows.Err(); err != nil {
 		panic(err.Error())
 	}
-	return ratio
-}
-
-func SortTopics(db *sql.DB) []GetTopic {
-	var aled [][]Ratio
-	var r []Ratio
-	var TopicSorted []GetTopic = TopicsGetAll(db)
-	var NewTopicSort []GetTopic
-	var isDone = false
-	fmt.Println(RatioVueFollow(db, 2))
-	fmt.Println(len(TopicSorted))
-	for i := 1; i <= len(TopicSorted); i++ {
-		aled = append(aled, RatioVueFollow(db, i))
-	}
-	fmt.Println(aled[0])
-
-	for !isDone {
-		isDone = true
-		var i = 0
-		for i < len(r)-1 {
-			if r[i].Ratio > r[i+1].Ratio {
-				r[i].Ratio, r[i+1].Ratio = r[i+1].Ratio, r[i].Ratio
-				isDone = false
-			}
-			i++
-		}
-	}
-	for i := 0; i < len(r); i++ {
-		NewTopicSort = append(NewTopicSort, TopicSorted[r[i].Id])
-	}
-	return NewTopicSort
+	fmt.Println(sorted)
 }

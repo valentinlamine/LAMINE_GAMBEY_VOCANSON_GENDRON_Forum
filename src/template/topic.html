@@ -2,32 +2,28 @@
 <link rel="stylesheet" href="../CSS/fonts.css">
 <div class="topic-item">
     <div class="topic-interactions">
-        <p>153.1k vues</p>
+        <p>{{.Vues}} vues</p>
     </div>
     <div class="topic-right">
         <div class="topic-header">
             <div class="topic-header-left">
                 <div class="topic-tag-list">
+                    {{for .Tags}}
                     <div class="topic-tag">
-                        <p>Developer</p>
+                        <p>{{.Tags.Tag}}</p>
                     </div>
-                    <div class="topic-tag">
-                        <p>Vim</p>
-                    </div>
-                    <div class="topic-tag">
-                        <p>Linux</p>
-                    </div>
+                    {{end}}
                 </div>
-                <p class="topic-header-info">Posted by @mistersquare7 | 2 days ago</p>
+                <p class="topic-header-info">Posted by @{{.User}} | {{.Date}}</p>
             </div>
             <img class="btn-topic-header-right" src="../assets/images/signet.png" alt="plus">
         </div>
-        <h1 class="topic-title">How do i exit vim ?</h1>
-        <p class="topic-description">I got an Ubuntu machine on which i’m currently stuck in vim and i’m wondering if there is any keyboard shortcut for exiting Vim without forcing, preventing crash ? </p>
+        <h1 class="topic-title">{{.Title}}</h1>
+        <p class="topic-description">{{.Message}}</p>
         <div class="topic-footer">
             <div class="topic-section">
                 <img src="../assets/images/commentaires.png" alt="commentaires">
-                <p>523 comments</p>
+                <p>{{.NbComments}} comments</p>
             </div>
             <div class="topic-section">
                 <img src="../assets/images/cacher.png" alt="hide">

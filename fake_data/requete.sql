@@ -45,6 +45,7 @@ INSERT INTO users_followed_topics (user_id,topic_id) VALUES (1,4);
 INSERT INTO users_followed_topics (user_id,topic_id) VALUES (6,2);
 INSERT INTO users_followed_topics (user_id,topic_id) VALUES (5,3);
 INSERT INTO users_followed_topics (user_id,topic_id) VALUES (4,4);
+INSERT INTO users_followed_topics (user_id,topic_id) VALUES (3,5);
 
 INSERT INTO roles (name,color) VALUES ("admin","red");
 
@@ -56,17 +57,96 @@ INSERT INTO roles_permissions (role_id,permission_id) VALUES (1,2);
 
 INSERT INTO users_roles (user_id,role_id) VALUES (1,1);
 
+--Topic 1--
 INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 1, 'upvote');
-INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 3, 'downvote');
-INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 1, 'report');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 1, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 1, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 1, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (5, 1, 'downvote');
 
 INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 2, 'upvote');
-INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 3, 'upvote');
-INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 5, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 2, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 2, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 2, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (5, 2, 'downvote');
 
-INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 4, 'downvote');
-INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 4, 'downvote');
-INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 5, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 3, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 3, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 3, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 3, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (5, 3, 'upvote');
+
+--Topic 2--
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 4, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 4, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 4, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 4, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (5, 4, 'upvote');
+
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 5, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 5, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 5, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 5, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (5, 5, 'downvote');
+
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 6, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 6, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 6, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 6, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (5, 6, 'downvote');
+
+--Topic 3--
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 7, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 7, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 7, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 7, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (5, 7, 'downvote');
+
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 8, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 8, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 8, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 8, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (5, 8, 'downvote');
+
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 9, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 9, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 9, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 9, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (5, 9, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (6, 9, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (7, 9, 'downvote');
+
+--Topic 4--
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 10, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 10, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 10, 'upvote');
+
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 11, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 11, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 11, 'downvote');
+
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 12, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 12, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 12, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 12, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (5, 12, 'downvote');
+
+--Topic 5--
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 13, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 13, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 13, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 13, 'upvote');
+
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 14, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 14, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 14, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 14, 'downvote');
+
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 15, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (2, 15, 'upvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, 15, 'downvote');
+INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (4, 15, 'downvote');
+
 
 
 INSERT INTO files (name, file) VALUES ("test", "test");
@@ -188,4 +268,14 @@ INNER JOIN (
     GROUP BY messages.topic_id
 ) AS nb_follow_du_topic ON messages.topic_id = nb_follow_du_topic.topic_id
 GROUP BY messages.topic_id
-ORDER BY score DESC   
+
+
+
+-- topic join avec user.username et tag et topic_tags
+SELECT topic.id, topic.name, topic.private,topic.description, users.username, tag.name, tag.color
+FROM topic
+INNER JOIN users ON topic.user_id = users.id
+INNER JOIN topic_tags ON topic.id = topic_tags.topic_id
+INNER JOIN tag ON topic_tags.tag_id = tag.id
+WHERE topic.id = 1
+
