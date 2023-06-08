@@ -8,7 +8,6 @@ import (
 // topic join avec user.username et tag et topic_tag
 
 func GetTopicsSorted(db *sql.DB) []TopicSorted {
-	fmt.Println("GetTopicsSorted")
 	rows, err := db.Query(`SELECT (ratio_upvote_downvote * topic.nb_views) + (nb_follow_du_topic * 10) AS score, messages.topic_id
 	FROM messages
 	INNER JOIN users_messages_interactions ON messages.id = users_messages_interactions.message_id
