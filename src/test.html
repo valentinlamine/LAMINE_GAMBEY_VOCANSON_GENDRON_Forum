@@ -26,7 +26,8 @@
                     </div>
                     {{end}}
                 </div>
-                <p class="topic-header-info">Posted by @{{$v.User_username}} | {{$v.Topic_created_at}}</p>
+                <p class="topic-header-info">Posted by @{{$v.User_username}} |<p class="date"></p> </p>
+                <script>formatDate({{$v.Topic_created_at}})</script>
             </div>
             <img class="btn-topic-header-right" src="../assets/images/signet.png" alt="plus">
         </div>

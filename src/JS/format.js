@@ -1,5 +1,6 @@
 
 var i = 0;
+var y = 0;
 function formatNumber(number) {
     const suffixes = ["", " k", " m", " b"]; 
     const magnitude = Math.floor(Math.log10(number) / 3); 
@@ -23,22 +24,12 @@ function formatNumber(number) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-  function calculateDaysSince(dateString) {
-    var currentDate = new Date();
+  function formatDate(dateString) {
+    var currentDate = new Date().toLocaleString("fr-FR");
     var targetDate = new Date(dateString);
-    console.log(currentDate);
-    console.log(targetDate);
+    const date = document.getElementsByClassName("date");
   
+    currentDate = new Date(currentDate);
     currentDate.setHours(0);
     currentDate.setMinutes(0);
     currentDate.setSeconds(0);
@@ -47,20 +38,37 @@ function formatNumber(number) {
     targetDate.setMinutes(currentDate.getMinutes());
     targetDate.setSeconds(currentDate.getSeconds());
   
+
     var timeDiff = currentDate.getTime() - targetDate.getTime();
-  
+    console.log(timeDiff);
+
     if (timeDiff < 0) {
-      return "La date cible est dans le futur";
+      result = "La date cible est dans le futur";
     } else if (timeDiff < 86400000) {
       var hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
-      return hoursDiff + " heure(s)";
-    } else {
-      var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-      return daysDiff + " jour(s)";
+      console.log(hoursDiff);
+      result = hoursDiff + " hour(s)";
+    }  else if (timeDiff < 86400000) {
+      var hoursDiff = Math.floor(timeDiff / (1000 * 60));
+      result = hoursDiff + " minute(s)";
     }
+    else if (timeDiff < 86400000) {
+      var secondeDiff = Math.floor(timeDiff / (1000));
+      result = secondeDiff + " second(s)";
+    }else if (timeDiff < 86400000) {
+      var monthsDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 30));
+      result = monthsDiff + " month(s)";
+    }else if (timeDiff < 86400000) {
+      var anneeDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 30 * 12));
+      result = anneeDiff + " year(s)";
+    }else {
+      var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+      result = daysDiff + " day(s)";
+    }
+    date[y].innerHTML = " "+ result+" ago";
+    y++;
   }
   
-
   
   
   
