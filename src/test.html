@@ -6,13 +6,15 @@
     <title>Document</title>
 </head>
 <body>
+<script src="./JS/header.js"></script>
 <link rel="stylesheet" href="../CSS/topic.css">
 <link rel="stylesheet" href="../CSS/fonts.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-{{range $v := .Data}}
+{{range $v := .Data}} 
 <div class="topic-item">
     <div class="topic-interactions">
-        <p>{{$v.Topic_nb_views}} vues</p>
+        
+        <div class="view"><script>formatNumber({{$v.Topic_nb_views}})</script></div>
     </div>
     <div class="topic-right">
         <div class="topic-header">
@@ -20,7 +22,7 @@
                 <div class="topic-tag-list">
                     {{range $t := $v.Tags}}
                     <div class="topic-tag">
-                        <p style="background-color: {{$t.Color}};">{{$t.Name}}</p>
+                        <p style="background-color: {{$t.Color}};">#{{$t.Name}}</p>
                     </div>
                     {{end}}
                 </div>
