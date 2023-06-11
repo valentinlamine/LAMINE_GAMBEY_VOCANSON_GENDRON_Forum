@@ -71,7 +71,8 @@ function formatNumber(number) {
 
   function ToggleShowMessages(element,messages){
     for (let i = 0; i < messages.length; i++) {
-      element.innerHTML += messages[i];
+
+      element.innerHTML += messages[i].Content + "<br>";
 
     }
   }
