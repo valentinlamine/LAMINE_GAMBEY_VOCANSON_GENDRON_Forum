@@ -1,5 +1,6 @@
     <link rel="stylesheet" href="../CSS/header.css">
     <link rel="stylesheet" href="../CSS/fonts.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="../JS/header.js"></script>
 
     <header class="reddit-header">
@@ -29,4 +30,77 @@
                 </div>
             </div>
         </div>
+        <div class="modal-login" style="display: none;">
+            <div class="content">
+                <img src="../assets/images/close.png" alt="close" class="close" onclick="closeModal()">
+                <form method="POST">
+                    <h1>Log In</h1>
+                    <p>By continuing, you are setting up a Upit account and agree to our <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">User Agreement</a> and <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Privacy Policy.</a></p>
+                    <input type="email" name="loginName" class="formulaire" placeholder="email" autofocus>
+                    <input type="password" name="loginPassword" class="formulaire" placeholder="password" autofocus>
+                    <p>Forgot <a href="#">email</a> or <a href="#">password</a> ?</p>
+                    <button type="submit" name="submit" value="login">Login</button>
+                    <p>New to Upit ? <a href="#" onclick="openRegister()">Sign Up</a></p>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal-register" style="display: none;">
+            <div class="content">
+                <img src="../assets/images/close.png" alt="close" class="close" onclick="closeModal()">
+                <form method="POST">
+                    <h1>Sign Up</h1>
+                    <p>By continuing, you are setting up a Upit account and agree to our <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">User Agreement</a> and <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Privacy Policy.</a></p>
+                    <input type="text" name="username" class="formulaire" placeholder="username" autofocus>
+                    <input type="email" name="email" class="formulaire" placeholder="email" autofocus>
+                    <input type="password" name="password" class="formulaire" placeholder="password" autofocus>
+                    <input type="password" name="comfirmPassword" class="formulaire" placeholder="comfirm password" autofocus>
+                    <button type="submit" name="submit" value="register" disabled>Register</button>
+                    <p>Already have an account ? <a href="#" onclick="openLogin()">Log In</a></p>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            const modalLogin = document.querySelector('.modal-login');
+            const modalRegister = document.querySelector('.modal-register');
+            const btnLogin = document.querySelector('.login-button');
+            const btnRegister = document.querySelector('.signup-button');
+
+            btnLogin.addEventListener('click', () => openLogin());
+
+            btnRegister.addEventListener('click', () => openRegister());
+
+            //function that verify that the password and the comfirm password are the same
+            function verifyPassword() {
+                const password = document.querySelector('.modal-register input[name="password"]');
+                const comfirmPassword = document.querySelector('.modal-register input[name="comfirmPassword"]');
+                const btnSubmit = document.querySelector('.modal-register button[type="submmit"]');
+
+                if(password.value === comfirmPassword.value) {
+                    btnSubmit.disabled = false;
+                } else {
+                    btnSubmit.disabled = true;
+                }
+            }
+
+            function closeModal() {
+                modalLogin.style.display = 'none';
+                modalRegister.style.display = 'none';
+            }
+
+            function openRegister() {
+                modalLogin.style.display = 'none';
+                modalRegister.style.display = 'flex';
+            }
+
+            function openLogin() {
+                modalLogin.style.display = 'flex';
+                modalRegister.style.display = 'none';
+            }
+
+            document.querySelector('.modal-register').addEventListener('keyup', verifyPassword);
+            document.querySelector('.modal-register').addEventListener('click', verifyPassword);
+            document.querySelector('.modal-register').addEventListener('change', verifyPassword);
+        </script>
     </header>
