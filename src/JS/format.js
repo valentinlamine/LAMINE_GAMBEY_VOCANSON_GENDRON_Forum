@@ -73,6 +73,5 @@ function formatNumber(number) {
     for (let i = 0; i < messages.length; i++) {
 
       element.innerHTML += messages[i].Content + "<br>";
-
     }
   }
