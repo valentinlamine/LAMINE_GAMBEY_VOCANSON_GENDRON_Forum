@@ -39,7 +39,7 @@ func MessagesGet(db *sql.DB, id int) {
 }
 
 func MessagesGetAllTopic(db *sql.DB, id int) []GetMessage {
-	rows, err := db.Query(`SELECT messages.id,messages.content,messages.user_id,messages.topic_id FROM messages WHERE topic_id = ?`, id)
+	rows, err := db.Query(`SELECT DISTINCT messages.id,messages.content,messages.user_id,messages.topic_id FROM messages WHERE topic_id = ? `, id)
 
 	if err != nil {
 		panic(err.Error())

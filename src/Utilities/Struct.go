@@ -178,6 +178,7 @@ type TopicSortedDrop struct {
 	User_username     string
 	Nb_messages       int
 	Tags              []GetTag
+	All_Messages      []GetMessage
 }
 
 type Data struct {

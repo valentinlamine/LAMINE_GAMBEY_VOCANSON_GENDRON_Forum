@@ -25,8 +25,8 @@ function formatNumber(number) {
 
 
   function formatDate(dateString) {
-    var currentDate = new Date().toLocaleString("fr-FR");
-    var targetDate = new Date(dateString);
+    var currentDate = new Date().toLocaleDateString("fr-FR");
+    var targetDate = new Date(dateString).toLocaleDateString("fr-FR");
     const date = document.getElementsByClassName("date");
   
     currentDate = new Date(currentDate);
@@ -34,19 +34,18 @@ function formatNumber(number) {
     currentDate.setMinutes(0);
     currentDate.setSeconds(0);
   
+    targetDate = new Date(targetDate);
     targetDate.setHours(currentDate.getHours());
     targetDate.setMinutes(currentDate.getMinutes());
     targetDate.setSeconds(currentDate.getSeconds());
   
 
-    var timeDiff = currentDate.getTime() - targetDate.getTime();
-    console.log(timeDiff);
+    var timeDiff = targetDate.getTime() - currentDate.getTime() ;
 
-    if (timeDiff < 0) {
-      result = "La date cible est dans le futur";
-    } else if (timeDiff < 86400000) {
+    timeDiff= -timeDiff;
+    if (timeDiff < 86400000) {
       var hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
-      console.log(hoursDiff);
+      // console.log(hoursDiff);
       result = hoursDiff + " hour(s)";
     }  else if (timeDiff < 86400000) {
       var hoursDiff = Math.floor(timeDiff / (1000 * 60));
@@ -69,7 +68,10 @@ function formatNumber(number) {
     y++;
   }
   
-  
-  
-  
 
+  function ToggleShowMessages(element,messages){
+    for (let i = 0; i < messages.length; i++) {
+      element.innerHTML += messages[i];
+
+    }
+  }

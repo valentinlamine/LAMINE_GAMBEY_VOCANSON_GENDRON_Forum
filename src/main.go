@@ -14,6 +14,7 @@ var db = utilities.OpenDB()
 var u []utilities.GetUsersAll = utilities.UsersGetAll(db)
 
 func main() {
+	// fmt.Println(utilities.MessagesGetAllTopic(db, 1))
 	fmt.Println("server is running on port 8080 : http://localhost:8080")
 	fs := http.FileServer(http.Dir("CSS"))
 	http.Handle("/CSS/", http.StripPrefix("/CSS/", fs))

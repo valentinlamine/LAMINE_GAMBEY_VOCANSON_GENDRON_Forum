@@ -118,7 +118,9 @@ func GetTopicById(db *sql.DB, id int) TopicSortedDrop {
 			fmt.Println(err3)
 		}
 	}
-
+	var tmp2 []GetMessage
+	tmp2 = MessagesGetAllTopic(db, id)
+	sorted[0].All_Messages = tmp2
 	sorted[0].Tags = tmp
 	sorted[0].Nb_messages = nb_messages
 	if err := rows.Err(); err != nil {
