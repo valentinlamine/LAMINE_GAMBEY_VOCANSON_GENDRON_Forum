@@ -13,23 +13,25 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-
+    padding: 20px 5px;
+    position: sticky;
+    color: #FFFFFF;
 }
 
 .trendings-tags-title {
     color: #FFFFFF;
-    font-size: 20px;
-    font-weight: 500;
     margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 36px;
 }
 
 .trendings-tags {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    margin: 50px;
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 20px;
 }
 
 .item {
@@ -46,6 +48,7 @@
 .item .title-line {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
 }
 
