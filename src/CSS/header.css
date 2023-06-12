@@ -5,6 +5,11 @@
     font-family: "IBM Plex Sans", sans-serif;
 }
 
+.upit-header {
+    position: sticky;
+    top:0;
+}
+
 .header-ctn {
     display: flex;
     justify-content: space-between;
@@ -12,7 +17,6 @@
     background-color: #1a1a1b;
     height: 100px;
     align-items: center;
-    position: sticky;
     border-bottom: 1px solid #343536; 
 }
 
