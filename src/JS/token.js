@@ -1,5 +1,8 @@
 var token = document.querySelector(".tok").innerHTML ;
 
-function PutTokenInLocalStorage(){
-    
+localStorage.setItem("token",token);
+
+function Deconnect(){
+    localStorage.removeItem("token");
 }
+
