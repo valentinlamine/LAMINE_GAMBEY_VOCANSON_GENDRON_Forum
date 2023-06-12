@@ -60,8 +60,9 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	tmpl := generateTemplate("index.html", []string{"index.html", "template/header.html", "template/headerConnect.html", "template/leftnavbar.html", "template/topic.html"})
 	//tmpl.ExecuteTemplate(w, "login", data)
 	data = utilities.Data{
-		Data:  GetData(),
-		Token: utilities.GetLoginRegister(r, w, db, u),
+		Data:     GetData(),
+		Token:    utilities.GetLoginRegister(r, w, db, u),
+		IsLogged: utilities.GetLogoutInfo(r, w),
 	}
 	err := tmpl.Execute(w, data)
 	if err != nil {

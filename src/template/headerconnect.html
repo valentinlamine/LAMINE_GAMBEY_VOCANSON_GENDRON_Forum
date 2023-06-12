@@ -21,14 +21,16 @@
             <div class="header-class-user">
             <p class="login-class">{{$user.Username}}</p>
             </div>
-            <div class="user-section" id="connected">
+            <form method="POST">
+            <button type="submit" name="resetToken" value="a" class="user-section" id="connected" onclick="changeValue()">
                 <div class="user-img-ctn">
                     <img src="../assets/images/compte.png" alt="User icon">
                 </div>
                 <div class="user-img-ctn2">
                     <img src="../assets/images/arrow-bottom.png" alt="User icon">
                 </div>
-            </div>
+            </button>
+            </form>
         </div>
     </div>
 </header>

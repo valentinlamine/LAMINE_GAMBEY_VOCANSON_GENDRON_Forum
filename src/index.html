@@ -1,4 +1,5 @@
 {{$token := .Token}}
+{{$IsLogged := .IsLogged}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +11,7 @@
     <title>Document</title>
 </head>
 <body>
-    {{if eq $token.Id 0}}
+    {{if $IsLogged}}
     {{ template "header" .}}
     {{else}}
     <span class="tok" style="display: none;">{{$token.Id}}</span>
@@ -28,5 +29,5 @@
         </div>
     </div>
 </body>
-<script src="JS/token.js"></script>
+<script src="../JS/token.js"></script>
 </html>

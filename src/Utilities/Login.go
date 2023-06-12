@@ -5,18 +5,41 @@ import (
 	"fmt"
 	"net/http"
 	"regexp"
+	"strconv"
+
+	"github.com/go-humble/locstor"
 )
 
+var token GetUser
+
 func GetLoginRegister(r *http.Request, w http.ResponseWriter, db *sql.DB, u []GetUsersAll) GetUser {
-	var token GetUser
+	var defaultUser GetUser
 	if r.FormValue("submit") == "login" {
 		if login(r.FormValue("loginName"), r.FormValue("loginPassword"), u) {
 			token = UsersGetByEmail(db, r.FormValue("loginName"))
+			item := locstor.SetItem("token", strconv.Itoa(token.Id))
+			fmt.Println(item)
+		} else {
+			token = defaultUser
 		}
 	} else if r.FormValue("submit") == "register" {
 		fmt.Println(register(r.FormValue("email"), r.FormValue("username"), r.FormValue("password"), db))
 	}
 	return token
+}
+
+func GetLogoutInfo(r *http.Request, w http.ResponseWriter) bool {
+	if token.Id == 0 {
+		return true
+	}
+	fmt.Println(r.FormValue("resetToken"))
+	if r.FormValue("resetToken") == "logout" {
+		if err := locstor.Clear(); err != nil {
+			// Handle err
+		}
+		return true
+	}
+	return false
 }
 
 func login(name string, password string, u []GetUsersAll) bool {
