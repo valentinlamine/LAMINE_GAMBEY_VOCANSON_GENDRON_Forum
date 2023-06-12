@@ -8,21 +8,70 @@
 .left-sticky-nav-bar {
     display: flex;
     height: 100%;
-    width: 20vw;
+    width: 20%;
     background: #1A1A1B;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     padding: 20px 5px;
     position: sticky;
-    color: #FFFFFF;
+    color: #D7DADC;
 }
 
-.trendings-tags-title {
-    color: #FFFFFF;
+.feed-title {
+    display: flex;
+    color: #D7DADC;
     margin-bottom: 20px;
     font-weight: 600;
     font-size: 36px;
+}
+
+.feed {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+    padding: 0 20px;
+}
+
+#feed-title {
+    margin-bottom: 31px;
+}
+
+.popular-title, .folowing-title  {
+    display: flex;
+    color: #D7DADC;
+    font-weight: 400;
+    font-size: 30px;
+}
+
+.feed div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.feed img {
+    display: flex;
+    width: 45px;
+    height: 45px;
+    margin-right: 10px;
+}
+
+.title {
+    color: #D7DADC;
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 36px;
+}
+
+.title-line img {
+    width: 40px;
+    height: 17px;
+}
+
+#trending-title {
+    margin-top: 40px;
 }
 
 .trendings-tags {
@@ -40,9 +89,8 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    color: #fff;
+    color: #D7DADC;
     margin: 20px;
-    background: green;
 }
 
 .item .title-line {
@@ -52,7 +100,7 @@
     width: 100%;
 }
 
-.item .title-line .title {
+.left-sticky-nav-bar .title {
     /* ton css du titre de topic ici */
 }
 

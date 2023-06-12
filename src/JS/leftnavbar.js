@@ -5,10 +5,10 @@ function toggleContent(element) {
 
     if (ContentList.style.display === 'flex') {
         ContentList.style.display = 'none';
-        arrow.textContent = '▶';
+        arrow.style.transform = 'rotate(0deg)';
     } else {
         ContentList.style.display = 'flex';
-        arrow.textContent = '▼';
+        arrow.style.transform = 'rotate(180deg)';
     }
 }
 
