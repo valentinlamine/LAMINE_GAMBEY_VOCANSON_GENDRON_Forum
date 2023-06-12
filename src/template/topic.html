@@ -1,10 +1,12 @@
 {{define "topic"}}
 <link rel="stylesheet" href="../CSS/topic.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="../JS/format.js"></script>
 {{range $v := .Data}}
 <div class="topic-item">
     <div class="topic-interactions">
-        <p>{{$v.Topic_nb_views}} vues</p>
+        <p class="view"></p>
+        <script>formatNumber({{$v.Topic_nb_views}})</script>
     </div>
     <div class="topic-right">
         <div class="topic-header">
