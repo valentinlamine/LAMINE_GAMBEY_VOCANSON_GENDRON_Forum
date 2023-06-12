@@ -1,3 +1,4 @@
+{{define "topic"}}
 <link rel="stylesheet" href="../CSS/topic.css">
 <link rel="stylesheet" href="../CSS/fonts.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +13,7 @@
                 <div class="topic-tag-list">
                     {{range $t := $v.Tags}}
                     <div class="topic-tag">
-                        <p style="background-color: {{$t.Color}};">{{$t.Name}}</p>
+                        <p style="background-color: '{{$t.Color}}';">{{$t.Name}}</p>
                     </div>
                     {{end}}
                 </div>
@@ -25,7 +26,7 @@
         <div class="topic-footer">
             <div class="topic-section">
                 <img src="../assets/images/commentaires.png" alt="commentaires">
-                <p>{{.$v.Nb_messages}} comments</p>
+                <p>{{$v.Nb_messages}} comments</p>
             </div>
             <div class="topic-section">
                 <img src="../assets/images/cacher.png" alt="hide">
@@ -38,4 +39,5 @@
         </div>
     </div>
 </div>
+{{end}}
 {{end}}
