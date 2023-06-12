@@ -1,37 +1,36 @@
-    {{define "headerConnect"}}
-    {{$user := .Token}}
-    <link rel="stylesheet" href="../CSS/header.css">
-    <link rel="stylesheet" href="../CSS/fonts.css">
-    <script src="../JS/header.js"></script>
+{{define "headerConnect"}}
+{{$user := .Token}}
+<link rel="stylesheet" href="../CSS/header.css">
+<script src="../JS/header.js"></script>
 
-    <header class="reddit-header connected">
-        <div class="header-ctn">
-            <div class="logo">
-                <div class="img-ctn">
-                    <img src="../assets/images/reddit-icon-white.png" alt="Logo Reddit">
-                </div>
-                <h1>Upit</h1>
+<header class="reddit-header connected">
+    <div class="header-ctn">
+        <div class="logo">
+            <div class="img-ctn">
+                <img src="../assets/images/reddit-icon-white.png" alt="Logo Reddit">
             </div>
-            <div class="header-search-box">
-                <div class ="search-icon-ctn">
-                    <img src="../assets/images/chercher.png" alt="Search icon">
-                </div>
-                <input type="text" class="search-input">
+            <h1>Upit</h1>
+        </div>
+        <div class="header-search-box">
+            <div class ="search-icon-ctn">
+                <img src="../assets/images/chercher.png" alt="Search icon">
             </div>
-            <div class="header-login-section">
-                <div class="header-class-user">
-                <p class="login-class">{{$user.Username}}</p>
+            <input type="text" class="search-input">
+        </div>
+        <div class="header-login-section">
+            <div class="header-class-user">
+            <p class="login-class">{{$user.Username}}</p>
+            </div>
+            <div class="user-section" id="connected">
+                <div class="user-img-ctn">
+                    <img src="../assets/images/compte.png" alt="User icon">
                 </div>
-                <div class="user-section" id="connected">
-                    <div class="user-img-ctn">
-                        <img src="../assets/images/compte.png" alt="User icon">
-                    </div>
-                    <div class="user-img-ctn2">
-                        <img src="../assets/images/arrow-bottom.png" alt="User icon">
-                    </div>
+                <div class="user-img-ctn2">
+                    <img src="../assets/images/arrow-bottom.png" alt="User icon">
                 </div>
             </div>
         </div>
-    </header>
-    <script src="../JS/token.js"></script>
-    {{end}}
+    </div>
+</header>
+<script src="../JS/token.js"></script>
+{{end}}
