@@ -45,7 +45,7 @@
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    width: 700px;
+    width: 40%;
     height: 60px;
     background: #272729;
     border: 1px solid #343536;
@@ -193,3 +193,18 @@
     width: 100%;
     height: 100%
 }
+
+/*Responsive*/
+
+@media screen and (max-width: 1200px) {
+    .header-search-box {
+        width: 500px;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .header-search-box {
+        width: 400px;
+    }
+}
+
