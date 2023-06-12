@@ -23,6 +23,7 @@
                     {{range $t := $v.Tags}}
                     <div class="topic-tag">
                         <p style="background-color: {{$t.Color}};">#{{$t.Name}}</p>
+                        <button>{{$v.Token}}</button>
                     </div>
                     {{end}}
                 </div>

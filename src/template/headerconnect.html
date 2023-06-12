@@ -1,4 +1,5 @@
     {{define "headerConnect"}}
+    {{$user := .Token}}
     <link rel="stylesheet" href="../CSS/header.css">
     <link rel="stylesheet" href="../CSS/fonts.css">
     <script src="../JS/header.js"></script>
@@ -19,7 +20,7 @@
             </div>
             <div class="header-login-section">
                 <div class="header-class-user">
-                <p class="login-class">Pseudo</p>
+                <p class="login-class">{{$user.Username}}</p>
                 </div>
                 <div class="user-section" id="connected">
                     <div class="user-img-ctn">

@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family : 'IBM Plex Sans', sans-serif;
+}
+
+.not-header {
+    display: flex;
+    min-height: calc(100vh - 100px);
+    background-color: #030303;
+    width: 100%;
+}
+
+.content {
+    width: 80%;
+    height: 100%;
+    padding: 10px 50px;
+}
+
+.left-navbar {
+    height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+}

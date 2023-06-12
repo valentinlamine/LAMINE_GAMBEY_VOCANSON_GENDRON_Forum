@@ -12,6 +12,7 @@
     background-color: #1a1a1b;
     height: 100px;
     align-items: center;
+    position: sticky;
 }
 
 .img-ctn {
