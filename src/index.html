@@ -5,67 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="CSS/fonts.css">
     <title>Document</title>
 </head>
 <body>
     {{ template "header" .}}
-    {{ template "headerConnect" .}}
-    {{ template "topic" .}}
-    <button class="btn-modal-login">Login</button>
-    <button class="btn-modal-register">Register</button>
-    
-    
-    <div class="modal-login" style="display: none;">
-        <form method="POST">
-            <h1>Login</h1>
-            <input type="email" name="loginName" class="formulaire" placeholder="email" autofocus>
-            <input type="password" name="loginPassword" class="formulaire" placeholder="password" autofocus>
-            <button type="submmit" name="submit" value="login">Login</button>
-        </form>
-    </div>  
-
-    <div class="modal-register" style="display: none;">
-        <form method="POST">
-            <h1>Register</h1>
-            <input type="email" name="email" class="formulaire" placeholder="email" autofocus>
-            <input type="username" name="username" class="formulaire" placeholder="username" autofocus>
-            <input type="password" name="password" class="formulaire" placeholder="password" autofocus>
-            <input type="password" name="comfirmPassword" class="formulaire" placeholder="comfirm password" autofocus>
-            <button type="submmit" name="submit" value="register">Register</button>
-        </form>
+    {{ template "leftnavbar" .}}
+    <div class="content">
+        {{ template "topic" .}}
     </div>
-    <script>
-        const modalLogin = document.querySelector('.modal-login');
-        const modalRegister = document.querySelector('.modal-register');
-        const btnLogin = document.querySelector('.btn-modal-login');
-        const btnRegister = document.querySelector('.btn-modal-register');
-
-        btnLogin.addEventListener('click', () => {
-            modalLogin.style.display = 'block';
-            modalRegister.style.display = 'none';
-        });
-
-        btnRegister.addEventListener('click', () => {
-            modalRegister.style.display = 'block';
-            modalLogin.style.display = 'none';
-        });
-
-        //function that verify that the password and the comfirm password are the same
-        function verifyPassword() {
-            const password = document.querySelector('.modal-register input[name="password"]');
-            const comfirmPassword = document.querySelector('.modal-register input[name="comfirmPassword"]');
-            const btnSubmit = document.querySelector('.modal-register button[type="submmit"]');
-
-            if(password.value === comfirmPassword.value) {
-                btnSubmit.disabled = false;
-            } else {
-                btnSubmit.disabled = true;
-            }
-        }
-
-        document.querySelector('.modal-register').addEventListener('keyup', verifyPassword);
-        document.querySelector('.modal-register').addEventListener('click', verifyPassword);
-        document.querySelector('.modal-register').addEventListener('change', verifyPassword);
-    </script>
 </body>
 </html>
