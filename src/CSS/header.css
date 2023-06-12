@@ -194,7 +194,6 @@
     height: 100%
 }
 
-<<<<<<< HEAD
 /*Responsive*/
 
 @media screen and (max-width: 1200px) {
@@ -208,8 +207,6 @@
         width: 400px;
     }
 }
-
-=======
 
 
 /* login & register modal */
@@ -296,4 +293,3 @@
 .modal-login form button:hover , .modal-register form button:hover {
     background: #dc4a14;
 }
->>>>>>> 2102b006a391c673d4ab4f043e50d5f2ef61276d
