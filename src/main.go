@@ -58,9 +58,12 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	var data utilities.Data
 	data.Data = GetData()
 	// *Generates and executes templates:
-	tmpl := generateTemplate("index.html", []string{"index.html", "template/header.html", "template/headerconnect.html", "template/login.html", "template/topic.html"})
+	tmpl := generateTemplate("index.html", []string{"index.html", "template/header.html", "template/headerconnect.html", "template/topic.html"})
 	//tmpl.ExecuteTemplate(w, "login", data)
-	err := tmpl.Execute(w, nil)
+	data = utilities.Data{
+		Data: GetData(),
+	}
+	err := tmpl.Execute(w, data)
 	if err != nil {
 		fmt.Println(err)
 	}
