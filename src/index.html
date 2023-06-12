@@ -13,6 +13,7 @@
     {{if eq $token.Id 0}}
     {{ template "header" .}}
     {{else}}
+    <span class="tok" style="display: none;">{{$token.Id}}</span>
     {{ template "headerConnect" .}}
     {{end}}
     <div class="not-header">
@@ -27,4 +28,5 @@
         </div>
     </div>
 </body>
+<script src="JS/token.js"></script>
 </html>
