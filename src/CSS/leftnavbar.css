@@ -116,5 +116,14 @@
 }
 
 .item .item-list-topic .a {
-    /* ton css du sub topic ici */
+
+}
+
+.item-list-topic {
+    display: flex;
+    align-items: center;
+    color: #D7DADC;
+    justify-content: flex-start;
+    width: 100%;
+    text-decoration: none;
 }
