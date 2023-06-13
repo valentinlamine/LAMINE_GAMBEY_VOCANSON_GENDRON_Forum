@@ -1,0 +1,39 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.container {
+    cursor: pointer;
+    caret-color: transparent;
+    display: block;
+}
+
+.container input {
+  display: none;
+}
+
+.img-unchecked.up {
+    transform: rotate(-90deg);
+}
+
+.img-unchecked.down {
+    transform: rotate(90deg);
+}
+
+/* Hide the checked checkbox */
+.img-checked {
+    display: none;
+}
+
+/* If checked, show the checked image */
+.container input:checked ~ .img-checked {
+    display: inline;
+}
+
+/* If checked, hide the unchecked image */
+.container input:checked ~ .img-unchecked {
+    display: none;
+}
