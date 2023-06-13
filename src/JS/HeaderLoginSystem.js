@@ -11,12 +11,14 @@ btnRegister.addEventListener('click', () => openRegister());
 function verifyPassword() {
     const password = document.querySelector('.modal-register input[name="password"]');
     const comfirmPassword = document.querySelector('.modal-register input[name="comfirmPassword"]');
-    const btnSubmit = document.querySelector('.modal-register button[type="submmit"]');
+    const btnSubmit = document.querySelector('.modal-register button[type="submit"]');
 
     if(password.value === comfirmPassword.value) {
         btnSubmit.disabled = false;
+        btnSubmit.style.cursor = 'pointer';
     } else {
         btnSubmit.disabled = true;
+        btnSubmit.style.cursor = 'not-allowed';
     }
 }
 
@@ -35,6 +37,8 @@ function openLogin() {
     modalRegister.style.display = 'none';
 }
 
+/*
 document.querySelector('.modal-register').addEventListener('keyup', verifyPassword);
 document.querySelector('.modal-register').addEventListener('click', verifyPassword);
 document.querySelector('.modal-register').addEventListener('change', verifyPassword);
+*/

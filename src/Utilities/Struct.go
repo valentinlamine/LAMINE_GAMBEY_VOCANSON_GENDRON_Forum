@@ -182,5 +182,7 @@ type TopicSortedDrop struct {
 }
 
 type Data struct {
-	Data []TopicSortedDrop
+	Data     []TopicSortedDrop
+	Token    GetUser
+	IsLogged bool
 }

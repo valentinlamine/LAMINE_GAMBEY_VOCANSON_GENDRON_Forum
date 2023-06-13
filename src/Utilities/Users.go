@@ -13,7 +13,7 @@ func UsersAdd(db *sql.DB, email string, username string, password string) error 
 }
 
 func UsersGet(db *sql.DB, id int) {
-	rows, err := db.Query(`SELECT users.id,users.username,users.email,users.password,users.register_date,users.birth_date FROM users WHERE id = ?`, id)
+	rows, err := db.Query(`SELECT users.id,users.username,users.email,users.password,users.register_date,users.birth_date FROM users WHERE users.id = ?`, id)
 
 	if err != nil {
 		panic(err.Error())
@@ -35,6 +35,31 @@ func UsersGet(db *sql.DB, id int) {
 		log.Fatal(err)
 	}
 	fmt.Println(users)
+}
+
+func UsersGetByEmail(db *sql.DB, email string) GetUser {
+	rows, err := db.Query(`SELECT users.id,users.username FROM users WHERE users.email = ?`, email)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var users GetUser
+	for rows.Next() {
+		var u GetUser
+
+		err := rows.Scan(&u.Id, &u.Username)
+		if err != nil {
+			log.Fatal(err)
+		}
+		users = u
+
+	}
+	if err := rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+	return users
 }
 
 func UsersGetAll(db *sql.DB) []GetUsersAll {

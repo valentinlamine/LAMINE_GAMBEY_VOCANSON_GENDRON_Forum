@@ -1,3 +1,5 @@
+{{$token := .Token}}
+{{$IsLogged := .IsLogged}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,10 +11,23 @@
     <title>Document</title>
 </head>
 <body>
+    {{if $IsLogged}}
     {{ template "header" .}}
-    {{ template "leftnavbar" .}}
-    <div class="content">
-        {{ template "topic" .}}
+    {{else}}
+    <span class="tok" style="display: none;">{{$token.Id}}</span>
+    {{ template "headerConnect" .}}
+    {{end}}
+    <div class="not-header">
+        <div class="left-navbar">
+            {{ template "leftnavbar" .}}
+        </div>
+        <div class="content">
+            <div class="topics">
+                <h1>Popular  Topics</h1>
+                {{ template "topic" .}}
+            </div>
+        </div>
     </div>
 </body>
+<script src="../JS/token.js"></script>
 </html>

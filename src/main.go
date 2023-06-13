@@ -6,7 +6,6 @@ import (
 	"html/template"
 	"log"
 	"net/http"
-	"regexp"
 
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
@@ -58,62 +57,15 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	var data utilities.Data
 	data.Data = GetData()
 	// *Generates and executes templates:
-	tmpl := generateTemplate("index.html", []string{"index.html", "template/header.html", "template/topic.html"})
+	tmpl := generateTemplate("index.html", []string{"index.html", "template/header.html", "template/headerConnect.html", "template/leftnavbar.html", "template/topic.html"})
 	//tmpl.ExecuteTemplate(w, "login", data)
 	data = utilities.Data{
-		Data: GetData(),
+		Data:     GetData(),
+		Token:    utilities.GetLoginRegister(r, w, db, u),
+		IsLogged: utilities.GetLogoutInfo(r, w),
 	}
-	Test(r, w)
 	err := tmpl.Execute(w, data)
 	if err != nil {
 		fmt.Println(err)
 	}
-}
-
-func Test(r *http.Request, w http.ResponseWriter) {
-	if r.FormValue("submit") == "login" {
-		fmt.Println(login(r.FormValue("loginName"), r.FormValue("loginPassword")))
-	} else if r.FormValue("submit") == "register" {
-		fmt.Println(register(r.FormValue("email"), r.FormValue("username"), r.FormValue("password")))
-	}
-}
-
-func login(name string, password string) bool {
-	for i := 0; i != len(u); i++ {
-		if u[i].Email == name {
-			if u[i].Password == password {
-				return true
-			}
-		}
-	}
-	return false
-}
-
-func register(email string, username string, password string) bool {
-	if !Security(email, 0) || !Security(username, 1) || !Security(password, 2) {
-		return false
-	} else {
-		return utilities.UsersAdd(db, email, username, password) == nil
-	}
-}
-
-func Security(input string, i int) bool {
-	switch i {
-	case 0: //email
-		if m, err := regexp.MatchString(`^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$`, input); !m {
-			fmt.Println(err)
-			return false
-		}
-	case 1: //username
-		if m, err := regexp.MatchString(`^[a-zA-Z0-9_.+\-À-ſ]+$`, input); !m {
-			fmt.Println(err)
-			return false
-		}
-	case 2: //password
-		if m, err := regexp.MatchString(`^[a-zA-Z0-9_.+\-À-ſ]+$`, input); !m {
-			fmt.Println(err)
-			return false
-		}
-	}
-	return true
 }
