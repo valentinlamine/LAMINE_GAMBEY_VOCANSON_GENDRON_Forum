@@ -13,7 +13,7 @@
                 <div class ="search-icon-ctn">
                     <img src="../assets/images/chercher.png" alt="Search icon">
                 </div>
-                <input type="text" class="search-input">
+                <input type="text" class="search-input" placeholder="Search Upit">
             </div>
             <div class="header-login-section">
                 <button class="login-button">Log In</button>
@@ -27,6 +27,14 @@
                     </div>
                 </div>
             </div>
+            <nav class="menu">
+                <ul>
+                    <li><a href="/"><img src="../assets/images/terms-of-use-white.png">Terms of use</a></li>
+                    <li><a href="/"><img src="../assets/images/privacy-policy-white.png">Privacy Policy</a></li>
+                    <li><a href="/"><img src="../assets/images/sign-up-white.png">Log in</a></li>
+                    <li><a href="/"><img src="../assets/images/sign-up-white.png">Sign up</a></li>
+                </ul>
+            </nav>
         </div>
         <div class="modal-login" style="display: none;">
             <div class="content">
@@ -42,7 +50,6 @@
                 </form>
             </div>
         </div>
-
         <div class="modal-register" style="display: none;">
             <div class="content">
                 <img src="../assets/images/close.png" alt="close" class="close" onclick="closeModal()">
@@ -59,5 +66,11 @@
             </div>
         </div>
         <script src="../JS/HeaderLoginSystem.js"></script>
+        <script>
+            document.querySelector(".user-section").addEventListener("click", function() {
+                document.querySelector(".menu").classList.toggle("active");
+                document.querySelector(".user-section").classList.toggle("active");
+            });
+        </script>
     </header>
 {{end}}

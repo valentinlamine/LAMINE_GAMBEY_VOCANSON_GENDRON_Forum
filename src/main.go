@@ -61,7 +61,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	//tmpl.ExecuteTemplate(w, "login", data)
 	data = utilities.Data{
 		Data:     GetData(),
-		Token:    utilities.GetLoginRegister(r, w, db, u),
+		Token:    utilities.GetLoginRegister(r, w, db),
 		IsLogged: utilities.GetLogoutInfo(r, w),
 	}
 	err := tmpl.Execute(w, data)
