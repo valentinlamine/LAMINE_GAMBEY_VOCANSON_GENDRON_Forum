@@ -34,9 +34,9 @@ func GetLogoutInfo(r *http.Request, w http.ResponseWriter) bool {
 	}
 	fmt.Println(r.FormValue("resetToken"))
 	if r.FormValue("resetToken") == "logout" {
-		if err := locstor.Clear(); err != nil {
-			// Handle err
-		}
+		//if err := locstor.Clear(); err != nil {
+		// Handle err
+		//}
 		return true
 	}
 	return false
@@ -55,6 +55,7 @@ func login(name string, password string, u []GetUsersAll) bool {
 
 func register(email string, username string, password string, db *sql.DB) bool {
 	if !Security(email, 0) || !Security(username, 1) || !Security(password, 2) {
+		fmt.Println("false")
 		return false
 	} else {
 		return UsersAdd(db, email, username, password) == nil
