@@ -10,7 +10,6 @@ func PermissionsAdd(db *sql.DB, name string, description string) {
 	if err != nil {
 		panic(err.Error())
 	}
-
 }
 
 func PermissionsGet(db *sql.DB, id int) {
@@ -50,4 +49,26 @@ func PermissionsDelete(db *sql.DB, id int) {
 	if err != nil {
 		panic(err.Error())
 	}
+}
+
+func CheckPermission(db *sql.DB, user_id int, permission_id int) bool {
+	rows, err := db.Query(`SELECT permissions.id FROM users INNER JOIN users_roles ON users.id = users_roles.user_id INNER JOIN roles ON users_roles.role_id = roles.id INNER JOIN roles_permissions ON roles.id = roles_permissions.role_id INNER JOIN permissions ON roles_permissions.permission_id = permissions.id WHERE users.id = ? AND permissions.id = ?`, user_id, permission_id)
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var p GetPermission
+		err := rows.Scan(&p.Id)
+		if err != nil {
+			panic(err.Error())
+		}
+		if p.Id == permission_id {
+			return true
+		}
+	}
+	if err != nil {
+		panic(err.Error())
+	}
+	return false
 }

@@ -5,10 +5,12 @@ import (
 	"fmt"
 )
 
-func RoleAdd(db *sql.DB, name string, color string) {
-	_, err := db.Exec(`Insert INTO roles (name,color) VALUES (?,?)`, name, color)
-	if err != nil {
-		panic(err.Error())
+func RoleAdd(db *sql.DB, name string, color string, user_id int) {
+	if CheckPermission(db, user_id, 22) {
+		_, err := db.Exec(`Insert INTO roles (name,color) VALUES (?,?)`, name, color)
+		if err != nil {
+			panic(err.Error())
+		}
 	}
 
 }
@@ -19,7 +21,12 @@ func RoleGet(db *sql.DB, id int) {
 	if err != nil {
 		panic(err.Error())
 	}
-	defer rows.Close()
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+
+		}
+	}(rows)
 
 	var roles []GetRole
 	for rows.Next() {
@@ -38,17 +45,21 @@ func RoleGet(db *sql.DB, id int) {
 	fmt.Println(roles)
 }
 
-func RoleUpdate(db *sql.DB, id int, name string, color string) {
-	_, err := db.Exec(`UPDATE roles SET name = ?, color = ? WHERE id = ?`, name, color, id)
-	if err != nil {
-		panic(err.Error())
+func RoleUpdate(db *sql.DB, id int, name string, color string, user_id int) {
+	if CheckPermission(db, user_id, 24) {
+		_, err := db.Exec(`UPDATE roles SET name = ?, color = ? WHERE id = ?`, name, color, id)
+		if err != nil {
+			panic(err.Error())
+		}
 	}
 }
 
-func RoleDelete(db *sql.DB, id int) {
-	_, err := db.Exec(`DELETE FROM roles WHERE id = ?`, id)
-	if err != nil {
-		panic(err.Error())
+func RoleDelete(db *sql.DB, id int, user_id int) {
+	if CheckPermission(db, user_id, 23) {
+		_, err := db.Exec(`DELETE FROM roles WHERE id = ?`, id)
+		if err != nil {
+			panic(err.Error())
+		}
 	}
 }
 

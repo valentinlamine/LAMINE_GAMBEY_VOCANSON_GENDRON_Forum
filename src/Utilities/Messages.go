@@ -6,9 +6,11 @@ import (
 )
 
 func MessagesAdd(db *sql.DB, content string, user_id int, topic_id int) {
-	_, err := db.Exec(`Insert INTO messages (content,user_id,topic_id) VALUES (?,?,?)`, content, user_id, topic_id)
-	if err != nil {
-		panic(err.Error())
+	if CheckPermission(db, user_id, 8) {
+		_, err := db.Exec(`Insert INTO messages (content,user_id,topic_id) VALUES (?,?,?)`, content, user_id, topic_id)
+		if err != nil {
+			panic(err.Error())
+		}
 	}
 
 }
@@ -64,16 +66,20 @@ func MessagesGetAllTopic(db *sql.DB, id int) []GetMessage {
 }
 
 func MessagesUpdate(db *sql.DB, id int, content string, user_id int, topic_id int) {
-	_, err := db.Exec(`UPDATE messages SET content = ?, user_id = ?, topic_id = ? WHERE id = ?`, content, user_id, topic_id, id)
-	if err != nil {
-		panic(err.Error())
+	if CheckPermission(db, user_id, 9) {
+		_, err := db.Exec(`UPDATE messages SET content = ?, user_id = ?, topic_id = ? WHERE id = ?`, content, user_id, topic_id, id)
+		if err != nil {
+			panic(err.Error())
+		}
 	}
 }
 
-func MessagesDelete(db *sql.DB, id int) {
-	_, err := db.Exec(`DELETE FROM messages WHERE id = ?`, id)
-	if err != nil {
-		panic(err.Error())
+func MessagesDelete(db *sql.DB, id int, user_id int) {
+	if CheckPermission(db, user_id, 12) {
+		_, err := db.Exec(`DELETE FROM messages WHERE id = ?`, id)
+		if err != nil {
+			panic(err.Error())
+		}
 	}
 }
 

@@ -87,25 +87,65 @@ func UsersGetAll(db *sql.DB) []GetUsersAll {
 	return users
 }
 
-func UsersUpdate(db *sql.DB, id int, email string, username string, password string, description string, birth_date string) {
-	if description == "" {
-		description = "Not set"
+func UsersUpdateUsername(db *sql.DB, username string, user_id_to_edit int, request_from_user_id int) {
+	if CheckPermission(db, user_id_to_edit, 4) { //can edit any username
+		_, err := db.Exec(`UPDATE users SET  username = ? WHERE id = ?`, username, user_id_to_edit) //update username
+		if err != nil {
+			panic(err.Error())
+		}
+	} else if CheckPermission(db, user_id_to_edit, 1) { //can edit only his username
+		if user_id_to_edit == request_from_user_id {
+			_, err := db.Exec(`UPDATE users SET  username = ? WHERE id = ?`, username, user_id_to_edit) //update username
+			if err != nil {
+				panic(err.Error())
+			}
+		} else {
+			fmt.Println("You can't edit this username")
+		}
 	}
-	_, err := db.Exec(`UPDATE users SET email = ?, username = ?, password = ?,description =?,birth_date=? WHERE id = ?`, email, username, password, description, birth_date, id)
-	if err != nil {
-		panic(err.Error())
+}
+func UsersUpdatePicture(db *sql.DB, picture string, user_id_to_edit int, request_from_user_id int) {
+	if CheckPermission(db, user_id_to_edit, 5) {
+		_, err := db.Exec(`UPDATE users SET profile_picture = ? WHERE id = ?`, picture, user_id_to_edit)
+		if err != nil {
+			panic(err.Error())
+		}
+	} else if CheckPermission(db, user_id_to_edit, 2) { //can edit only his picture
+		if user_id_to_edit == request_from_user_id {
+			_, err := db.Exec(`UPDATE users SET  profile_picture = ? WHERE id = ?`, picture, user_id_to_edit) //update picture
+			if err != nil {
+				panic(err.Error())
+			}
+		} else {
+			fmt.Println("You can't edit this picture")
+		}
+	}
+}
+func UsersUpdateDescription(db *sql.DB, description string, user_id_to_edit int, request_from_user_id int) {
+	if CheckPermission(db, user_id_to_edit, 6) {
+		_, err := db.Exec(`UPDATE users SET description = ? WHERE id = ?`, description, user_id_to_edit)
+		if err != nil {
+			panic(err.Error())
+		}
+	} else if CheckPermission(db, user_id_to_edit, 3) { //can edit only his description
+		if user_id_to_edit == request_from_user_id {
+			_, err := db.Exec(`UPDATE users SET  description = ? WHERE id = ?`, description, user_id_to_edit) //update description
+			if err != nil {
+				panic(err.Error())
+			}
+		} else {
+			fmt.Println("You can't edit this description")
+		}
 	}
 }
 
-func UsersHash(db *sql.DB, id int, email string, username string, password string, description string, birth_date string) {
+func UsersDelete(db *sql.DB, user_id int) {
+	if CheckPermission(db, user_id, 7) {
+		_, err := db.Exec(`DELETE FROM users WHERE id = ?`, user_id)
 
-}
-
-func UsersDelete(db *sql.DB, id int) {
-	_, err := db.Exec(`DELETE FROM users WHERE id = ?`, id)
-
-	if err != nil {
-		panic(err.Error())
+		if err != nil {
+			panic(err.Error())
+		}
 	}
 }
 

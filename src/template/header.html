@@ -1,76 +1,78 @@
-    {{define "header"}}
-    <link rel="stylesheet" href="../CSS/header.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <header class="upit-header">
-        <div class="header-ctn">
-            <div class="logo">
+{{define "header"}}
+<link rel="stylesheet" href="../CSS/header.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<header class="upit-header">
+    <div class="header-ctn">
+        <div class="logo">
+            <a href="/">
                 <div class="img-ctn">
                     <img src="../assets/images/reddit-icon-white.png" alt="Logo Upit">
                 </div>
                 <h1>Upit</h1>
+            </a>
+        </div>
+        <div class="header-search-box">
+            <div class ="search-icon-ctn">
+                <img src="../assets/images/chercher.png" alt="Search icon">
             </div>
-            <div class="header-search-box">
-                <div class ="search-icon-ctn">
-                    <img src="../assets/images/chercher.png" alt="Search icon">
+            <input type="text" class="search-input" placeholder="Search Upit">
+        </div>
+        <div class="header-login-section">
+            <button class="login-button">Log In</button>
+            <button class="signup-button">Register</button>
+            <div class="user-section">
+                <div class="user-img-ctn">
+                    <img src="../assets/images/compte.png" alt="User icon">
                 </div>
-                <input type="text" class="search-input" placeholder="Search Upit">
-            </div>
-            <div class="header-login-section">
-                <button class="login-button">Log In</button>
-                <button class="signup-button">Register</button>
-                <div class="user-section">
-                    <div class="user-img-ctn">
-                        <img src="../assets/images/compte.png" alt="User icon">
-                    </div>
-                    <div class="user-img-ctn2">
-                        <img src="../assets/images/arrow-bottom.png" alt="User icon">
-                    </div>
+                <div class="user-img-ctn2">
+                    <img src="../assets/images/arrow-bottom.png" alt="User icon">
                 </div>
             </div>
-            <nav class="menu">
-                <ul>
-                    <li><a href="/"><img src="../assets/images/terms-of-use-white.png">Terms of use</a></li>
-                    <li><a href="/"><img src="../assets/images/privacy-policy-white.png">Privacy Policy</a></li>
-                    <li><a href="/"><img src="../assets/images/sign-up-white.png">Log in</a></li>
-                    <li><a href="/"><img src="../assets/images/sign-up-white.png">Sign up</a></li>
-                </ul>
-            </nav>
         </div>
-        <div class="modal-login" style="display: none;">
-            <div class="content">
-                <img src="../assets/images/close.png" alt="close" class="close" onclick="closeModal()">
-                <form method="POST">
-                    <h1>Log In</h1>
-                    <p>By continuing, you are setting up a Upit account and agree to our <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">User Agreement</a> and <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Privacy Policy.</a></p>
-                    <input type="email" name="loginName" class="formulaire" placeholder="email" autofocus>
-                    <input type="password" name="loginPassword" class="formulaire" placeholder="password" autofocus>
-                    <p>Forgot <a href="#">email</a> or <a href="#">password</a> ?</p>
-                    <button type="submit" name="submit" value="login">Login</button>
-                    <p>New to Upit ? <a href="#" onclick="openRegister()">Sign Up</a></p>
-                </form>
-            </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="/termsofservice"><img src="../assets/images/terms-of-use-white.png" alt="terms of use logo">Terms of use</a></li>
+                <li><a href="/privacypolicy"><img src="../assets/images/privacy-policy-white.png" alt="privacy policy logo">Privacy Policy</a></li>
+                <li><a onclick="openLogin()"><img src="../assets/images/sign-up-white.png" alt="log in logo">Log in</a></li>
+                <li><a onclick="openRegister()"><img src="../assets/images/sign-up-white.png" alt="sign up logo">Sign up</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="modal-login" style="display: none;">
+        <div class="content">
+            <img src="../assets/images/close.png" alt="close" class="close" onclick="closeModal()">
+            <form method="POST">
+                <h1>Log In</h1>
+                <p>By continuing, you are setting up a Upit account and agree to our <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">User Agreement</a> and <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Privacy Policy.</a></p>
+                <input type="email" name="loginName" class="formulaire" placeholder="email" autofocus>
+                <input type="password" name="loginPassword" class="formulaire" placeholder="password" autofocus>
+                <p>Forgot <a href="#">email</a> or <a href="#">password</a> ?</p>
+                <button type="submit" name="submit" value="login">Login</button>
+                <p>New to Upit ? <a href="#" onclick="openRegister()">Sign Up</a></p>
+            </form>
         </div>
-        <div class="modal-register" style="display: none;">
-            <div class="content">
-                <img src="../assets/images/close.png" alt="close" class="close" onclick="closeModal()">
-                <form method="POST">
-                    <h1>Sign Up</h1>
-                    <p>By continuing, you are setting up a Upit account and agree to our <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">User Agreement</a> and <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Privacy Policy.</a></p>
-                    <input type="text" name="username" class="formulaire" placeholder="username" autofocus>
-                    <input type="email" name="email" class="formulaire" placeholder="email" autofocus>
-                    <input type="password" name="password" class="formulaire" placeholder="password" autofocus>
-                    <input type="password" name="comfirmPassword" class="formulaire" placeholder="comfirm password" autofocus>
-                    <button type="submit" name="submit" value="register">Register</button>
-                    <p>Already have an account ? <a href="#" onclick="openLogin()">Log In</a></p>
-                </form>
-            </div>
+    </div>
+    <div class="modal-register" style="display: none;">
+        <div class="content">
+            <img src="../assets/images/close.png" alt="close" class="close" onclick="closeModal()">
+            <form method="POST">
+                <h1>Sign Up</h1>
+                <p>By continuing, you are setting up a Upit account and agree to our <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">User Agreement</a> and <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Privacy Policy.</a></p>
+                <input type="text" name="username" class="formulaire" placeholder="username" autofocus>
+                <input type="email" name="email" class="formulaire" placeholder="email" autofocus>
+                <input type="password" name="password" class="formulaire" placeholder="password" autofocus>
+                <input type="password" name="comfirmPassword" class="formulaire" placeholder="comfirm password" autofocus>
+                <button type="submit" name="submit" value="register">Register</button>
+                <p>Already have an account ? <a href="#" onclick="openLogin()">Log In</a></p>
+            </form>
         </div>
-        <script src="../JS/HeaderLoginSystem.js"></script>
-        <script>
-            document.querySelector(".user-section").addEventListener("click", function() {
-                document.querySelector(".menu").classList.toggle("active");
-                document.querySelector(".user-section").classList.toggle("active");
-            });
-        </script>
-    </header>
+    </div>
+    <script src="../JS/HeaderLoginSystem.js"></script>
+    <script>
+        document.querySelector(".user-section").addEventListener("click", function() {
+            document.querySelector(".menu").classList.toggle("active");
+            document.querySelector(".user-section").classList.toggle("active");
+        });
+    </script>
+</header>
 {{end}}

@@ -18,7 +18,7 @@
     background-color: #1a1a1b;
     height: 100px;
     align-items: center;
-    border-bottom: 1px solid #343536; 
+    border-bottom: 1px solid #343536;
     white-space: nowrap;
 }
 
@@ -29,15 +29,17 @@
   height: 50px;
 }
 
-.logo {
-  background-color: #FF4500;
-  border-radius: 50%;
-  width: 80px;
-  height: 80px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.logo a {
+    background-color: #FF4500;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
 }
+
 
 .logo img {
     height: 50px;
@@ -372,7 +374,7 @@
     height: 60px;
 }
 
-.header-ctn .menu ul li:hover, .header-ctn .menu ul li:hover a { 
+.header-ctn .menu ul li:hover, .header-ctn .menu ul li:hover a {
     background-color: #d7dadc;
     cursor: pointer;
     color: #1A1A1B;
@@ -411,6 +413,10 @@
 
 .header-ctn .menu ul li:hover:nth-child(3) img {
     content: url(../assets/images/sign-up-black.png);
+}
+
+.header-ctn .menu ul li:hover:nth-child(3) img#log-out-img {
+    content: url(../assets/images/logout-black.png);
 }
 
 .header-ctn .menu ul li:hover:nth-child(4) img {

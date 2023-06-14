@@ -7,9 +7,11 @@ import (
 )
 
 func TopicsAdd(db *sql.DB, name string, description string, private bool, user_id int) {
-	_, err := db.Exec(`Insert INTO topic (name,description,private,user_id) VALUES (?,?,?,?)`, name, description, private, user_id)
-	if err != nil {
-		panic(err.Error())
+	if CheckPermission(db, user_id, 16) {
+		_, err := db.Exec(`Insert INTO topic (name,description,private,user_id) VALUES (?,?,?,?)`, name, description, private, user_id)
+		if err != nil {
+			panic(err.Error())
+		}
 	}
 }
 
@@ -19,7 +21,12 @@ func TopicsGet(db *sql.DB, id int) {
 	if err != nil {
 		panic(err.Error())
 	}
-	defer rows.Close()
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+
+		}
+	}(rows)
 
 	var topics []GetTopic
 	for rows.Next() {
@@ -44,7 +51,12 @@ func TopicsGetAll(db *sql.DB) []GetTopic {
 	if err != nil {
 		panic(err.Error())
 	}
-	defer rows.Close()
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+
+		}
+	}(rows)
 
 	var topics []GetTopic
 	for rows.Next() {
@@ -64,16 +76,30 @@ func TopicsGetAll(db *sql.DB) []GetTopic {
 }
 
 func TopicsUpdate(db *sql.DB, id int, name string, description string, private bool, user_id int) {
-	_, err := db.Exec(`UPDATE topic SET name = ?, description = ?, private = ?, user_id = ? WHERE id = ?`, name, description, private, user_id, id)
-	if err != nil {
-		panic(err.Error())
+	if CheckPermission(db, user_id, 21) {
+		_, err := db.Exec(`UPDATE topic SET name = ?, description = ?, private = ?, user_id = ? WHERE id = ? AND user_id=?`, name, description, private, user_id, id, user_id)
+		if err != nil {
+			panic(err.Error())
+		}
+	} else if CheckPermission(db, user_id, 18) {
+		_, err := db.Exec(`UPDATE topic SET name = ?, description = ?, private = ?, user_id = ? WHERE id = ?`, name, description, private, user_id, id)
+		if err != nil {
+			panic(err.Error())
+		}
 	}
 }
 
-func TopicsDelete(db *sql.DB, id int) {
-	_, err := db.Exec(`DELETE FROM topic WHERE id = ?`, id)
-	if err != nil {
-		panic(err.Error())
+func TopicsDelete(db *sql.DB, topicId int, userId int) {
+	if CheckPermission(db, userId, 20) { //can delete any topic
+		_, err := db.Exec(`DELETE FROM topic WHERE id = ?`, topicId) //delete topic
+		if err != nil {
+			panic(err.Error())
+		}
+	} else if CheckPermission(db, userId, 17) { //can delete own topic
+		_, err := db.Exec(`DELETE FROM topic WHERE id = ? AND user_id = ?`, topicId, userId) //delete topic
+		if err != nil {
+			panic(err.Error())
+		}
 	}
 }
 
@@ -83,7 +109,12 @@ func TopicTag(db *sql.DB, id int) {
 	if err != nil {
 		panic(err.Error())
 	}
-	defer rows.Close()
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+
+		}
+	}(rows)
 
 	var roles []TagTopic
 	for rows.Next() {

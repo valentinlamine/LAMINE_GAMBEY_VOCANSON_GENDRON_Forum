@@ -1,0 +1,60 @@
+{{$token := .Token}}
+{{$IsLogged := .IsLogged}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="CSS/fonts.css">
+    <title>Upit</title>
+</head>
+<body>
+    {{if $IsLogged}}
+    {{ template "header" .}}
+    {{else}}
+    <span class="tok" style="display: none;">{{$token.Id}}</span>
+    {{ template "headerConnect" .}}
+    {{end}}
+    <div class="not-header">
+        <div class="left-navbar">
+            {{ template "leftnavbar" .}}
+        </div>
+        <div class="content">
+            <h1>Terms of service</h1>
+            <p>By using Upit, you agree to the following terms of service. If you do not agree to these terms of service, you must not use Upit.</p>
+            <h2>1. Who can use Upit</h2>
+            <p>You may use Upit only if you can form a binding contract with Upit, and only in compliance with these terms of service and all applicable local, state, national, and international laws, rules and regulations. Any use or access to Upit by anyone under 13 is strictly prohibited and in violation of this Agreement. The Services are not available to any Users previously removed from the Services by Upit.</p>
+            <h2>2. Privacy</h2>
+            <p>Our Privacy Policy describes how we handle the information you provide to us when you use Upit. You understand that through your use of Upit you consent to the collection and use (as set forth in the Privacy Policy) of this information, including the transfer of this information to the United States, Ireland, and/or other countries for storage, processing and use by Upit. As part of providing you the Upit, we may need to provide you with certain communications, such as service announcements and administrative messages. These communications are considered part of the Services and your Upit account, which you may not be able to opt-out from receiving.</p>
+            <h2>3. Passwords</h2>
+            <p>You are responsible for safeguarding the password that you use to access the Services and for any activities or actions under your password. We encourage you to use “strong” passwords (passwords that use a combination of upper and lower case letters, numbers and symbols) with your account. Upit cannot and will not be liable for any loss or damage arising from your failure to comply with the above requirements.</p>
+            <h2>4. Content on Upit</h2>
+            <p>All Content, whether publicly posted or privately transmitted, is the sole responsibility of the person who originated such Content. We may not monitor or control the Content posted via the Services and, we cannot take responsibility for such Content. Any use or reliance on any Content or materials posted via the Services or obtained by you through the Services is at your own risk.</p>
+            <h2>5. Your Rights</h2>
+            <p>You retain your rights to any Content you submit, post or display on or through the Services. By submitting, posting or displaying Content on or through the Services, you grant us a worldwide, non-exclusive, royalty-free license (with the right to sublicense) to use, copy, reproduce, process, adapt, modify, publish, transmit, display and distribute such Content in any and all media or distribution methods (now known or later developed).</p>
+            <h2>6. Your License to Use the Services</h2>
+            <p>Upit gives you a personal, worldwide, royalty-free, non-assignable and non-exclusive license to use the software that is provided to you by Upit as part of the Services. This license is for the sole purpose of enabling you to use and enjoy the benefit of the Services as provided by Upit, in the manner permitted by these terms. You may not copy, modify, distribute, sell, or lease any part of our Services or included software, nor may you reverse engineer or attempt to extract the source code of that software, unless laws prohibit those restrictions or you have our written permission.</p>
+            <h2>7. Upit Rights</h2>
+            <p>All right, title, and interest in and to the Services (excluding Content provided by users) are and will remain the exclusive property of Upit and its licensors. The Services are protected by copyright,
+            trademark, and other laws of both the United States and foreign countries. Nothing in the Terms gives you a right to use the Upit name or any of the Upit trademarks, logos, domain names, and other distinctive brand features. Any feedback, comments, or suggestions you may provide regarding Upit, or the Services is entirely voluntary and we will be free to use such feedback, comments or suggestions as we see fit and without any obligation to you.</p>
+            <h2>8. Restrictions on Content and Use of the Services</h2>
+            <p>We reserve the right at all times (but will not have an obligation) to remove or refuse to distribute any Content on the Services, to suspend or terminate users, and to reclaim usernames without liability to you. We also reserve the right to access, read, preserve, and disclose any information as we reasonably believe is necessary to (i) satisfy any applicable law, regulation, legal process or governmental request, (ii) enforce the Terms, including investigation of potential violations hereof, (iii) detect, prevent, or otherwise address fraud, security or technical issues, (iv) respond to user support requests, or (v) protect the rights, property or safety of Upit, its users and the public.</p>
+            <h2>9. Ending These Terms</h2>
+            <p>The Terms will continue to apply until terminated by either you or Upit as follows.</p>
+            <p>You may end your legal agreement with Upit at any time for any reason by deactivating your accounts and discontinuing your use of the Services. You do not need to specifically inform Upit when you stop using the Services.</p>
+            <p>We may suspend or terminate your accounts or cease providing you with all or part of the Services at any time for any reason, including, but not limited to, if we reasonably believe: (i) you have violated these Terms, (ii) you create risk or possible legal exposure for us; (iii) your account should be removed due to prolonged inactivity; or (iv) our provision of the Services to you is no longer commercially viable. We will make reasonable efforts to notify you by the email address associated with your account or the next time you attempt to access your account, depending on the circumstances. In all such cases, the Terms shall terminate, including, without limitation, your license to use the Services, except that the following sections shall continue to apply: II, III, V, and VI.</p>
+            <h2>10. Disclaimers and Limitations of Liability</h2>
+            <p>Please read this section carefully since it limits the liability of Upit and its parents, subsidiaries, affiliates, related companies, officers, directors, employees, agents, representatives, partners, and licensors (collectively, the “Upit Entities”). Each of the subsections below only applies up to the maximum extent permitted under applicable law. Some jurisdictions do not allow the disclaimer of implied warranties or the limitation of liability in contracts, and as a result the contents of this section may not apply to you. Nothing in this section is intended to limit any rights you may have which may not be lawfully limited.</p>
+            <h2>11. General Terms</h2>
+            <p>These Terms constitute the entire agreement between you and Upit concerning your use of the Services. If any provision of these Terms is deemed invalid by a court of competent jurisdiction, the invalidity of such provision shall not affect the validity of the remaining provisions of these Terms, which shall remain in full force and effect. No waiver of any term of this these Terms shall be deemed a further or continuing waiver of such term or any other term, and Upit’s failure to assert any right or provision under these Terms shall not constitute a waiver of such right or provision. Upit reserves the right to amend these Terms at any time and without notice, and it is your responsibility to review these Terms for any changes. Your use of the Services following any amendment of these Terms will signify your assent to and acceptance of its revised terms. YOU AND UPIT AGREE THAT ANY CAUSE OF ACTION ARISING OUT OF OR RELATED TO THE SERVICES MUST COMMENCE WITHIN ONE (1) YEAR AFTER THE CAUSE OF ACTION ACCRUES. OTHERWISE, SUCH CAUSE OF ACTION IS PERMANENTLY BARRED.</p>
+            <h2>12. Governing Law</h2>
+            <p>The Terms and any action related thereto will be governed and interpreted by and under the laws of the State of California, consistent with the Federal Arbitration Act, without giving effect to any principles that provide for the application of the law of another jurisdiction. The United Nations Convention on Contracts for the International Sale of Goods does not apply to these Terms.</p>
+            <h2>13. Contact Information</h2>
+            <p>If you have any questions about these Terms or the Services, please contact Upit at contact@upit.com or at 1-800-123-4567.</p>
+        </div>
+    </div>
+</body>
+<script src="JS/token.js"></script>
+</html>

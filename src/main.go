@@ -12,7 +12,6 @@ import (
 )
 
 var db = utilities.OpenDB()
-var u []utilities.GetUsersAll = utilities.UsersGetAll(db)
 
 func main() {
 	// fmt.Println(utilities.MessagesGetAllTopic(db, 1))
@@ -24,7 +23,10 @@ func main() {
 	r.PathPrefix("/JS/").Handler(http.StripPrefix("/JS/", http.FileServer(http.Dir("./JS"))))
 
 	//handle routing
-	r.HandleFunc("/", Index)
+	r.HandleFunc("/", IndexHandler)
+	//r.HandleFunc("/topic/{id}", utilities.TopicHandler)
+	r.HandleFunc("/termsofservice", TermsOfServiceHandler)
+	r.HandleFunc("/privacypolicy", PrivacyPolicyHandler)
 
 	fmt.Println("server is running on port 8080 : http://localhost:8080")
 	if err := http.ListenAndServe(":8080", r); err != nil {
@@ -39,7 +41,6 @@ func GetData() []utilities.TopicSortedDrop {
 	for i := 0; i != len(resultAlgoPopular); i++ {
 		//fmt.Println(resultAlgoPopular[i].Topic_id)
 		data = append(data, utilities.GetTopicById(db, resultAlgoPopular[i].Topic_id))
-
 	}
 	return data
 }
@@ -53,7 +54,7 @@ func generateTemplate(templateName string, filepaths []string) *template.Templat
 	return tmpl
 }
 
-func Index(w http.ResponseWriter, r *http.Request) {
+func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	var data utilities.Data
 	data.Data = GetData()
 	// *Generates and executes templates:
@@ -64,8 +65,45 @@ func Index(w http.ResponseWriter, r *http.Request) {
 		Token:    utilities.GetLoginRegister(r, w, db),
 		IsLogged: utilities.GetLogoutInfo(r, w),
 	}
+
 	err := tmpl.Execute(w, data)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Println("err : ", err)
+	}
+}
+
+func TermsOfServiceHandler(w http.ResponseWriter, r *http.Request) {
+	var data utilities.Data
+	data.Data = GetData()
+	// *Generates and executes templates:
+	tmpl := generateTemplate("termsofservice.html", []string{"termsofservice.html", "template/header.html", "template/headerConnect.html", "template/leftnavbar.html"})
+	//tmpl.ExecuteTemplate(w, "login", data)
+	data = utilities.Data{
+		Data:     GetData(),
+		Token:    utilities.GetLoginRegister(r, w, db),
+		IsLogged: utilities.GetLogoutInfo(r, w),
+	}
+
+	err := tmpl.Execute(w, data)
+	if err != nil {
+		fmt.Println("err : ", err)
+	}
+}
+
+func PrivacyPolicyHandler(w http.ResponseWriter, r *http.Request) {
+	var data utilities.Data
+	data.Data = GetData()
+	// *Generates and executes templates:
+	tmpl := generateTemplate("privacypolicy.html", []string{"privacypolicy.html", "template/header.html", "template/headerConnect.html", "template/leftnavbar.html"})
+	//tmpl.ExecuteTemplate(w, "login", data)
+	data = utilities.Data{
+		Data:     GetData(),
+		Token:    utilities.GetLoginRegister(r, w, db),
+		IsLogged: utilities.GetLogoutInfo(r, w),
+	}
+
+	err := tmpl.Execute(w, data)
+	if err != nil {
+		fmt.Println("err : ", err)
 	}
 }
