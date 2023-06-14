@@ -48,15 +48,124 @@ INSERT INTO users_followed_topics (user_id,topic_id) VALUES (5,3);
 INSERT INTO users_followed_topics (user_id,topic_id) VALUES (4,4);
 INSERT INTO users_followed_topics (user_id,topic_id) VALUES (3,5);
 
-INSERT INTO roles (name,color) VALUES ("admin","red");
 
-INSERT INTO permissions (name) VALUES ("create_topic");
-INSERT INTO permissions (name) VALUES ("edit_topic");
+INSERT INTO permissions (name, description) VALUES ("change_own_nickname", "Allow to change own user nickname"); --1
+INSERT INTO permissions (name, description) VALUES ("change_own_avatar", "Allow to change own user avatar"); --2
+INSERT INTO permissions (name, description) VALUES ("change_own_description", "Allow to change own user description"); --3
+INSERT INTO permissions (name, description) VALUES ("change_any_nickname", "Allow to change any user nickname"); --4
+INSERT INTO permissions (name, description) VALUES ("delete_any_avatar", "Allow to delete any user avatar"); --5 
+INSERT INTO permissions (name, description) VALUES ("delete_any_description", "Allow to delete any user description"); --6
+INSERT INTO permissions (name, description) VALUES ("delete_user", "Allow to delete any user"); --7
 
-INSERT INTO roles_permissions (role_id,permission_id) VALUES (1,1);
-INSERT INTO roles_permissions (role_id,permission_id) VALUES (1,2);
+INSERT INTO permissions (name, description) VALUES ("send_messages", "Allow to send messages"); --8
+INSERT INTO permissions (name, description) VALUES ("edit_messages", "Allow to edit own messages"); --9
+INSERT INTO permissions (name, description) VALUES ("delete_own_messages", "Allow to delete own messages"); --10
+INSERT INTO permissions (name, description) VALUES ("react_messages", "Allow to react to any messages"); --11
+INSERT INTO permissions (name, description) VALUES ("delete_any_messages", "Allow to delete any messages"); --12
 
-INSERT INTO users_roles (user_id,role_id) VALUES (1,1);
+INSERT INTO permissions (name, description) VALUES ("upload_files", "Allow to upload files"); --13
+INSERT INTO permissions (name, description) VALUES ("download_files", "Allow to download any files"); --14
+INSERT INTO permissions (name, description) VALUES ("delete_any_files", "Allow to delete any files"); --15
+
+INSERT INTO permissions (name, description) VALUES ("create_topics", "Allow to create topics"); --16 
+INSERT INTO permissions (name, description) VALUES ("delete_own_topics", "Allow to delete own topics"); --17
+INSERT INTO permissions (name, description) VALUES ("edit_own_topics", "Allow to edit own topics"); --18 
+INSERT INTO permissions (name, description) VALUES ("follow_topics", "Allow to follow topics"); --19
+INSERT INTO permissions (name, description) VALUES ("delete_any_topics", "Allow to delete any topics"); --20
+INSERT INTO permissions (name, description) VALUES ("edit_any_topics", "Allow to edit any topics"); --21
+ 
+INSERT INTO permissions (name, description) VALUES ("create_roles", "Allow to create roles"); --22
+INSERT INTO permissions (name, description) VALUES ("delete_roles", "Allow to delete roles"); --23
+INSERT INTO permissions (name, description) VALUES ("edit_roles", "Allow to edit roles"); --24
+INSERT INTO permissions (name, description) VALUES ("assign_roles", "Allow to assign roles"); --25 
+INSERT INTO permissions (name, description) VALUES ("unassign_roles", "Allow to unassign roles"); --26
+
+INSERT INTO roles (name, color) VALUES ("admin", "#e74c3c");
+INSERT INTO roles (name, color) VALUES ("moderator", "#e67e22");
+INSERT INTO roles (name, color) VALUES ("user", "#99aab5");
+INSERT INTO roles (name, color) VALUES ("guest", "#2c2f33");
+
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 1);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 2);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 3);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 4);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 5);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 6);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 7);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 8);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 9);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 10);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 11);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 12);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 13);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 14);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 15);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 16);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 17);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 18);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 19);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 20);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 21);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 22);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 23);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 24);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 25);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (1, 26);
+
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (3, 1);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (3, 2);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (3, 3);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (3, 8);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (3, 9);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (3, 10);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (3, 11);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (3, 13);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (3, 14);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (3, 15);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (3, 16);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (3, 17);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (3, 18);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (3, 19);
+
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 1);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 2);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 3);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 4);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 5);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 6);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 8);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 9);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 10);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 11);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 12);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 13);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 14);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 16);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 17);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 18);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 19);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 20);
+INSERT INTO roles_permissions (role_id, permission_id) VALUES (2, 21);
+
+
+INSERT INTO users_roles (user_id, role_id) VALUES (1, 1);
+INSERT INTO users_roles (user_id, role_id) VALUES (1, 3);
+INSERT INTO users_roles (user_id, role_id) VALUES (2, 2);
+INSERT INTO users_roles (user_id, role_id) VALUES (2, 3);
+INSERT INTO users_roles (user_id, role_id) VALUES (4, 3);
+INSERT INTO users_roles (user_id, role_id) VALUES (5, 4);
+
+--Get all permissions of a user 
+SELECT DISTINCT permissions.id, permissions.name, permissions.description
+FROM users
+INNER JOIN users_roles ON users.id = users_roles.user_id
+INNER JOIN roles ON users_roles.role_id = roles.id
+INNER JOIN roles_permissions ON roles.id = roles_permissions.role_id
+INNER JOIN permissions ON roles_permissions.permission_id = permissions.id
+WHERE users.id = 1 AND permissions.id = 1; 
+
+
+
 
 --Topic 1--
 INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (1, 1, 'upvote');
