@@ -1,0 +1,64 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.topic-detail-ctn {
+    width: 100%;
+    display: flex;
+    background: #1A1A1B;
+    flex-direction: column;
+    color: #ffffff;
+}
+
+.topic-up-down-ctn {
+    display: flex;
+    background: red;
+    width: 70px;
+    height: 100%;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.container {
+    cursor: pointer;
+    caret-color: transparent;
+    display: block;
+}
+
+
+.arrow-ctn {
+    display: flex;
+    width: 100px;
+    height: 100px;
+}
+
+.container input {
+  display: none;
+}
+
+.img-unchecked.up {
+    transform: rotate(-90deg);
+}
+
+.img-unchecked.down {
+    transform: rotate(90deg);
+}
+
+/* Hide the checked checkbox */
+.img-checked {
+    display: none;
+}
+
+/* If checked, show the checked image */
+.container input:checked ~ .img-checked {
+    display: inline;
+}
+
+/* If checked, hide the unchecked image */
+.container input:checked ~ .img-unchecked {
+    display: none;
+}
