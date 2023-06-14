@@ -1,10 +1,11 @@
+const bcrypt = require('bcryptjs');
 console.log('Hello World!');
 const faker = require('faker');
 
 function GenerateUser() {
     var username = faker.internet.userName();
     username = username.replace(/[^a-zA-Z0-9]/g, '');
-    var password = faker.internet.password();
+    var password = bcrypt.hashSync(faker.internet.password(), 10);
     var email = faker.internet.email();
     var birthdate = faker.date.past(18, new Date(2000, 0, 1));
     birthdate = birthdate.toISOString().slice(0, 10);

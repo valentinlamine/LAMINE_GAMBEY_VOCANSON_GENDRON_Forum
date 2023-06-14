@@ -97,6 +97,10 @@ func UsersUpdate(db *sql.DB, id int, email string, username string, password str
 	}
 }
 
+func UsersHash(db *sql.DB, id int, email string, username string, password string, description string, birth_date string) {
+
+}
+
 func UsersDelete(db *sql.DB, id int) {
 	_, err := db.Exec(`DELETE FROM users WHERE id = ?`, id)
 
