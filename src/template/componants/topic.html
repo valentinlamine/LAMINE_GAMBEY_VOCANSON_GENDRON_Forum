@@ -22,8 +22,10 @@
             </div>
             <img class="btn-topic-header-right" src="../assets/images/signet.png" alt="plus">
         </div>
-        <h1 class="topic-title">{{$v.Topic_name}}</h1>
-        <p class="topic-description">{{$v.Topic_description}}</p>
+        <a href="/topic/{{$v.Topic_id}}">
+            <h1 class="topic-title">{{$v.Topic_name}}</h1>
+            <p class="topic-description">{{$v.Topic_description}}</p>
+        </a>
         <div class="topic-footer">
             <div class="topic-section">
                 <img src="../assets/images/commentaires.png" alt="commentaires">
