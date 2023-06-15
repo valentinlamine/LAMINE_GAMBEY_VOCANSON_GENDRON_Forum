@@ -3,50 +3,15 @@ package utilities
 import (
 	"database/sql"
 	"fmt"
-	"net/http"
 	"regexp"
 
-	"github.com/go-humble/locstor"
 	"golang.org/x/crypto/bcrypt"
 )
 
 var token GetUser
 
-func GetLoginRegister(r *http.Request, w http.ResponseWriter, db *sql.DB) GetUser { //PROBLEME PAS DE []GetUsersAll
-	var defaultUser GetUser
-	fmt.Println(r.FormValue("submit"))
-	if r.FormValue("submit") == "login" {
-		fmt.Println("login")
-		if login(r.FormValue("loginName"), r.FormValue("loginPassword"), db) {
-			fmt.Println("matching password")
-			token = UsersGetByEmail(db, r.FormValue("loginName"))
-			item := locstor.SetItem("token", "test")
-			fmt.Println(item)
-		} else {
-			token = defaultUser
-		}
-	} else if r.FormValue("submit") == "register" {
-		fmt.Println(register(r.FormValue("email"), r.FormValue("username"), r.FormValue("password"), db))
-	}
-	return token
-}
-
-func GetLogoutInfo(r *http.Request, w http.ResponseWriter) bool {
-	if token.Id == 0 {
-		return true
-	}
-	fmt.Println(r.FormValue("resetToken"))
-	if r.FormValue("resetToken") == "logout" {
-		//if err := locstor.Clear(); err != nil {
-		// Handle err
-		//}
-		return true
-	}
-	return false
-}
-
 func getAllUsersLoginInfo(db *sql.DB) []GetUser {
-	rows, err := db.Query(`SELECT users.email, users.password FROM users`)
+	rows, err := db.Query(`SELECT users.email, users.password, users.id FROM users`)
 
 	if err != nil {
 		panic(err.Error())
@@ -57,7 +22,7 @@ func getAllUsersLoginInfo(db *sql.DB) []GetUser {
 	for rows.Next() {
 		var u GetUser
 
-		err := rows.Scan(&u.Email, &u.Password)
+		err := rows.Scan(&u.Email, &u.Password, &u.Id)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -70,27 +35,34 @@ func getAllUsersLoginInfo(db *sql.DB) []GetUser {
 	return (users)
 }
 
-func login(name string, password string, db *sql.DB) bool {
+func Login(name string, password string, db *sql.DB) (bool, int) {
 	users := getAllUsersLoginInfo(db)
 	for i := 0; i != len(users); i++ {
 		if users[i].Email == name {
 			fmt.Println(users[i])
 			if bcrypt.CompareHashAndPassword([]byte(users[i].Password), []byte(password)) == nil {
 				fmt.Println("true")
-				return true
+				return true, users[i].Id
 			}
 		}
 	}
-	return false
+	return false, 0
 }
 
-func register(email string, username string, password string, db *sql.DB) bool {
+func Register(email string, username string, password string, db *sql.DB) (bool, int) {
 	var cryptedPassword, _ = bcrypt.GenerateFromPassword([]byte(password), 10)
 	if !Security(email, 0) || !Security(username, 1) || !Security(password, 2) {
 		fmt.Println("false")
-		return false
+		return false, 0
 	} else {
-		return UsersAdd(db, email, username, string(cryptedPassword)) == nil
+		err := UsersAdd(db, email, username, string(cryptedPassword)) == nil
+		if err {
+			fmt.Println("true")
+			return true, UsersGetByEmail(db, email).Id
+		} else {
+			fmt.Println("false")
+			return false, 0
+		}
 	}
 }
 

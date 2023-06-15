@@ -37,8 +37,56 @@ function openLogin() {
     modalRegister.style.display = 'none';
 }
 
-/*
-document.querySelector('.modal-register').addEventListener('keyup', verifyPassword);
-document.querySelector('.modal-register').addEventListener('click', verifyPassword);
-document.querySelector('.modal-register').addEventListener('change', verifyPassword);
-*/
+
+function Login(email, password) {
+    fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({email, password})
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.id === 0) {
+                console.log(data.info);
+                document.getElementById("login-info").innerHTML = data.info;
+                localStorage.setItem("token", data.id)
+            } else {
+                localStorage.setItem("token", data.id);
+                document.querySelector("#token-input").value = data.id;
+                document.getElementById("load-log-in-page").submit();
+            }
+        })
+        .catch(error => console.error(error));
+}
+
+function Register(username, email, password) {
+    fetch('/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({username, email, password})
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.id === 0) {
+                console.log(data.info);
+                document.getElementById("register-info").innerHTML = data.info;
+                localStorage.setItem("token", data.id)
+            } else {
+                localStorage.setItem("token", data.id);
+                document.querySelector("#token-input").value = data.id;
+                document.getElementById("load-log-in-page").submit();
+            }
+        })
+        .catch(error => console.error(error));
+}
+
+addEventListener("load" , function() {
+    if (localStorage.getItem("token") !== null && localStorage.getItem("token") !== "0") {
+        document.querySelector("#token-input").value = localStorage.getItem("token");
+        document.getElementById("load-log-in-page").submit();
+    }
+});

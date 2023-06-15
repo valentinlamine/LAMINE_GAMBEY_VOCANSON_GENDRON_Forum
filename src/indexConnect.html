@@ -6,14 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="CSS/style.css">
     <link rel="stylesheet" href="CSS/fonts.css">
-    <link rel="icon" href="./assets/images/icon.PNG">
     <title>Upit</title>
 </head>
 <body>
-    <form action="/" method="POST" id="load-log-in-page" style="display: none;">
-            <input id="token-input" name="token" class="formulaire">
-    </form>
-    {{ template "header" .}}
+    {{ template "headerConnect" .}}
     <div class="not-header">
         <div class="left-navbar">
             {{ template "leftnavbar" .}}
@@ -26,4 +22,22 @@
         </div>
     </div>
 </body>
+<script>
+        function refreshlogin() {
+    //check if there is localstorage token
+    const token = localStorage.getItem("token");
+    if (token) {
+        console.log(token);
+        if (token === 0) {
+            //token is not valid
+            localStorage.removeItem("token");
+        } else {
+            //token is valid
+            window.location.href = `/?token=${token}`;
+        }
+    } else {
+        //no token
+    }
+}
+</script>
 </html>

@@ -131,7 +131,7 @@ type MessageUser struct {
 }
 
 type GetPermission struct {
-	Id          int
+	Id          any
 	Name        string
 	Description string
 }
@@ -182,7 +182,6 @@ type TopicSortedDrop struct {
 }
 
 type Data struct {
-	Data     []TopicSortedDrop
-	Token    GetUser
-	IsLogged bool
+	Data []TopicSortedDrop
+	User string
 }

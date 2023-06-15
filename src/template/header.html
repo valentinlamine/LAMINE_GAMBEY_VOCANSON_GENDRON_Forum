@@ -41,13 +41,14 @@
     <div class="modal-login" style="display: none;">
         <div class="content">
             <img src="../assets/images/close.png" alt="close" class="close" onclick="closeModal()">
-            <form method="POST">
+            <form onsubmit="return false">
                 <h1>Log In</h1>
                 <p>By continuing, you are setting up a Upit account and agree to our <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">User Agreement</a> and <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Privacy Policy.</a></p>
-                <input type="email" name="loginName" class="formulaire" placeholder="email" autofocus>
-                <input type="password" name="loginPassword" class="formulaire" placeholder="password" autofocus>
+                <input type="email" name="email" class="formulaire" placeholder="email" autofocus>
+                <input type="password" name="password" class="formulaire" placeholder="password" autofocus>
                 <p>Forgot <a href="#">email</a> or <a href="#">password</a> ?</p>
-                <button type="submit" name="submit" value="login">Login</button>
+                <p id="login-info"></p>
+                <button type="submit" value="login" onclick="Login(this.form.email.value, this.form.password.value)">Login</button>
                 <p>New to Upit ? <a href="#" onclick="openRegister()">Sign Up</a></p>
             </form>
         </div>
@@ -55,14 +56,15 @@
     <div class="modal-register" style="display: none;">
         <div class="content">
             <img src="../assets/images/close.png" alt="close" class="close" onclick="closeModal()">
-            <form method="POST">
+            <form onsubmit="return false">
                 <h1>Sign Up</h1>
                 <p>By continuing, you are setting up a Upit account and agree to our <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">User Agreement</a> and <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Privacy Policy.</a></p>
                 <input type="text" name="username" class="formulaire" placeholder="username" autofocus>
                 <input type="email" name="email" class="formulaire" placeholder="email" autofocus>
                 <input type="password" name="password" class="formulaire" placeholder="password" autofocus>
                 <input type="password" name="comfirmPassword" class="formulaire" placeholder="comfirm password" autofocus>
-                <button type="submit" name="submit" value="register">Register</button>
+                <p id="register-info"></p>
+                <button type="submit" value="register" onclick="Register(this.form.username.value, this.form.email.value, this.form.password.value)">Register</button>
                 <p>Already have an account ? <a href="#" onclick="openLogin()">Log In</a></p>
             </form>
         </div>
@@ -70,6 +72,7 @@
     <script src="../JS/HeaderLoginSystem.js"></script>
     <script>
         document.querySelector(".user-section").addEventListener("click", function() {
+            console.log("click");
             document.querySelector(".menu").classList.toggle("active");
             document.querySelector(".user-section").classList.toggle("active");
         });

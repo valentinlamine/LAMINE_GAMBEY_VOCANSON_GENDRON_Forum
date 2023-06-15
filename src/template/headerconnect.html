@@ -1,7 +1,5 @@
 {{define "headerConnect"}}
-{{$user := .Token}}
 <link rel="stylesheet" href="../CSS/header.css">
-<script src="../JS/header.js"></script>
 
 <header class="upit-header connected">
     <div class="header-ctn">
@@ -21,9 +19,9 @@
         </div>
         <div class="header-login-section">
             <div class="header-class-user">
-            <p class="login-class">{{$user.Username}}</p>
+            <p class="login-class">{{.User}}</p>
             </div>
-            <div class="user-section">
+            <div class="user-section connected">
                 <div class="user-img-ctn">
                     <img src="../assets/images/compte.png" alt="User icon">
                 </div>
@@ -36,22 +34,21 @@
             <ul>
                 <li><a href="/termsofservice"><img src="../assets/images/terms-of-use-white.png" alt="terms of use logo">Terms of use</a></li>
                 <li><a href="/privacypolicy"><img src="../assets/images/privacy-policy-white.png" alt="privacy policy logo">Privacy Policy</a></li>
-                <li>
-                    <form method="POST">
-                    <button type="submit" name="resetToken" value="a" class="user-section" id="connected">
-                    <a onclick="changeValue()"><img src="../assets/images/logout-white.png" alt="log out logo" id="log-out-img">Disconnect</a>
-                    </button>
-                    </form>
-                </li>
+                <li><a onclick="Disconnect()"><img src="../assets/images/logout-white.png" alt="log out logo" id="log-out-img">Disconnect</a></li>
             </ul>
         </nav>
     </div>
     <script>
-        document.querySelector(".user-section").addEventListener("click", function() {
+        document.querySelector(".user-section.connected").addEventListener("click", function() {
+            console.log("click");
             document.querySelector(".menu").classList.toggle("active");
             document.querySelector(".user-section").classList.toggle("active");
         });
+
+        function Disconnect() {
+            localStorage.removeItem("token");
+            window.location.href = "/";
+        }
     </script>
 </header>
-<script src="../JS/token.js"></script>
 {{end}}

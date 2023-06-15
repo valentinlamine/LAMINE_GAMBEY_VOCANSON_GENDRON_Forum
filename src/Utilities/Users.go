@@ -62,6 +62,32 @@ func UsersGetByEmail(db *sql.DB, email string) GetUser {
 	return users
 }
 
+func GetUserById(db *sql.DB, id int) GetUser {
+	rows, err := db.Query(`SELECT users.id,users.username FROM users WHERE users.id = ?`, id)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var users GetUser
+	for rows.Next() {
+		var u GetUser
+
+		err := rows.Scan(&u.Id, &u.Username)
+		if err != nil {
+			log.Fatal(err)
+		}
+		users = u
+
+	}
+	if err := rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+
+	return users
+}
+
 func UsersGetAll(db *sql.DB) []GetUsersAll {
 	rows, err := db.Query(`SELECT users.id,users.username,users.email,users.password,users.register_date FROM users`)
 
