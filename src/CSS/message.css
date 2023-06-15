@@ -14,7 +14,7 @@
 
 .topic-up-down-ctn {
     display: flex;
-    background: red;
+    background: #1A1A1B;
     width: 70px;
     height: 100%;
     flex-direction: column;
@@ -27,6 +27,7 @@
     align-items: center;
     width: 100%;
     margin-left: 10px;
+    margin-top: 10px;
 }
 
 .topic-detail-ctn-content-info-user {
@@ -35,9 +36,14 @@
     align-items: center;
 }
 
+.topic-detail-ctn-content-info-user-name {
+    margin-right: 10px;
+}
+
 .topic-detail-ctn-content-info-user-avatar img {
-    width: 50px;
-    height: 50px;
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
 }
 
 .topic-detail-ctn-content-info-date {
@@ -91,10 +97,12 @@
     display: flex;
     align-items: center;
     padding-right: 28px;
-    margin-top: -30px;
+    margin-top: -20px;
 }
 
 .flag, .report {
     width: 20px;
     height: 20px;
+    margin-right: 10px;
 }
+
