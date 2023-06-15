@@ -25,7 +25,7 @@ func main() {
 
 	//handle routing
 	r.HandleFunc("/", IndexHandler)
-	//r.HandleFunc("/topic/{id}", utilities.TopicHandler)
+	r.HandleFunc("/topic/{id}", TopicHandler)
 	r.HandleFunc("/termsofservice", TermsOfServiceHandler)
 	r.HandleFunc("/privacypolicy", PrivacyPolicyHandler)
 	r.HandleFunc("/test", TestHandler)
@@ -61,7 +61,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 			Token, _ := strconv.Atoi(token)
 			user = utilities.GetUserById(db, Token)
 			if user.Id != 0 { //if user is connected
-				tmpl := generateTemplate("indexConnect.html", []string{"indexConnect.html", "template/headerConnect.html", "template/leftnavbar.html", "template/topic.html"})
+				tmpl := generateTemplate("indexConnect.html", []string{"template/base/connected/indexConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbar.html", "template/componants/topic.html"})
 
 				data = utilities.Data{
 					Data: data.GetData(db),
@@ -72,10 +72,31 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-	tmpl := generateTemplate("index.html", []string{"index.html", "template/header.html", "template/leftnavbar.html", "template/topic.html"})
+	tmpl := generateTemplate("index.html", []string{"template/base/disconnected/index.html", "template/componants/header.html", "template/componants/leftnavbar.html", "template/componants/topic.html"})
 	data = utilities.Data{
 		Data: data.GetData(db),
 	}
+	tmpl.Execute(w, data)
+}
+
+func TopicHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("TopicHandler")
+	if r.Method == "POST" {
+		token := r.FormValue("token")
+		if token != "" {
+			var user utilities.GetUser
+			Token, _ := strconv.Atoi(token)
+			user = utilities.GetUserById(db, Token)
+			if user.Id != 0 { //if user is connected
+				tmpl := generateTemplate("topicConnect.html", []string{"topicConnect.html", "template/headerConnect.html", "template/leftnavbar.html", "template/topic.html"})
+				//get data from form
+				tmpl.Execute(w, data)
+				return
+			}
+		}
+	}
+	tmpl := generateTemplate("topic.html", []string{"topic.html", "template/header.html", "template/leftnavbar.html", "template/topic.html"})
+	//get data from form
 	tmpl.Execute(w, data)
 }
 
@@ -88,7 +109,7 @@ func TermsOfServiceHandler(w http.ResponseWriter, r *http.Request) {
 			Token, _ := strconv.Atoi(token)
 			user = utilities.GetUserById(db, Token)
 			if user.Id != 0 { //if user is connected
-				tmpl := generateTemplate("termsofserviceConnect.html", []string{"termsofserviceConnect.html", "template/headerConnect.html", "template/leftnavbar.html"})
+				tmpl := generateTemplate("termsofserviceConnect.html", []string{"template/base/connected/termsofserviceConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbar.html"})
 				data = utilities.Data{
 					Data: data.GetData(db),
 					User: user.Username,
@@ -98,7 +119,7 @@ func TermsOfServiceHandler(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-	tmpl := generateTemplate("termsofservice.html", []string{"termsofservice.html", "template/header.html", "template/leftnavbar.html"})
+	tmpl := generateTemplate("termsofservice.html", []string{"template/base/disconnected/termsofservice.html", "template/componants/header.html", "template/componants/leftnavbar.html"})
 	data = utilities.Data{
 		Data: data.GetData(db),
 	}
@@ -114,7 +135,7 @@ func PrivacyPolicyHandler(w http.ResponseWriter, r *http.Request) {
 			Token, _ := strconv.Atoi(token)
 			user = utilities.GetUserById(db, Token)
 			if user.Id != 0 { //if user is connected
-				tmpl := generateTemplate("privacypolicyConnect.html", []string{"privacypolicyConnect.html", "template/headerConnect.html", "template/leftnavbar.html"})
+				tmpl := generateTemplate("privacypolicyConnect.html", []string{"template/base/connected/privacypolicyConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbar.html"})
 				data = utilities.Data{
 					Data: data.GetData(db),
 					User: user.Username,
@@ -124,7 +145,7 @@ func PrivacyPolicyHandler(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-	tmpl := generateTemplate("privacypolicy.html", []string{"privacypolicy.html", "template/header.html", "template/leftnavbar.html"})
+	tmpl := generateTemplate("privacypolicy.html", []string{"template/base/disconnected/privacypolicy.html", "template/componants/header.html", "template/componants/leftnavbar.html"})
 	data = utilities.Data{
 		Data: data.GetData(db),
 	}
@@ -132,17 +153,29 @@ func PrivacyPolicyHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func TestHandler(w http.ResponseWriter, r *http.Request) {
-	// *Generates and executes templates:
-	tmpl := generateTemplate("test.html", []string{"test.html", "template/header.html", "template/headerConnect.html", "template/leftnavbar.html"})
-	//tmpl.ExecuteTemplate(w, "login", data)
+	fmt.Println("TestHandler")
+	if r.Method == "POST" {
+		token := r.FormValue("token")
+		if token != "" {
+			var user utilities.GetUser
+			Token, _ := strconv.Atoi(token)
+			user = utilities.GetUserById(db, Token)
+			if user.Id != 0 { //if user is connected
+				tmpl := generateTemplate("testConnect.html", []string{"template/base/connected/testConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbar.html"})
+				data = utilities.Data{
+					Data: data.GetData(db),
+					User: user.Username,
+				}
+				tmpl.Execute(w, data)
+				return
+			}
+		}
+	}
+	tmpl := generateTemplate("test.html", []string{"template/base/disconnected/test.html", "template/componants/header.html", "template/componants/leftnavbar.html"})
 	data = utilities.Data{
 		Data: data.GetData(db),
 	}
-
-	err := tmpl.Execute(w, data)
-	if err != nil {
-		fmt.Println("err : ", err)
-	}
+	tmpl.Execute(w, data)
 }
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
