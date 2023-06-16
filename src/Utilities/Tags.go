@@ -75,7 +75,10 @@ func TagsGet(db *sql.DB, id int) {
 func TagsGetAll(db *sql.DB) []GetTag {
 	taglist, err := db.Query(`SELECT tag.id,tag.name,tag.color
 	FROM tag
-	GROUP BY tag.id`)
+	GROUP BY tag.id
+	ORDER BY tag.id ASC
+	LIMIT 10
+	`)
 
 	topiclist, err2 := db.Query(`SELECT topic.id,topic.name,topic_tags.tag_id,topic_tags.topic_id
 	FROM topic
