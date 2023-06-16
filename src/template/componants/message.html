@@ -1,58 +1,34 @@
 {{define "message"}}
-<link rel="stylesheet" href="../CSS/message.css">
-<link rel="stylesheet" href="../CSS/fonts.css">
-<script src="../JS/topic-detail.js"></script>
+<link rel="stylesheet" href="/../CSS/message.css">
+<link rel="stylesheet" href="/../CSS/fonts.css">
+
 
 <div class="topic-detail-ctn">
     <div class="topic-up-down-ctn">
-        <div class="topic-up-vote"> <!--Div a supprimer -->
             <label class="container">
-                <input type="checkbox">
-                <img class="img-unchecked up arrow-ctn" src="../assets/images/arrow.png" > <!--Garder une seule image-->
-                <img class="img-checked arrow-ctn" src="../assets/images/full-arrow-green.png" >
+                <input type="checkbox" class="up">
+                <img class="up arrow-ctn" src="/../assets/images/arrow.png">
             </label>
-        </div>
-        <div class="topic-down-vote"> <!--Div a supprimer-->
+            <p>NbUpvote</p>
             <label class="container">
-                <input type="checkbox">
-                <img class="img-unchecked down arrow-ctn" src="../assets/images/arrow.png" >
-                <img class="img-checked arrow-ctn" src="../assets/images/full-arrow-red.png" >
-                <script>
-                    addEventListener("click", function() {
-                        var img = document.querySelector(".img-unchecked");
-                        var checkbox = document.querySelector("input[type=checkbox]");
-                        if (checkbox.checked == true) {
-                            img.src = "../assets/images/full-arrow-red.png";
-                        } else {
-                            img.src = "../assets/images/arrow.png";
-                        }
-                    });
-                </script>
+                <input type="checkbox" class="down">
+                <img class="down arrow-ctn" src="/../assets/images/arrow.png">
             </label>
-        </div>
     </div>
     <div class="topic-detail-ctn-content">
-        <div class="user-info-and-text"> 
-            <div class="topic-detail-ctn-content-info"> <!--Div a supprimer-->
-                <div class="topic-detail-ctn-content-info-user"> <!--Div a supprimer-->
-                    <div class="topic-img-username-date-ctn"> <!--Div a supprimer--> 
-                        <div class="topic-detail-ctn-content-info-user-avatar"> <!--Div a supprimer-->
-                            <img src="../assets/images/topic_icon.png" alt="user-img">
-                        </div>
-                        <div class="topic-detail-ctn-content-info-user-name"> <!--Div a supprimer-->
-                            <h3>Username</h3>
-                        </div>
-                        <div class="topic-detail-ctn-content-info-date"> <!--Div a supprimer-->
-                            <h3>2 days ago</h3>
-                        </div>
-                    </div>
-                </div>
+        <div class="user-info-and-text">
+            <div class="left-part">
+                <img src="/../assets/images/topic_icon.png" alt="user-img">
+                <h3>Username</h3>
+                <h3>2 days ago</h3>
+            </div>
+            <div class="flag-report-ctn">
+                <img class="flag" src="/../assets/images/report.png" alt="flag">
+                <h4>Report</h4>
             </div>
         </div>
-        <div class="flag-report-ctn">
-            <img class="flag" src="../assets/images/report.png" alt="flag">
-            <h4>Report</h4>
-        </div>
+        <p>Message</p>
     </div>
 </div>
+<script src="/../JS/topic-detail.js"></script>
 {{end}}
