@@ -15,11 +15,9 @@
             {{ template "leftnavbar" .}}
         </div>
         <div class="content">
-            <div class="topics">
-                <h1>Popular  Topics</h1>
-                <h2>{{.}}</h2>
-                {{ template "message" .}}
-            </div>
+            <h1>{{.Topic.Name}}</h1>
+            <h2>{{.Topic.Description}}</h2>
+            {{ template "message" .}}
         </div>
     </div>
 </body>

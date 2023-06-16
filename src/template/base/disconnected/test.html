@@ -29,6 +29,9 @@
             <form method="POST" action="/" onsubmit="redirectToRootWithToken(this.token.value)">
                 <input name="token" class="formulaire">
             </form>
+
+
+            {{ template "formTopic" .}}
             <script>
                 function helloworld() {
                     fetch('/helloworld')

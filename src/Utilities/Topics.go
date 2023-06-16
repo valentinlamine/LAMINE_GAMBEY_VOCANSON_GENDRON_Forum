@@ -4,19 +4,55 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
+	"strings"
 )
 
-func TopicsAdd(db *sql.DB, name string, description string, private bool, user_id int) {
+func TopicsAdd(db *sql.DB, name string, description string, private bool, user_id int) (bool, string, int) {
+	if name == "" {
+		return false, "Name is empty", 0
+	}
+	if user_id == 0 {
+		return false, "User id is empty", 0
+	}
 	if CheckPermission(db, user_id, 16) {
 		_, err := db.Exec(`Insert INTO topic (name,description,private,user_id) VALUES (?,?,?,?)`, name, description, private, user_id)
 		if err != nil {
+			if strings.Contains(err.Error(), "Duplicate entry") {
+				return false, "Topic already exists", 0
+			} else {
+				return false, err.Error(), 0
+			}
+		}
+		var result int
+		rows, err := db.Query(`SELECT id FROM topic WHERE name = ? `, name)
+		if err != nil {
 			panic(err.Error())
 		}
+		defer func(rows *sql.Rows) {
+			err := rows.Close()
+			if err != nil {
+				panic(err.Error())
+			}
+		}(rows)
+		for rows.Next() {
+			err := rows.Scan(&result)
+			if err != nil {
+				panic(err.Error())
+			}
+
+		}
+		if err := rows.Err(); err != nil {
+			panic(err.Error())
+		}
+
+		return true, "Topic added", result
+	} else {
+		return false, "You don't have the permission", 0
 	}
 }
 
 func TopicsGet(db *sql.DB, id int) GetTopic {
-	rows, err := db.Query(`SELECT * FROM topic WHERE topic.id = ?`, id)
+	rows, err := db.Query(`SELECT topic.name, topic.description, topic.private, topic.creation_date, topic.nb_views FROM topic WHERE topic.id = ?`, id)
 
 	if err != nil {
 		panic(err.Error())
@@ -32,7 +68,7 @@ func TopicsGet(db *sql.DB, id int) GetTopic {
 	for rows.Next() {
 		var t GetTopic
 
-		err := rows.Scan(&t.Id, &t.Name, &t.Description, &t.Private, &t.Creation_date, &t.Nb_views, &t.User_id)
+		err := rows.Scan(&t.Name, &t.Description, &t.Private, &t.Creation_date, &t.Nb_views)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -42,7 +78,6 @@ func TopicsGet(db *sql.DB, id int) GetTopic {
 	if err := rows.Err(); err != nil {
 		panic(err.Error())
 	}
-	fmt.Println(topics)
 	return topics[0]
 }
 

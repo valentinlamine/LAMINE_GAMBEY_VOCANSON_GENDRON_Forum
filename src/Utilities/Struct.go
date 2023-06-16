@@ -87,14 +87,6 @@ type GetUser struct {
 	Birth_date    string
 }
 
-type GetUsersAll struct {
-	Id            int
-	Username      string
-	Password      string
-	Email         string
-	Register_date string
-}
-
 type GetTopic struct {
 	Id            int
 	Name          string
@@ -110,6 +102,13 @@ type GetRole struct {
 	Name  string
 	Color string
 }
+
+type UsersMessagesInteractions struct {
+	User_id    int
+	Message_id int
+	Status     string
+}
+
 type RoleUser struct {
 	Id       int
 	Name     string
@@ -145,6 +144,7 @@ type GetMessage struct {
 	Updated_at string
 	User_id    int
 	Topic_id   int
+	Username   string
 }
 
 type GetFile struct {
@@ -186,4 +186,12 @@ type TopicSortedDrop struct {
 type Data struct {
 	Data []TopicSortedDrop
 	User string
+}
+
+type DataTopic struct {
+	Id                   int
+	User                 string
+	Topic                GetTopic
+	TopicMessages        []GetMessage
+	MessagesInteractions []UsersMessagesInteractions
 }

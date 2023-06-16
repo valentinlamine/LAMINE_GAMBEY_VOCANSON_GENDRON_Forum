@@ -88,7 +88,7 @@ func GetUserById(db *sql.DB, id int) GetUser {
 	return users
 }
 
-func UsersGetAll(db *sql.DB) []GetUsersAll {
+func UsersGetAll(db *sql.DB) []GetUser {
 	rows, err := db.Query(`SELECT users.id,users.username,users.email,users.password,users.register_date FROM users`)
 
 	if err != nil {
@@ -96,9 +96,9 @@ func UsersGetAll(db *sql.DB) []GetUsersAll {
 	}
 	defer rows.Close()
 
-	var users []GetUsersAll
+	var users []GetUser
 	for rows.Next() {
-		var u GetUsersAll
+		var u GetUser
 
 		err := rows.Scan(&u.Id, &u.Username, &u.Email, &u.Password, &u.Register_date)
 		if err != nil {

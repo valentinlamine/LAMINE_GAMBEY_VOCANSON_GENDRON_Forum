@@ -41,7 +41,12 @@ func MessagesGet(db *sql.DB, id int) {
 }
 
 func MessagesGetAllTopic(db *sql.DB, id int) []GetMessage {
-	rows, err := db.Query(`SELECT DISTINCT * FROM messages WHERE topic_id = ? `, id)
+	rows, err := db.Query(`SELECT DISTINCT messages.id, messages.content,messages.creation_date, messages.user_id,messages.topic_id,users.username
+	FROM messages 
+	INNER JOIN users_messages_interactions ON messages.user_id = users_messages_interactions.user_id
+	INNER JOIN users ON messages.user_id = users.id
+	WHERE messages.topic_id = ? 
+	ORDER BY users_messages_interactions.status = "upvote" DESC `, id)
 
 	if err != nil {
 		panic(err.Error())
@@ -52,7 +57,7 @@ func MessagesGetAllTopic(db *sql.DB, id int) []GetMessage {
 	for rows.Next() {
 		var m GetMessage
 
-		err := rows.Scan(&m.Id, &m.Content, &m.Created_at, &m.User_id, &m.Topic_id)
+		err := rows.Scan(&m.Id, &m.Content, &m.Created_at, &m.User_id, &m.Topic_id, &m.Username)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -106,4 +111,29 @@ func MessageFile(db *sql.DB, id int) {
 		panic(err.Error())
 	}
 	fmt.Println(files)
+}
+
+func GetUsersMessagesInteractions(db *sql.DB, id int) []UsersMessagesInteractions {
+	rows, err := db.Query(`SELECT * FROM users_messages_interactions WHERE users_messages_interactions.user_id = ?`, id)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var interaction []UsersMessagesInteractions
+	for rows.Next() {
+		var i UsersMessagesInteractions
+
+		err := rows.Scan(&i.User_id, &i.Message_id, &i.Status)
+		if err != nil {
+			panic(err.Error())
+		}
+		interaction = append(interaction, i)
+
+	}
+	if err := rows.Err(); err != nil {
+		panic(err.Error())
+	}
+	return interaction
 }

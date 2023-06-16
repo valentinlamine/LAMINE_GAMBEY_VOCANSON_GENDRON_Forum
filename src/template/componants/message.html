@@ -3,6 +3,8 @@
 <link rel="stylesheet" href="../CSS/fonts.css">
 <script src="../JS/topic-detail.js"></script>
 
+{{range $i, $v := .TopicMessages}}
+{{$u := index $.MessagesInteractions $i}}
 <div class="topic-detail-ctn">
     <div class="topic-up-down-ctn">
         <div class="topic-up-vote"> <!--Div a supprimer -->
@@ -40,10 +42,10 @@
                             <img src="../assets/images/topic_icon.png" alt="user-img">
                         </div>
                         <div class="topic-detail-ctn-content-info-user-name"> <!--Div a supprimer-->
-                            <h3>Username</h3>
+                            <h3>{{$v.Username}}</h3>
                         </div>
                         <div class="topic-detail-ctn-content-info-date"> <!--Div a supprimer-->
-                            <h3>2 days ago</h3>
+                            <h3>{{$v.Created_at}}</h3>
                         </div>
                     </div>
                 </div>
@@ -54,5 +56,7 @@
             <h4>Report</h4>
         </div>
     </div>
+    {{$v.Content}}
 </div>
+{{end}}
 {{end}}

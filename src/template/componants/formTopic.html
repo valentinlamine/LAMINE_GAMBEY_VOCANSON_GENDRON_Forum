@@ -1,0 +1,40 @@
+{{define "formTopic"}}
+<link rel="stylesheet" href="../CSS/formTopic.css">
+<div class="formTopic">
+    <form onsubmit="return false" class="create-topic" style="margin-top: 50px;">
+        <textarea name="name" placeholder="name" style="font-size: 32px"></textarea>
+        <textarea name="description" placeholder="description" style="font-size: 32px"></textarea>
+        <input type="radio" id="public" name="private" value="false" checked>
+        <label for="public">Public</label>
+        <input type="radio" id="private" name="private" value="true">
+        <label for="private">Private</label>
+        <input type="number" name="userid" placeholder="userid" style="font-size: 32px">
+        <p id="create-topic-info"></p>
+        <input type="submit" value="create" onclick="createTopic(this.form.name.value, this.form.description.value, this.form.private.value, this.form.userid.value)" style="font-size: 32px">
+    </form>
+</div>
+
+<script>
+    function createTopic(name, description, private, userid) {
+        fetch('/topicCreate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Title: name,
+                Content: description,
+                Private: JSON.parse(private),
+                UserID: parseInt(userid)
+            })
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            document.getElementById("create-topic-info").innerHTML = data;
+        })
+        .catch(error => console.error(error));
+
+    }
+</script>
+{{end}}

@@ -30,6 +30,7 @@ func main() {
 
 	r.HandleFunc("/login", utilities.LoginHandler).Methods("POST")
 	r.HandleFunc("/register", utilities.RegisterHandler).Methods("POST")
+	r.HandleFunc("/topicCreate", utilities.TopicCreateHandler).Methods("POST")
 
 	fmt.Println("server is running on port 8080 : http://localhost:8080")
 	if err := http.ListenAndServe(":8080", r); err != nil {

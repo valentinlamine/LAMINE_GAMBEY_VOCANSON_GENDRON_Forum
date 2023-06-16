@@ -61,10 +61,14 @@ func TopicHandler(w http.ResponseWriter, r *http.Request) {
 			if user.Id != 0 { //if user is connected
 				tmpl := generateTemplate("topicdetailsConnect.html", []string{"template/base/connected/topicdetailsConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbar.html", "template/componants/message.html"})
 				vars := mux.Vars(r)
-				id := vars["id"]
-				TopicHandlerData := TopicHandlerData{
-					Data: id,
-					User: user.Username,
+				tmp := vars["id"]
+				topic_id, _ := strconv.Atoi(tmp)
+				TopicHandlerData := DataTopic{
+					Id:                   topic_id,
+					User:                 user.Username,
+					Topic:                TopicsGet(db, topic_id),
+					TopicMessages:        MessagesGetAllTopic(db, topic_id),
+					MessagesInteractions: GetUsersMessagesInteractions(db, user.Id),
 				}
 
 				tmpl.Execute(w, TopicHandlerData)
@@ -74,8 +78,16 @@ func TopicHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	tmpl := generateTemplate("topicdetails.html", []string{"template/base/disconnected/topicdetails.html", "template/componants/header.html", "template/componants/leftnavbar.html", "template/componants/message.html"})
 	vars := mux.Vars(r)
-	id := vars["id"]
-	tmpl.Execute(w, id)
+	tmp := vars["id"]
+	topic_id, _ := strconv.Atoi(tmp)
+	TopicHandlerData := DataTopic{
+		Id:                   topic_id,
+		User:                 "",
+		Topic:                TopicsGet(db, topic_id),
+		TopicMessages:        MessagesGetAllTopic(db, topic_id),
+		MessagesInteractions: GetUsersMessagesInteractions(db, 0),
+	}
+	tmpl.Execute(w, TopicHandlerData)
 }
 
 func TermsOfServiceHandler(w http.ResponseWriter, r *http.Request) {
@@ -139,7 +151,7 @@ func TestHandler(w http.ResponseWriter, r *http.Request) {
 			Token, _ := strconv.Atoi(token)
 			user = GetUserById(db, Token)
 			if user.Id != 0 { //if user is connected
-				tmpl := generateTemplate("testConnect.html", []string{"template/base/connected/testConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbar.html"})
+				tmpl := generateTemplate("testConnect.html", []string{"template/base/connected/testConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbar.html", "template/componants/formTopic.html"})
 				data = Data{
 					Data: data.GetData(db),
 					User: user.Username,
@@ -149,7 +161,7 @@ func TestHandler(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-	tmpl := generateTemplate("test.html", []string{"template/base/disconnected/test.html", "template/componants/header.html", "template/componants/leftnavbar.html"})
+	tmpl := generateTemplate("test.html", []string{"template/base/disconnected/test.html", "template/componants/header.html", "template/componants/leftnavbar.html", "template/componants/formTopic.html"})
 	data = Data{
 		Data: data.GetData(db),
 	}
@@ -246,6 +258,61 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 		}{
 			Info: "Email or username already used",
 			ID:   0,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	}
+}
+
+func TopicCreateHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" { //si la méthode n'est pas POST
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Parse the request body
+	var data struct {
+		Title   string `json:"Title"`
+		Content string `json:"Content"`
+		Private bool   `json:"Private"`
+		UserID  int    `json:"UserID"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	success, info, id := TopicsAdd(db, data.Title, data.Content, data.Private, data.UserID)
+	if success {
+		response := struct {
+			Sucess  bool   `json:"success"`
+			Info    string `json:"info"`
+			TopicId int    `json:"topic_id"`
+		}{
+			Sucess:  true,
+			Info:    info,
+			TopicId: id,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	} else {
+		response := struct {
+			Sucess  bool   `json:"success"`
+			Info    string `json:"info"`
+			TopicId int    `json:"topic_id"`
+		}{
+			Sucess:  false,
+			Info:    info,
+			TopicId: id,
 		}
 		jsonResponse, err := json.Marshal(response)
 		if err != nil {

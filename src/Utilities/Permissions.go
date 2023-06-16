@@ -3,6 +3,7 @@ package utilities
 import (
 	"database/sql"
 	"fmt"
+	"reflect"
 )
 
 func PermissionsAdd(db *sql.DB, name string, description string) {
@@ -52,7 +53,14 @@ func PermissionsDelete(db *sql.DB, id int) {
 }
 
 func CheckPermission(db *sql.DB, user_id int, permission_id int) bool {
-	rows, err := db.Query(`SELECT permissions.id FROM users INNER JOIN users_roles ON users.id = users_roles.user_id INNER JOIN roles ON users_roles.role_id = roles.id INNER JOIN roles_permissions ON roles.id = roles_permissions.role_id INNER JOIN permissions ON roles_permissions.permission_id = permissions.id WHERE users.id = ? AND permissions.id = ?`, user_id, permission_id)
+	rows, err := db.Query(`
+	SELECT DISTINCT permissions.id
+	FROM users
+	INNER JOIN users_roles ON users.id = users_roles.user_id
+	INNER JOIN roles ON users_roles.role_id = roles.id
+	INNER JOIN roles_permissions ON roles.id = roles_permissions.role_id
+	INNER JOIN permissions ON roles_permissions.permission_id = permissions.id
+	WHERE users.id = ? AND permissions.id = ?; `, user_id, permission_id)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -63,7 +71,8 @@ func CheckPermission(db *sql.DB, user_id int, permission_id int) bool {
 		if err != nil {
 			panic(err.Error())
 		}
-		if p.Id == permission_id {
+		sp := int(reflect.ValueOf(p.Id).Int())
+		if sp == permission_id {
 			return true
 		}
 	}
