@@ -19,15 +19,15 @@ func TagsAdd(db *sql.DB, name string, color string) {
 
 func generateRandomTagColor() string {
 	s1 := rand.NewSource(time.Now().UnixNano())
-	h := rand.New(s1).Intn(255)
-	var s = 22
-	var l = 35
+	h := rand.New(s1).Intn(360)
+	var s = 49
+	var l = 31
 	newColor := colorful.Hsl(float64(h), float64(s)/100, float64(l)/100)
 	hexColor := fmt.Sprintf("#%02x%02x%02x", int(newColor.R*255), int(newColor.G*255), int(newColor.B*255))
 	return hexColor
 }
 
-func CreateTag(taglist []string, id_topic int, db *sql.DB) bool {
+func CreateTag(taglist []string, topic_id int, db *sql.DB) bool {
 	var tags []GetTag = TagsGetAll(db)
 	var exist bool
 	for i := 0; i != len(taglist); i++ {
@@ -35,12 +35,14 @@ func CreateTag(taglist []string, id_topic int, db *sql.DB) bool {
 		for j := 0; j != len(tags); j++ {
 			if taglist[i] == tags[j].Name {
 				exist = true
-			}
-			if exist == true {
-				//TagsAdd(db, taglist[i], generateRandomTagColor())
-				return false
+				break
 			}
 		}
+		if exist == false {
+			tagColor := generateRandomTagColor()
+			TagsAdd(db, taglist[i], tagColor)
+		}
+		TopicsAddTag(db, topic_id, taglist[i])
 	}
 	return true
 }
@@ -123,7 +125,6 @@ func TagsGetAll(db *sql.DB) []GetTag {
 	if err := taglist.Err(); err != nil {
 		panic(err.Error())
 	}
-	fmt.Println(tags)
 	return tags
 }
 
@@ -138,5 +139,29 @@ func TagsDelete(db *sql.DB, id int) {
 	_, err := db.Exec(`DELETE FROM tag WHERE id = ?`, id)
 	if err != nil {
 		panic(err.Error())
+	}
+}
+
+func TopicsAddTag(db *sql.DB, id_topic int, tag string) {
+	rows, err := db.Query(`SELECT id FROM tag WHERE name = ?`, tag)
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var id_tag int
+	for rows.Next() {
+		err := rows.Scan(&id_tag)
+		if err != nil {
+			panic(err.Error())
+		}
+
+	}
+	if err := rows.Err(); err != nil {
+		panic(err.Error())
+	}
+	_, err2 := db.Exec(`INSERT INTO topic_tags (topic_id,tag_id) VALUES (?,?)`, id_topic, id_tag)
+	if err2 != nil {
+		panic(err2.Error())
 	}
 }

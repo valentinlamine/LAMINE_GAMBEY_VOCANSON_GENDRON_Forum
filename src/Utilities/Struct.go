@@ -187,15 +187,15 @@ type TopicSortedDrop struct {
 	All_Messages      []GetMessage
 }
 
-type Data struct {
-	Data []TopicSortedDrop
-	User string
-	Tags []GetTag
+type IndexData struct {
+	SortedTopics []TopicSortedDrop
+	User         GetUser
+	Tags         []GetTag
 }
 
 type DataTopic struct {
 	Id                   int
-	User                 string
+	User                 GetUser
 	Topic                GetTopic
 	TopicMessages        []GetMessage
 	MessagesInteractions []UsersMessagesInteractions

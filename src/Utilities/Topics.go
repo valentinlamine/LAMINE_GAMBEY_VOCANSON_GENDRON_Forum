@@ -47,8 +47,8 @@ func TopicsAdd(db *sql.DB, name string, description string, private bool, user_i
 		if err := rows.Err(); err != nil {
 			panic(err.Error())
 		}
-
-		_, err2 := db.Exec(`INSERT INTO messages (content,topic_id,user_id) VALUES ("Bonjour",?,?)`, topic_id, user_id)
+		msg := "Bienvenue dans le topic " + name + " !"
+		_, err2 := db.Exec(`INSERT INTO messages (content,topic_id,user_id) VALUES (?,?,?)`, msg, topic_id, user_id)
 		if err2 != nil {
 			panic(err2.Error())
 		}
@@ -71,7 +71,6 @@ func TopicsAdd(db *sql.DB, name string, description string, private bool, user_i
 			}
 			message_id = result
 		}
-		fmt.Println("message id : ", message_id)
 		_, err3 := db.Exec(`INSERT INTO users_messages_interactions (user_id,message_id,status) VALUES (3,?,"upvote")`, message_id)
 		if err3 != nil {
 			panic(err3.Error())
@@ -80,13 +79,12 @@ func TopicsAdd(db *sql.DB, name string, description string, private bool, user_i
 		if err4 != nil {
 			panic(err4.Error())
 		}
-		fmt.Println("user id | topic id : ", user_id, topic_id)
 		_, err5 := db.Exec(`INSERT INTO users_followed_topics (user_id,topic_id) VALUES (?,?)`, user_id, topic_id)
 		if err5 != nil {
 			panic(err5.Error())
 		}
 
-		return true, "Topic added", result
+		return true, "Topic added", topic_id
 	} else {
 		return false, "You don't have the permission", 0
 	}

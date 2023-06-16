@@ -39,9 +39,7 @@ func Login(name string, password string, db *sql.DB) (bool, int) {
 	users := getAllUsersLoginInfo(db)
 	for i := 0; i != len(users); i++ {
 		if users[i].Email == name {
-			fmt.Println(users[i])
 			if bcrypt.CompareHashAndPassword([]byte(users[i].Password), []byte(password)) == nil {
-				fmt.Println("true")
 				return true, users[i].Id
 			}
 		}
@@ -52,15 +50,12 @@ func Login(name string, password string, db *sql.DB) (bool, int) {
 func Register(email string, username string, password string, db *sql.DB) (bool, int) {
 	var cryptedPassword, _ = bcrypt.GenerateFromPassword([]byte(password), 10)
 	if !Security(email, 0) || !Security(username, 1) || !Security(password, 2) {
-		fmt.Println("false")
 		return false, 0
 	} else {
 		err := UsersAdd(db, email, username, string(cryptedPassword)) == nil
 		if err {
-			fmt.Println("true")
 			return true, UsersGetByEmail(db, email).Id
 		} else {
-			fmt.Println("false")
 			return false, 0
 		}
 	}

@@ -21,23 +21,10 @@
             </div>
         </div>
     </div>
+    <script>
+        document.querySelectorAll(".topic-header-info span").forEach(element => {
+            formatRelativeTime(element);
+        });
+    </script>
 </body>
-<script>
-        function refreshlogin() {
-    //check if there is localstorage token
-    const token = localStorage.getItem("token");
-    if (token) {
-        console.log(token);
-        if (token === 0) {
-            //token is not valid
-            localStorage.removeItem("token");
-        } else {
-            //token is valid
-            window.location.href = `/?token=${token}`;
-        }
-    } else {
-        //no token
-    }
-}
-</script>
 </html>

@@ -34,6 +34,19 @@
     padding: 20px;
 }
 
+.topic-right a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.topic-right a:hover {
+    text-decoration: underline;
+}
+
+.topic-right a:visited {
+    color: #ffffff;
+}
+
 .topic-header {
     display: flex;
     justify-content: space-between;

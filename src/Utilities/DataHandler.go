@@ -2,13 +2,13 @@ package utilities
 
 import "database/sql"
 
-func (data *Data) GetData(db *sql.DB) []TopicSortedDrop {
-	data.Data = []TopicSortedDrop{}
+func (data *IndexData) GetData(db *sql.DB) []TopicSortedDrop {
+	data.SortedTopics = []TopicSortedDrop{}
 	var resultAlgoPopular = GetTopicsSorted(db)
 	// fmt.Println(utilities.GetTopicsSorted(db))
 	for i := 0; i != len(resultAlgoPopular); i++ {
 		//fmt.Println(resultAlgoPopular[i].Topic_id)
-		data.Data = append(data.Data, GetTopicById(db, resultAlgoPopular[i].Topic_id))
+		data.SortedTopics = append(data.SortedTopics, GetTopicById(db, resultAlgoPopular[i].Topic_id))
 	}
-	return data.Data
+	return data.SortedTopics
 }

@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="../CSS/topic.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="../JS/format.js"></script>
-{{range $v := .Data}}
+{{range $v := .SortedTopics}}
 <div class="topic-item">
     <div class="topic-interactions">
         <p class="view"></p>
@@ -18,7 +18,29 @@
                     </div>
                     {{end}}
                 </div>
-                <p class="topic-header-info">Posted by @{{$v.User_username}} | {{$v.Topic_created_at}}</p>
+                <p class="topic-header-info">Posted by @{{$v.User_username}} | <span>{{$v.Topic_created_at}}</span></p>
+                <script>
+                    function formatRelativeTime(element) {
+                        const date = new Date(element.innerHTML);
+                        date.setHours(date.getHours() - 2);
+                        const now = new Date();
+                        const diff = now - date;
+                        const seconds = Math.floor(diff / 1000);
+                        const minutes = Math.floor(seconds / 60);
+                        const hours = Math.floor(minutes / 60);
+                        const days = Math.floor(hours / 24);
+
+                        if (days > 0) {
+                            element.innerHTML = days + " days ago";
+                        } else if (hours > 0) {
+                            element.innerHTML = hours + " hours ago";
+                        } else if (minutes > 0) {
+                            element.innerHTML = minutes + " minutes ago";
+                        } else {
+                            element.innerHTML = seconds + " seconds ago";
+                        }
+                    }
+                </script>
             </div>
             <img class="btn-topic-header-right" src="../assets/images/signet.png" alt="plus">
         </div>

@@ -1,4 +1,4 @@
-{{define "formTopic"}}
+{{define "creationTopic"}}
 <link rel="stylesheet" href="../CSS/formTopic.css">
 <div class="formTopic">
     <form onsubmit="return false" class="create-topic">
@@ -25,13 +25,13 @@
         <h2>Topic Creator</h2>
         <input type="number" name="userid" placeholder="userid">
         <h2>Topic Creation : <p id="create-topic-info"></p></h2>
-        <input type="submit" value="create" onclick="createTopic(this.form.name.value, this.form.description.value, this.form.private.value, this.form.userid.value)" style="font-size: 32px">
+        <input type="submit" value="create" onclick="createTopic(this.form.name.value, this.form.description.value, this.form.private.value, this.form.userid.value, [this.form.tag1.value, this.form.tag2.value, this.form.tag3.value])">
         <p>All the field with * are required</p>
     </form>
 </div>
 
 <script>
-    function createTopic(name, description, private, userid) {
+    function createTopic(name, description, isPrivate, userid, tags) {
         fetch('/topicCreate', {
             method: 'POST',
             headers: {
@@ -40,8 +40,9 @@
             body: JSON.stringify({
                 Title: name,
                 Content: description,
-                Private: JSON.parse(private),
-                UserID: parseInt(userid)
+                Private: JSON.parse(isPrivate),
+                UserID: parseInt(userid),
+                Tags: tags
             })
         })
         .then(response => response.text())

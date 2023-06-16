@@ -37,7 +37,6 @@ func MessagesGet(db *sql.DB, id int) {
 	if err := rows.Err(); err != nil {
 		panic(err.Error())
 	}
-	fmt.Println(messages)
 }
 
 func MessagesGetAllTopic(db *sql.DB, id int) []GetMessage {

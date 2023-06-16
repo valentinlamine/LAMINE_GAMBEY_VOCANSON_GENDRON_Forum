@@ -23,6 +23,11 @@
                 <h1>Popular  Topics</h1>
                 {{ template "topic" .}}
             </div>
+            <script>
+                document.querySelectorAll(".topic-header-info span").forEach(element => {
+                    formatRelativeTime(element);
+                });
+            </script>
         </div>
     </div>
 </body>
