@@ -13,6 +13,15 @@
     font-family: "IBM Plex Sans", sans-serif;
 }
 
+.topic-detail-ctn-content p {
+    margin: 10px;
+    padding: 10px;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 31px;
+    color: #ffffff;
+}
+
 .topic-up-down-ctn {
     display: flex;
     background: #161617;
@@ -20,6 +29,13 @@
     height: 100%;
     flex-direction: column;
     align-items: center;
+}
+
+.topic-up-down-ctn p {
+    color: #D7DADC;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 21px;
 }
 
 .topic-detail-ctn-content {
@@ -37,6 +53,17 @@
 .left-part {
     display: flex;
     align-items: center;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+.left-part h3 {
+    margin-right: 10px;
+}
+
+.left-part h4 {
+    margin-right: 10px;
+    color: #818384;
 }
 
 .user-info-and-text img {
@@ -44,9 +71,6 @@
     height: 30px;
     margin-right: 10px;
 }
-
-
-
 
 .container {
     cursor: pointer;
@@ -80,4 +104,19 @@
 .arrow-ctn.down.selected {
     content: url("/../assets/images/full-arrow-red.png");
     transform: rotate(0deg);
+}
+
+.flag-report-ctn {
+    display: flex;
+    margin-right: 10px;
+    color: #797B7C;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 20px;
+    margin-top: 10px;
+}
+
+.flag-report-ctn img {
+    width: 20px;
+    height: 20px;
 }
