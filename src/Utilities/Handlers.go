@@ -71,6 +71,7 @@ func TopicHandler(w http.ResponseWriter, r *http.Request) {
 					Topic:                TopicsGet(db, topic_id),
 					TopicMessages:        MessagesGetAllTopic(db, topic_id),
 					MessagesInteractions: GetUsersMessagesInteractions(db, user.Id),
+					Tags:                 TagsGetAll(db),
 				}
 
 				tmpl.Execute(w, TopicHandlerData)
@@ -88,6 +89,7 @@ func TopicHandler(w http.ResponseWriter, r *http.Request) {
 		Topic:                TopicsGet(db, topic_id),
 		TopicMessages:        MessagesGetAllTopic(db, topic_id),
 		MessagesInteractions: GetUsersMessagesInteractions(db, 0),
+		Tags:                 TagsGetAll(db),
 	}
 	tmpl.Execute(w, TopicHandlerData)
 }

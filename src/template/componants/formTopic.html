@@ -3,16 +3,30 @@
 <div class="formTopic">
     <form onsubmit="return false" class="create-topic">
         <h1>Create a topic</h1> 
-        <h2>Topic Title (upp to 255 characters)</h2>
+        <h2>Topic Title (up to 255 characters) *</h2>
         <textarea name="name" placeholder="name"></textarea>
+        <h2>Tags</h2>
+        <p>Tags are used to find topics, you can add up to three by topic</p>
+        <div class="tags">
+            <input type="text" name="tag1" placeholder="tag 1">
+            <input type="text" name="tag2" placeholder="tag 2">
+            <input type="text" name="tag3" placeholder="tag 3">
+        </div>
+        <h2>Topic Description</h2>
         <textarea name="description" placeholder="description"></textarea>
-        <input type="radio" id="public" name="private" value="false" checked>
-        <label for="public">Public</label>
-        <input type="radio" id="private" name="private" value="true">
-        <label for="private">Private</label>
+        <h2>Topic Privacy *</h2>
+        <p>Public topics can be seen by anyone, private topics can only be seen by the members of Upit</p>
+        <div class="radio">
+            <input type="radio" id="public" name="private" value="false" checked>
+            <label for="public">Public</label>
+            <input type="radio" id="private" name="private" value="true">
+            <label for="private">Private</label>
+        </div>
+        <h2>Topic Creator</h2>
         <input type="number" name="userid" placeholder="userid">
-        <p id="create-topic-info"></p>
+        <h2>Topic Creation : <p id="create-topic-info"></p></h2>
         <input type="submit" value="create" onclick="createTopic(this.form.name.value, this.form.description.value, this.form.private.value, this.form.userid.value)" style="font-size: 32px">
+        <p>All the field with * are required</p>
     </form>
 </div>
 

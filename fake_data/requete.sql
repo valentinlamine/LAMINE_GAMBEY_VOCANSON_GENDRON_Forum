@@ -414,3 +414,28 @@ SELECT title, p.content, u.username, GROUP_CONCAT(DISTINCT tags.name SEPARATOR "
     WHERE topic_tags.topic_id = 2);
 
 SELECT COUNT(messages.id) FROM messages  JOIN topic ON messages.topic_id=topic.id WHERE topic.id = 2
+
+
+-- récupère la liste de msg d'un topic
+SELECT DISTINCT messages.id, messages.content,messages.creation_date, messages.user_id,messages.topic_id,users.username
+FROM messages 
+INNER JOIN users_messages_interactions ON messages.user_id = users_messages_interactions.user_id
+INNER JOIN users ON messages.user_id = users.id
+WHERE messages.topic_id = 1
+ORDER BY users_messages_interactions.status = "upvote" DESC 
+
+-- récupère le nombre de upvote d'un message
+SELECT COUNT(*) AS nb_upvote_msg
+FROM users_messages_interactions
+WHERE users_messages_interactions.message_id = 2 AND users_messages_interactions.status = "upvote"
+
+-- ajoute à la liste de msg d'un topic le nombre de upvote
+SELECT DISTINCT messages.id, messages.content,messages.creation_date, messages.user_id,messages.topic_id,users.username, (
+    SELECT COUNT(*) AS nb_upvote_msg
+    FROM users_messages_interactions
+    WHERE users_messages_interactions.message_id = messages.id AND users_messages_interactions.status = "upvote") AS nb_upvote_msg
+FROM messages
+INNER JOIN users_messages_interactions ON messages.user_id = users_messages_interactions.user_id
+INNER JOIN users ON messages.user_id = users.id
+WHERE messages.topic_id = 1
+ORDER BY users_messages_interactions.status = "upvote" DESC

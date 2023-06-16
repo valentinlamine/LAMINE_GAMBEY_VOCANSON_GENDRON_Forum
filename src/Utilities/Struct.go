@@ -95,6 +95,8 @@ type GetTopic struct {
 	Creation_date string
 	Nb_views      int
 	User_id       int
+	Tag_id        int
+	Tag_Topic_id  int
 }
 
 type GetRole struct {
@@ -145,7 +147,7 @@ type GetMessage struct {
 	User_id    int
 	Topic_id   int
 	Username   string
-	Upvote     int
+	NbUpvote   int
 }
 
 type GetFile struct {
@@ -159,6 +161,7 @@ type GetTag struct {
 	Id    int
 	Name  string
 	Color string
+	Topic []GetTopic
 }
 
 type Ratio struct {
@@ -196,4 +199,5 @@ type DataTopic struct {
 	Topic                GetTopic
 	TopicMessages        []GetMessage
 	MessagesInteractions []UsersMessagesInteractions
+	Tags                 []GetTag
 }

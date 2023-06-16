@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS messages(
         user_id INT NOT NULL,
         message_id INT NOT NULL,
         status VARCHAR(32) NOT NULL,
-        PRIMARY KEY(user_id, message_id),
+        PRIMARY KEY(user_id, message_id, status),
         FOREIGN KEY(user_id) REFERENCES users(id),
         FOREIGN KEY(message_id) REFERENCES messages(id)
     ) ENGINE = InnoDB;
