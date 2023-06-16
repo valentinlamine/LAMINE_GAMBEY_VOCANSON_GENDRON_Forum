@@ -10,47 +10,43 @@
     display: flex;
     background: #1A1A1B;
     color: #ffffff;
+    font-family: "IBM Plex Sans", sans-serif;
 }
 
 .topic-up-down-ctn {
     display: flex;
-    background: #1A1A1B;
+    background: #161617;
     width: 70px;
     height: 100%;
     flex-direction: column;
     align-items: center;
 }
 
-.topic-img-username-date-ctn {
+.topic-detail-ctn-content {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
     width: 100%;
-    margin-left: 10px;
-    margin-top: 10px;
 }
 
-.topic-detail-ctn-content-info-user {
+.user-info-and-text {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    width: 100%;
 }
 
-.topic-detail-ctn-content-info-user-name {
-    margin-right: 10px;
-}
-
-.topic-detail-ctn-content-info-user-avatar img {
-    width: 25px;
-    height: 25px;
-    margin-right: 10px;
-}
-
-.topic-detail-ctn-content-info-date {
+.left-part {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
 }
+
+.user-info-and-text img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+
+
 
 .container {
     cursor: pointer;
@@ -64,45 +60,24 @@
     height: 100px;
 }
 
+.arrow-ctn.up {
+    transform: rotate(-90deg);
+}
+
+.arrow-ctn.down {
+    transform: rotate(90deg);
+}
+
 .container input {
   display: none;
 }
 
-.img-unchecked.up {
-    transform: rotate(-90deg);
+.arrow-ctn.up.selected {
+    content: url("/../assets/images/full-arrow-green.png");
+    transform: rotate(0deg);
 }
 
-.img-unchecked.down {
-    transform: rotate(90deg);
+.arrow-ctn.down.selected {
+    content: url("/../assets/images/full-arrow-red.png");
+    transform: rotate(0deg);
 }
-
-/* Hide the checked checkbox */
-.img-checked {
-    display: none;
-}
-
-/* If checked, show the checked image */
-.container input:checked ~ .img-checked {
-    display: inline;
-}
-
-/* If checked, hide the unchecked image */
-.container input:checked ~ .img-unchecked {
-    display: none;
-}
-
-.flag-report-ctn {
-    position: absolute;
-    right: 0;
-    display: flex;
-    align-items: center;
-    padding-right: 28px;
-    margin-top: -20px;
-}
-
-.flag, .report {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-}
-

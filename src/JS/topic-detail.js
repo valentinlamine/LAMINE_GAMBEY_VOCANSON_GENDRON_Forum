@@ -1,16 +1,32 @@
-window.onload = function() {
-    let checkbox1 = document.querySelector(".topic-up-vote input[type='checkbox']");
-    let checkbox2 = document.querySelector(".topic-down-vote input[type='checkbox']");
+    window.onload = function() {
+        console.log("loaded")
+        let arrowUp = document.querySelector(".topic-up-down-ctn .arrow-ctn.up");
+        let arrowDown = document.querySelector(".topic-up-down-ctn .arrow-ctn.down");
+        let checkboxUp = document.querySelector(".topic-up-down-ctn input.up");
+        let checkboxDown = document.querySelector(".topic-up-down-ctn input.down");
+        console.log(arrowUp)
+        console.log(arrowDown)
+        console.log(checkboxUp)
+        console.log(checkboxDown)
 
-    checkbox1.addEventListener("change", function() {
-        if(checkbox1.checked && checkbox2.checked) {
-            checkbox2.checked = false;
-        }
-    });
+        checkboxUp.addEventListener("change", function() {
+            if (checkboxUp.checked) {
+                arrowUp.classList.add("selected");
+                checkboxDown.checked = false;
+                arrowDown.classList.remove("selected");
+            } else {
+                arrowUp.classList.remove("selected");
+            }
+        });
 
-    checkbox2.addEventListener("change", function() {
-        if(checkbox1.checked && checkbox2.checked) {
-            checkbox1.checked = false;
-        }
-    });
-}
+        checkboxDown.addEventListener("change", function() {
+            if (checkboxDown.checked) {
+                arrowDown.classList.add("selected");
+                checkboxUp.checked = false;
+                arrowUp.classList.remove("selected")
+            } else {
+                arrowDown.classList.remove("selected");
+            }
+        });
+
+    }
