@@ -1,14 +1,16 @@
 {{define "formTopic"}}
 <link rel="stylesheet" href="../CSS/formTopic.css">
 <div class="formTopic">
-    <form onsubmit="return false" class="create-topic" style="margin-top: 50px;">
-        <textarea name="name" placeholder="name" style="font-size: 32px"></textarea>
-        <textarea name="description" placeholder="description" style="font-size: 32px"></textarea>
+    <form onsubmit="return false" class="create-topic">
+        <h1>Create a topic</h1> 
+        <h2>Topic Title (upp to 255 characters)</h2>
+        <textarea name="name" placeholder="name"></textarea>
+        <textarea name="description" placeholder="description"></textarea>
         <input type="radio" id="public" name="private" value="false" checked>
         <label for="public">Public</label>
         <input type="radio" id="private" name="private" value="true">
         <label for="private">Private</label>
-        <input type="number" name="userid" placeholder="userid" style="font-size: 32px">
+        <input type="number" name="userid" placeholder="userid">
         <p id="create-topic-info"></p>
         <input type="submit" value="create" onclick="createTopic(this.form.name.value, this.form.description.value, this.form.private.value, this.form.userid.value)" style="font-size: 32px">
     </form>

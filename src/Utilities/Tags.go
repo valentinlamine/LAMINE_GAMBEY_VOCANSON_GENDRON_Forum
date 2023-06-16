@@ -38,6 +38,32 @@ func TagsGet(db *sql.DB, id int) {
 	fmt.Println(tags)
 }
 
+func TagsGetAll(db *sql.DB) []GetTag {
+	rows, err := db.Query(`SELECT * FROM tag`)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var tags []GetTag
+	for rows.Next() {
+		var t GetTag
+
+		err := rows.Scan(&t.Id, &t.Name, &t.Color)
+		if err != nil {
+			panic(err.Error())
+		}
+		tags = append(tags, t)
+
+	}
+	if err := rows.Err(); err != nil {
+		panic(err.Error())
+	}
+	fmt.Println(tags)
+	return tags
+}
+
 func TagsUpdate(db *sql.DB, id int, name string, color string) {
 	_, err := db.Exec(`UPDATE tag SET name = ?, color = ? WHERE id = ?`, name, color, id)
 	if err != nil {

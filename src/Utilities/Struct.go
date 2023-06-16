@@ -145,6 +145,7 @@ type GetMessage struct {
 	User_id    int
 	Topic_id   int
 	Username   string
+	Upvote     int
 }
 
 type GetFile struct {
@@ -186,6 +187,7 @@ type TopicSortedDrop struct {
 type Data struct {
 	Data []TopicSortedDrop
 	User string
+	Tags []GetTag
 }
 
 type DataTopic struct {

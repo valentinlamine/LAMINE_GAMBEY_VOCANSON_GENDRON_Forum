@@ -37,6 +37,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 				data = Data{
 					Data: data.GetData(db),
 					User: user.Username,
+					Tags: TagsGetAll(db),
 				}
 				tmpl.Execute(w, data)
 				return
@@ -46,6 +47,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl := generateTemplate("index.html", []string{"template/base/disconnected/index.html", "template/componants/header.html", "template/componants/leftnavbar.html", "template/componants/topic.html"})
 	data = Data{
 		Data: data.GetData(db),
+		Tags: TagsGetAll(db),
 	}
 	tmpl.Execute(w, data)
 }
@@ -103,6 +105,7 @@ func TermsOfServiceHandler(w http.ResponseWriter, r *http.Request) {
 				data = Data{
 					Data: data.GetData(db),
 					User: user.Username,
+					Tags: TagsGetAll(db),
 				}
 				tmpl.Execute(w, data)
 				return
@@ -129,6 +132,7 @@ func PrivacyPolicyHandler(w http.ResponseWriter, r *http.Request) {
 				data = Data{
 					Data: data.GetData(db),
 					User: user.Username,
+					Tags: TagsGetAll(db),
 				}
 				tmpl.Execute(w, data)
 				return

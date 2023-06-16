@@ -5,10 +5,10 @@
 <div class="left-sticky-nav-bar">
     <h2 class="title">Trending tags</h2>
     <div class="trendings-tags">
+        {{range $t := .Tags}}
         <div class="item">
-            
             <div class="title-line" onclick="toggleContent(this)">
-                <h2 class="item-title">Category 1</h2>
+                <h2 class="item-title">{{$t.Name}}</h2>
                 <span id="fleche" class="arrow"><img src="../assets/images/arrow-navbar.png" alt="fleche"></span>
             </div>
             <div class="item-list-topic">
@@ -17,6 +17,7 @@
                 <a href="#">Sub Category 3</a>
             </div>
         </div>
+        {{end}}
     </div>
 </div>
 {{end}}

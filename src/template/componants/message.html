@@ -11,32 +11,27 @@
                 <input type="checkbox" class="up">
                 <img class="up arrow-ctn" src="/../assets/images/arrow.png">
             </label>
-            <p>NbUpvote</p>
+            <p>{{$v.Upvote}}</p>
             <label class="container">
                 <input type="checkbox" class="down">
                 <img class="down arrow-ctn" src="/../assets/images/arrow.png">
             </label>
     </div>
     <div class="topic-detail-ctn-content">
-        <div class="user-info-and-text"> 
-            <div class="topic-detail-ctn-content-info"> <!--Div a supprimer-->
-                <div class="topic-detail-ctn-content-info-user"> <!--Div a supprimer-->
-                    <div class="topic-img-username-date-ctn"> <!--Div a supprimer--> 
-                        <div class="topic-detail-ctn-content-info-user-avatar"> <!--Div a supprimer-->
-                            <img src="../assets/images/topic_icon.png" alt="user-img">
-                        </div>
-                        <div class="topic-detail-ctn-content-info-user-name"> <!--Div a supprimer-->
-                            <h3>Username</h3>
-                        </div>
-                        <div class="topic-detail-ctn-content-info-date"> <!--Div a supprimer-->
-                            <h3>2 days ago</h3>
-                        </div>
-                    </div>
-                </div>
+        <div class="user-info-and-text">
+            <div class="left-part">
+                <img src="/../assets/images/topic_icon.png" alt="user-img">
+                <h3>{{$v.Username}}</h3>
+                <h3>{{$v.Created_at}}</h3>
+            </div>
+            <div class="flag-report-ctn">
+                <img class="flag" src="/../assets/images/report.png" alt="flag">
+                <h4>Report</h4>
             </div>
         </div>
-        <p>Message</p>
+        <p>{{$v.Content}}</p>
     </div>
-    {{$v.Content}}
 </div>
+<script src="/../JS/topic-detail.js"></script>
+{{end}}
 {{end}}
