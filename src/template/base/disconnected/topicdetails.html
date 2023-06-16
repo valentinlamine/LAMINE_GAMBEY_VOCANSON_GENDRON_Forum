@@ -10,7 +10,7 @@
     <title>Upit</title>
 </head>
 <body>
-    <form action="/" method="POST" id="load-log-in-page" style="display: none;">
+    <form action="/topic/{{.}}" method="POST" id="load-log-in-page" style="display: none;">
             <input id="token-input" name="token" class="formulaire">
     </form>
     {{ template "header" .}}

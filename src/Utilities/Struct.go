@@ -96,11 +96,13 @@ type GetUsersAll struct {
 }
 
 type GetTopic struct {
-	Id          int
-	Name        string
-	Description string
-	Private     bool
-	User_id     int
+	Id            int
+	Name          string
+	Description   string
+	Private       bool
+	Creation_date string
+	Nb_views      int
+	User_id       int
 }
 
 type GetRole struct {
@@ -139,10 +141,10 @@ type GetPermission struct {
 type GetMessage struct {
 	Id         int
 	Content    string
-	User_id    int
-	Topic_id   int
 	Created_at string
 	Updated_at string
+	User_id    int
+	Topic_id   int
 }
 
 type GetFile struct {

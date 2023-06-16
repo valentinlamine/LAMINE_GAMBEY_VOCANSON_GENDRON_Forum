@@ -62,7 +62,12 @@ func TopicHandler(w http.ResponseWriter, r *http.Request) {
 				tmpl := generateTemplate("topicdetailsConnect.html", []string{"template/base/connected/topicdetailsConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbar.html", "template/componants/message.html"})
 				vars := mux.Vars(r)
 				id := vars["id"]
-				tmpl.Execute(w, id)
+				TopicHandlerData := TopicHandlerData{
+					Data: id,
+					User: user.Username,
+				}
+
+				tmpl.Execute(w, TopicHandlerData)
 				return
 			}
 		}

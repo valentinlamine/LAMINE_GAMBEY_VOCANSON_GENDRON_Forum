@@ -15,8 +15,8 @@ func TopicsAdd(db *sql.DB, name string, description string, private bool, user_i
 	}
 }
 
-func TopicsGet(db *sql.DB, id int) {
-	rows, err := db.Query(`SELECT topic.id,topic.name,topic.description,topic.private,topic.user_id FROM topic WHERE id = ?`, id)
+func TopicsGet(db *sql.DB, id int) GetTopic {
+	rows, err := db.Query(`SELECT * FROM topic WHERE topic.id = ?`, id)
 
 	if err != nil {
 		panic(err.Error())
@@ -32,7 +32,7 @@ func TopicsGet(db *sql.DB, id int) {
 	for rows.Next() {
 		var t GetTopic
 
-		err := rows.Scan(&t.Id, &t.Name, &t.Description, &t.Private, &t.User_id)
+		err := rows.Scan(&t.Id, &t.Name, &t.Description, &t.Private, &t.Creation_date, &t.Nb_views, &t.User_id)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -43,6 +43,7 @@ func TopicsGet(db *sql.DB, id int) {
 		panic(err.Error())
 	}
 	fmt.Println(topics)
+	return topics[0]
 }
 
 func TopicsGetAll(db *sql.DB) []GetTopic {
