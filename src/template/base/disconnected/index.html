@@ -27,6 +27,10 @@
                 document.querySelectorAll(".topic-header-info span").forEach(element => {
                     formatRelativeTime(element);
                 });
+
+                document.querySelectorAll("item-list-topic a").forEach(element => {
+                    formatEllipsis(element);
+                });
             </script>
         </div>
     </div>

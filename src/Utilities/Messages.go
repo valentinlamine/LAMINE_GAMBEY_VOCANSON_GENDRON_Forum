@@ -5,14 +5,43 @@ import (
 	"fmt"
 )
 
-func MessagesAdd(db *sql.DB, content string, user_id int, topic_id int) {
+func MessagesAdd(db *sql.DB, content string, user_id int, topic_id int) (bool, string, int) {
+	if content == "" {
+		return false, "Content is empty", 0
+	}
+	if user_id == 0 {
+		return false, "User id is empty", 0
+	}
 	if CheckPermission(db, user_id, 8) {
 		_, err := db.Exec(`Insert INTO messages (content,user_id,topic_id) VALUES (?,?,?)`, content, user_id, topic_id)
 		if err != nil {
-			panic(err.Error())
+			return false, err.Error(), 0
 		}
 	}
+	var result int
+	rows, err := db.Query(`SELECT id FROM messages WHERE messages.content = ? ORDER BY messages.creation_date DESC`, content)
+	if err != nil {
+		panic(err.Error())
+	}
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+			panic(err.Error())
+		}
+	}(rows)
+	var message_id int
+	for rows.Next() {
+		err := rows.Scan(&result)
+		if err != nil {
+			panic(err.Error())
+		}
+		message_id = result
 
+	}
+	if err := rows.Err(); err != nil {
+		panic(err.Error())
+	}
+	return true, "message successfully send", message_id
 }
 
 func MessagesGet(db *sql.DB, id int) {

@@ -1,0 +1,35 @@
+{{define "creationMessage"}}
+<link rel="stylesheet" href="../CSS/formTopic.css">
+<div class="formTopic">
+    <form class="create-topic">
+        <h1>Create a message</h1> 
+        <textarea name="content" placeholder="content" rows="5" class="description"></textarea>
+        <input type="number" name="userid" placeholder="userid" value="{{.User.Id}}" style="display: none;">
+        <input type="number" name="topicid" placeholder="topicid" value="{{.Topic.Id}}" style="display: none;">
+        <input type="submit" value="create" onclick="createMessage(this.form.content.value, this.form.userid.value, this.form.topicid.value)">
+    </form>
+</div>
+
+<script>
+    function createMessage(content, userid, topicid) {
+        fetch('/messageCreate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Content: content,
+                UserID: parseInt(userid),
+                TopicID: parseInt(topicid)
+            })
+        })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            document.getElementById("create-topic-info").innerHTML = data;
+        })
+        .catch(error => console.error(error));
+
+    }
+</script>
+{{end}}

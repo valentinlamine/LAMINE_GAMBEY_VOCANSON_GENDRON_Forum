@@ -16,6 +16,19 @@
     padding: 20px 5px;
     position: relative;
     color: #D7DADC;
+    overflow-y: scroll;
+}
+
+.left-sticky-nav-bar::-webkit-scrollbar {
+    width: 3px;
+}
+
+.left-sticky-nav-bar::-webkit-scrollbar-track {
+    background: #1A1A1B;
+}
+
+.left-sticky-nav-bar::-webkit-scrollbar-thumb {
+    background: #303031;
 }
 
 .feed-title {
@@ -98,10 +111,13 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
+    user-select: none;
 }
 
 .arrow {
     margin-left: 5px;
+    
+    cursor: pointer;
 }
 
 .item .item-list-topic {
@@ -122,4 +138,14 @@
     justify-content: flex-start;
     width: 100%;
     text-decoration: none;
+}
+
+.item-topic {
+    display: flex;
+    align-items: center;
+    color: #D7DADC;
+    justify-content: flex-start;
+    text-decoration: none;
+    margin-top: 10px;
+    max-height: 40px;
 }

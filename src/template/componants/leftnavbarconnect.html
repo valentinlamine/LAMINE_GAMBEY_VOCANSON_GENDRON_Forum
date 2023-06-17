@@ -1,3 +1,4 @@
+{{define "leftnavbarconnect"}}
 <link rel="stylesheet" href="../CSS/leftnavbar.css">
 <script src="../JS/leftnavbar.js"></script>
 
@@ -6,25 +7,31 @@
     <div class="feed">
         <div>
             <img src="../assets/images/popular.png" alt="popular">
-            <h2 class="popular-title">Popular</h2>
+            <h2 class="popular-title" style="color: #FF4500;">Popular</h2>
         </div>
         <div>
             <img src="../assets/images/signet-full.png" alt="folowing">
             <h2 class="folowing-title">Following</h2>
         </div>
     </div>
-        <h2 class="title" id="trending-title">Trending tags</h2>
+    <h2 class="title">Trending tags</h2>
     <div class="trendings-tags">
+        {{range $t := .Tags}}
         <div class="item">
             <div class="title-line" onclick="toggleContent(this)">
-                <h2 class="item-title">Category 1</h2>
+                <h2 class="item-title">{{$t.Name}}</h2>
                 <span id="fleche" class="arrow"><img src="../assets/images/arrow-navbar.png" alt="fleche"></span>
             </div>
             <div class="item-list-topic">
-                <a href="#">Sub Category 1</a>
-                <a href="#">Sub Category 2</a>
-                <a href="#">Sub Category 3</a>
+                {{range $e := $t.Topic}}
+                <a href="/topic/{{$e.Id}}" class="item-topic">{{$e.Name}}</a>
+                {{end}}
             </div>
+            <script>
+
+            </script>
         </div>
+        {{end}}
     </div>
 </div>
+{{end}}

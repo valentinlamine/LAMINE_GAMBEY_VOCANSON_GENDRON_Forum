@@ -20,6 +20,10 @@
     align-items: center;
     border-bottom: 1px solid #343536;
     white-space: nowrap;
+    -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+
 }
 
 .img-ctn {
@@ -27,6 +31,10 @@
   overflow: hidden;
   width: 50px;
   height: 50px;
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+
 }
 
 .logo a {
@@ -38,16 +46,28 @@
     justify-content: center;
     align-items: center;
     text-decoration: none;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+
 }
 
 
 .logo img {
     height: 50px;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+     user-select: none; /* Standard syntax */
+
 }
 
 .logo h1 {
     color: #ffffff;
     font-size: 24px;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+
 }
 
 .header-search-box {

@@ -2,36 +2,46 @@
 <link rel="stylesheet" href="../CSS/formTopic.css">
 <div class="formTopic">
     <form onsubmit="return false" class="create-topic">
-        <h1>Create a topic</h1> 
-        <h2>Topic Title (up to 255 characters) *</h2>
-        <textarea name="name" placeholder="name"></textarea>
+        <h1>Create your topic</h1> 
+        <h2>Title of the topic</h2>
+        <p>Choose a title that will be clear and concise <i>(max 255 characters)</i></p>
+        <textarea name="name" placeholder="Title"></textarea>
         <h2>Tags</h2>
         <p>Tags are used to find topics, you can add up to three by topic</p>
         <div class="tags">
-            <input type="text" name="tag1" placeholder="tag 1">
-            <input type="text" name="tag2" placeholder="tag 2">
-            <input type="text" name="tag3" placeholder="tag 3">
+            <input type="text" name="tag1" placeholder="First tag">
+            <input type="text" name="tag2" placeholder="Second tag">
+            <input type="text" name="tag3" placeholder="Third tag">
         </div>
         <h2>Topic Description</h2>
-        <textarea name="description" placeholder="description"></textarea>
-        <h2>Topic Privacy *</h2>
-        <p>Public topics can be seen by anyone, private topics can only be seen by the members of Upit</p>
-        <div class="radio">
-            <input type="radio" id="public" name="private" value="false" checked>
-            <label for="public">Public</label>
-            <input type="radio" id="private" name="private" value="true">
-            <label for="private">Private</label>
+        <p>Describe your topic in a few words</p>
+        <textarea name="description" placeholder="Description" rows="5"></textarea>
+        <div class="checkbox">
+            <div class="text">
+                <h2>Topic Privacy</h2>
+                <p>Public topics can be seen by anyone, private topics can only be seen by the members of Upit</p>
+            </div>
+            <div class="toggle-button">
+                <input type="checkbox" id="private" name="private" value="true">
+                <label for="private"></label>
+            </div>
         </div>
-        <h2>Topic Creator</h2>
-        <input type="number" name="userid" placeholder="userid">
-        <h2>Topic Creation : <p id="create-topic-info"></p></h2>
-        <input type="submit" value="create" onclick="createTopic(this.form.name.value, this.form.description.value, this.form.private.value, this.form.userid.value, [this.form.tag1.value, this.form.tag2.value, this.form.tag3.value])">
-        <p>All the field with * are required</p>
+        <input type="number" name="userid" placeholder="userid" value="{{.User.Id}}" style="display: none;">
+        <p id="create-topic-info"></p>
+        <input type="submit" value="Create topic" onclick="createTopic(this.form.name.value, this.form.description.value, this.form.private.checked, this.form.userid.value, [this.form.tag1.value, this.form.tag2.value, this.form.tag3.value])">
     </form>
 </div>
 
 <script>
     function createTopic(name, description, isPrivate, userid, tags) {
+        for (let i = 0; i < tags.length; i++) {
+            if (tags[i] == '') {
+                tags.splice(i, 1);
+            }
+        }
+        if (tags.length == 0) {
+            tags = null;
+        }
         fetch('/topicCreate', {
             method: 'POST',
             headers: {

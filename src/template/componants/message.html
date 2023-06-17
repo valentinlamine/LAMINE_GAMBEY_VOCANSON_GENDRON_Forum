@@ -8,12 +8,12 @@
 <div class="topic-detail-ctn">
     <div class="topic-up-down-ctn">
             <label class="container">
-                <input type="checkbox" class="up">
+                <input type="checkbox" class="up" onclick="upvote(this)">
                 <img class="up arrow-ctn" src="/../assets/images/arrow.png">
             </label>
             <p>{{$v.NbUpvote}}</p>
             <label class="container">
-                <input type="checkbox" class="down">
+                <input type="checkbox" class="down" onclick="downvote(this)">
                 <img class="down arrow-ctn" src="/../assets/images/arrow.png">
             </label>
     </div>

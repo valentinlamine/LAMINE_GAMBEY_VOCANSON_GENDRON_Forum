@@ -13,9 +13,12 @@
             </div>
             <div class="item-list-topic">
                 {{range $e := $t.Topic}}
-                <a href="/topic/{{$e.Id}}">{{$e.Name}}</a>
+                <a href="/topic/{{$e.Id}}" class="item-topic">{{$e.Name}}</a>
                 {{end}}
             </div>
+            <script>
+
+            </script>
         </div>
         {{end}}
     </div>

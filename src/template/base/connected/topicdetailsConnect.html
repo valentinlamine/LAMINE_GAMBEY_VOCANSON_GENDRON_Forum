@@ -12,12 +12,13 @@
     {{ template "headerConnect" .}}
     <div class="not-header">
         <div class="left-navbar">
-            {{ template "leftnavbar" .}}
+            {{ template "leftnavbarconnect" .}}
         </div>
         <div class="content">
             <h1>{{.Topic.Name}}</h1>
             <h2>{{.Topic.Description}}</h2>
             {{ template "message" .}}
+            {{ template "creationMessage" .}}
         </div>
     </div>
 </body>

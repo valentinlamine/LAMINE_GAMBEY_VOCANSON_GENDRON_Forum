@@ -47,7 +47,7 @@ func TopicsAdd(db *sql.DB, name string, description string, private bool, user_i
 		if err := rows.Err(); err != nil {
 			panic(err.Error())
 		}
-		msg := "Bienvenue dans le topic " + name + " !"
+		msg := "Welcome in the topic : " + name + ", feel free to post anything you want ! \n\nThis is a default message, it is automatically deleted when you post your first message."
 		_, err2 := db.Exec(`INSERT INTO messages (content,topic_id,user_id) VALUES (?,?,?)`, msg, topic_id, user_id)
 		if err2 != nil {
 			panic(err2.Error())
@@ -91,7 +91,7 @@ func TopicsAdd(db *sql.DB, name string, description string, private bool, user_i
 }
 
 func TopicsGet(db *sql.DB, id int) GetTopic {
-	rows, err := db.Query(`SELECT topic.name, topic.description, topic.private, topic.creation_date, topic.nb_views FROM topic WHERE topic.id = ?`, id)
+	rows, err := db.Query(`SELECT topic.id, topic.name, topic.description, topic.private, topic.creation_date, topic.nb_views FROM topic WHERE topic.id = ?`, id)
 
 	if err != nil {
 		panic(err.Error())
@@ -107,7 +107,7 @@ func TopicsGet(db *sql.DB, id int) GetTopic {
 	for rows.Next() {
 		var t GetTopic
 
-		err := rows.Scan(&t.Name, &t.Description, &t.Private, &t.Creation_date, &t.Nb_views)
+		err := rows.Scan(&t.Id, &t.Name, &t.Description, &t.Private, &t.Creation_date, &t.Nb_views)
 		if err != nil {
 			panic(err.Error())
 		}

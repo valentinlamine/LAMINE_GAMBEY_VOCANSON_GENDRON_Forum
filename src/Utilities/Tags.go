@@ -31,6 +31,9 @@ func CreateTag(taglist []string, topic_id int, db *sql.DB) bool {
 	var tags []GetTag = TagsGetAll(db)
 	var exist bool
 	for i := 0; i != len(taglist); i++ {
+		if taglist[i] == "" {
+			continue
+		}
 		exist = false
 		for j := 0; j != len(tags); j++ {
 			if taglist[i] == tags[j].Name {

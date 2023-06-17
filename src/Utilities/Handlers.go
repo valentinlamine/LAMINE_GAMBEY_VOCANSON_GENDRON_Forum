@@ -31,7 +31,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 			Token, _ := strconv.Atoi(token)
 			user = GetUserById(db, Token)
 			if user.Id != 0 { //if user is connected
-				tmpl := generateTemplate("indexConnect.html", []string{"template/base/connected/indexConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbar.html", "template/componants/topic.html"})
+				tmpl := generateTemplate("indexConnect.html", []string{"template/base/connected/indexConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbarconnect.html", "template/componants/topic.html", "template/componants/creationTopic.html"})
 				indexData = IndexData{
 					SortedTopics: indexData.GetData(db),
 					User:         user,
@@ -59,7 +59,7 @@ func TopicHandler(w http.ResponseWriter, r *http.Request) {
 			Token, _ := strconv.Atoi(token)
 			user = GetUserById(db, Token)
 			if user.Id != 0 { //if user is connected
-				tmpl := generateTemplate("topicdetailsConnect.html", []string{"template/base/connected/topicdetailsConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbar.html", "template/componants/message.html"})
+				tmpl := generateTemplate("topicdetailsConnect.html", []string{"template/base/connected/topicdetailsConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbarconnect.html", "template/componants/message.html", "template/componants/creationMessage.html"})
 				vars := mux.Vars(r)
 				tmp := vars["id"]
 				topicId, _ := strconv.Atoi(tmp)
@@ -77,7 +77,7 @@ func TopicHandler(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
-	tmpl := generateTemplate("topicdetails.html", []string{"template/base/disconnected/topicdetails.html", "template/componants/header.html", "template/componants/leftnavbar.html", "template/componants/message.html"})
+	tmpl := generateTemplate("topicdetails.html", []string{"template/base/disconnected/topicdetails.html", "template/componants/header.html", "template/componants/leftnavbar.html", "template/componants/message.html", "template/componants/creationMessage.html"})
 	vars := mux.Vars(r)
 	tmp := vars["id"]
 	topicId, _ := strconv.Atoi(tmp)
@@ -100,7 +100,7 @@ func TermsOfServiceHandler(w http.ResponseWriter, r *http.Request) {
 			Token, _ := strconv.Atoi(token)
 			user = GetUserById(db, Token)
 			if user.Id != 0 { //if user is connected
-				tmpl := generateTemplate("termsofserviceConnect.html", []string{"template/base/connected/termsofserviceConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbar.html"})
+				tmpl := generateTemplate("termsofserviceConnect.html", []string{"template/base/connected/termsofserviceConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbarconnect.html"})
 				indexData = IndexData{
 					SortedTopics: indexData.GetData(db),
 					User:         user,
@@ -127,7 +127,7 @@ func PrivacyPolicyHandler(w http.ResponseWriter, r *http.Request) {
 			Token, _ := strconv.Atoi(token)
 			user = GetUserById(db, Token)
 			if user.Id != 0 { //if user is connected
-				tmpl := generateTemplate("privacypolicyConnect.html", []string{"template/base/connected/privacypolicyConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbar.html"})
+				tmpl := generateTemplate("privacypolicyConnect.html", []string{"template/base/connected/privacypolicyConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbarconnect.html"})
 				indexData = IndexData{
 					SortedTopics: indexData.GetData(db),
 					User:         user,
@@ -154,7 +154,7 @@ func TestHandler(w http.ResponseWriter, r *http.Request) {
 			Token, _ := strconv.Atoi(token)
 			user = GetUserById(db, Token)
 			if user.Id != 0 { //if user is connected
-				tmpl := generateTemplate("testConnect.html", []string{"template/base/connected/testConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbar.html", "template/componants/creationTopic.html"})
+				tmpl := generateTemplate("testConnect.html", []string{"template/base/connected/testConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbarconnect.html", "template/componants/creationTopic.html"})
 				indexData = IndexData{
 					SortedTopics: indexData.GetData(db),
 					User:         user,
@@ -318,6 +318,61 @@ func TopicCreateHandler(w http.ResponseWriter, r *http.Request) {
 			Sucess:  false,
 			Info:    info,
 			TopicId: topic_id,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	}
+}
+
+func MessageCreateHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" { //si la méthode n'est pas POST
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Parse the request body
+	var data struct {
+		Content string `json:"Content"`
+		UserID  int    `json:"UserID"`
+		TopicID int    `json:"TopicID"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	success, info, message_id := MessagesAdd(db, data.Content, data.UserID, data.TopicID)
+	fmt.Println(success, info, message_id)
+	if success {
+		response := struct {
+			Sucess    bool   `json:"success"`
+			Info      string `json:"info"`
+			MessageId int    `json:"message_id"`
+		}{
+			Sucess:    true,
+			Info:      info,
+			MessageId: message_id,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	} else {
+		response := struct {
+			Sucess    bool   `json:"success"`
+			Info      string `json:"info"`
+			MessageId int    `json:"topic_id"`
+		}{
+			Sucess:    false,
+			Info:      info,
+			MessageId: message_id,
 		}
 		jsonResponse, err := json.Marshal(response)
 		if err != nil {
