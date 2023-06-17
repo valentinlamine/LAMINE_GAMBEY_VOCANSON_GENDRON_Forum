@@ -8,6 +8,26 @@ body {
     font-family : 'IBM Plex Sans', sans-serif;
 }
 
+body::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Fond de la scrollbar */
+  body::-webkit-scrollbar-track {
+    background-color: #1a1a1b;
+  }
+  
+  /* Couleur de la poignée (thumb) */
+  body::-webkit-scrollbar-thumb {
+    background-color: #ff4400b7;
+    border-radius: 10px;
+  }
+  
+  /* Couleur de la poignée au survol */
+  body::-webkit-scrollbar-thumb:hover {
+    background-color: #ff4500;
+  }
+
 .not-header {
     display: flex;
     min-height: calc(100vh - 100px);
@@ -40,4 +60,53 @@ body {
     width: 100%;
     height: 100%;
     gap: 20px;
+}
+
+.content ul {
+    list-style-position: inside;
+}
+
+/* Pour les écrans d'ordinateurs */
+@media (max-width: 1200px) {
+  .content {
+      padding: 20px 30px;
+  }
+
+  .left-navbar {
+      width: 100%;
+  }
+
+  .not-header {
+      flex-direction: column;
+  }
+}
+
+/* Pour les écrans de tablettes */
+@media (max-width: 768px) {
+  .content {
+      padding: 20px 20px;
+  }
+
+  .left-navbar {
+      width: 100%;
+  }
+
+  .not-header {
+      flex-direction: column;
+  }
+}
+
+/* Pour les écrans de mobiles */
+@media (max-width: 576px) {
+  .content {
+      padding: 20px 10px;
+  }
+
+  .left-navbar {
+      width: 100%;
+  }
+
+  .not-header {
+      flex-direction: column;
+  }
 }

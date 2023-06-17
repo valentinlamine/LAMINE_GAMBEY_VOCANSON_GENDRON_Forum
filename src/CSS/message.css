@@ -120,3 +120,114 @@
     width: 20px;
     height: 20px;
 }
+
+/* Pour les écrans d'ordinateurs */
+@media (max-width: 1200px) {
+    .topic-detail-ctn-content p {
+        font-size: 20px;
+        line-height: 26px;
+    }
+
+    .topic-up-down-ctn {
+        width: 50px;
+    }
+
+    .topic-up-down-ctn p {
+        font-size: 14px;
+        line-height: 19px;
+    }
+
+    .user-info-and-text img {
+        width: 25px;
+        height: 25px;
+    }
+
+    .arrow-ctn {
+        width: 80px;
+        height: 80px;
+    }
+
+    .flag-report-ctn {
+        font-size: 13px;
+        line-height: 18px;
+    }
+
+    .flag-report-ctn img {
+        width: 15px;
+        height: 15px;
+    }
+}
+
+/* Pour les écrans de tablettes */
+@media (max-width: 768px) {
+    .topic-detail-ctn-content p {
+        font-size: 16px;
+        line-height: 22px;
+    }
+
+    .topic-up-down-ctn {
+        width: 40px;
+    }
+
+    .topic-up-down-ctn p {
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    .user-info-and-text img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .arrow-ctn {
+        width: 60px;
+        height: 60px;
+    }
+
+    .flag-report-ctn {
+        font-size: 11px;
+        line-height: 16px;
+    }
+
+    .flag-report-ctn img {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+/* Pour les écrans de mobiles */
+@media (max-width: 576px) {
+    .topic-detail-ctn-content p {
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .topic-up-down-ctn {
+        width: 30px;
+    }
+
+    .topic-up-down-ctn p {
+        font-size: 10px;
+        line-height: 14px;
+    }
+
+    .user-info-and-text img {
+        width: 15px;
+        height: 15px;
+    }
+
+    .arrow-ctn {
+        width: 50px;
+        height: 50px;
+    }
+
+    .flag-report-ctn {
+        font-size: 9px;
+        line-height: 14px;
+    }
+
+    .flag-report-ctn img {
+        width: 10px;
+        height: 10px;
+    }
+}

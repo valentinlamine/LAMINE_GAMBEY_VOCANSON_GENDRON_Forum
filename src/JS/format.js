@@ -20,54 +20,7 @@ function formatNumber(number) {
 
     view[i].innerHTML = result+" views";
     i++;
-  }
-
-
-
-  function formatDate(dateString) {
-    var currentDate = new Date().toLocaleDateString("fr-FR");
-    var targetDate = new Date(dateString).toLocaleDateString("fr-FR");
-    const date = document.getElementsByClassName("date");
-  
-    currentDate = new Date(currentDate);
-    currentDate.setHours(0);
-    currentDate.setMinutes(0);
-    currentDate.setSeconds(0);
-  
-    targetDate = new Date(targetDate);
-    targetDate.setHours(currentDate.getHours());
-    targetDate.setMinutes(currentDate.getMinutes());
-    targetDate.setSeconds(currentDate.getSeconds());
-  
-
-    var timeDiff = targetDate.getTime() - currentDate.getTime() ;
-
-    timeDiff= -timeDiff;
-    if (timeDiff < 86400000) {
-      var hoursDiff = Math.floor(timeDiff / (1000 * 60 * 60));
-      // console.log(hoursDiff);
-      result = hoursDiff + " hour(s)";
-    }  else if (timeDiff < 86400000) {
-      var hoursDiff = Math.floor(timeDiff / (1000 * 60));
-      result = hoursDiff + " minute(s)";
-    }
-    else if (timeDiff < 86400000) {
-      var secondeDiff = Math.floor(timeDiff / (1000));
-      result = secondeDiff + " second(s)";
-    }else if (timeDiff < 86400000) {
-      var monthsDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 30));
-      result = monthsDiff + " month(s)";
-    }else if (timeDiff < 86400000) {
-      var anneeDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24 * 30 * 12));
-      result = anneeDiff + " year(s)";
-    }else {
-      var daysDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-      result = daysDiff + " day(s)";
-    }
-    date[y].innerHTML = " "+ result+" ago";
-    y++;
-  }
-  
+  }  
 
   function ToggleShowMessages(element,messages){
     for (let i = 0; i < messages.length; i++) {
@@ -75,3 +28,24 @@ function formatNumber(number) {
       element.innerHTML += messages[i].Content + "<br>";
     }
   }
+
+  function formatRelativeTime(element) {
+    const date = new Date(element.innerHTML);
+    date.setHours(date.getHours() - 2);
+    const now = new Date();
+    const diff = now - date;
+    const seconds = Math.floor(diff / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) {
+        element.innerHTML = days + " days ago";
+    } else if (hours > 0) {
+        element.innerHTML = hours + " hours ago";
+    } else if (minutes > 0) {
+        element.innerHTML = minutes + " minutes ago";
+    } else {
+        element.innerHTML = seconds + " seconds ago";
+    }
+}

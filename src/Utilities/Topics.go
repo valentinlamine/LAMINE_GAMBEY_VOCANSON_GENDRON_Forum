@@ -48,7 +48,7 @@ func TopicsAdd(db *sql.DB, name string, description string, private bool, user_i
 			panic(err.Error())
 		}
 		msg := "Welcome in the topic : " + name + ", feel free to post anything you want ! \n\nThis is a default message, it is automatically deleted when you post your first message."
-		_, err2 := db.Exec(`INSERT INTO messages (content,topic_id,user_id) VALUES (?,?,?)`, msg, topic_id, user_id)
+		_, err2 := db.Exec(`INSERT INTO messages (content,topic_id,user_id) VALUES (?,?,?)`, msg, topic_id, 3)
 		if err2 != nil {
 			panic(err2.Error())
 		}

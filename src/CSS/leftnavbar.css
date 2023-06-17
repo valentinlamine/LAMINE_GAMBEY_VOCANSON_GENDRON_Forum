@@ -112,6 +112,7 @@
     align-items: center;
     width: 100%;
     user-select: none;
+    cursor: pointer;
 }
 
 .arrow {
@@ -123,29 +124,87 @@
 .item .item-list-topic {
     display: none;
     justify-content: center;
-    align-items: center;
     flex-direction: column;
-}
-
-.item .item-list-topic .a {
-
 }
 
 .item-list-topic {
     display: flex;
-    align-items: center;
     color: #D7DADC;
     justify-content: flex-start;
     width: 100%;
     text-decoration: none;
+    padding-top: 10px;
+    padding-left: 10px;
 }
 
 .item-topic {
     display: flex;
-    align-items: center;
     color: #D7DADC;
     justify-content: flex-start;
     text-decoration: none;
     margin-top: 10px;
     max-height: 40px;
+}
+
+/* Pour les écrans d'ordinateurs */
+@media (max-width: 1200px) {
+    .feed-title, .title {
+        font-size: 30px;
+    }
+
+    .popular-title, .following-title {
+        font-size: 26px;
+    }
+
+    .feed img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .title-line img {
+        width: 30px;
+        height: 15px;
+    }
+}
+
+/* Pour les écrans de tablettes */
+@media (max-width: 768px) {
+    .feed-title, .title {
+        font-size: 24px;
+    }
+
+    .popular-title, .following-title {
+        font-size: 22px;
+    }
+
+    .feed img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .title-line img {
+        width: 25px;
+        height: 12px;
+    }
+}
+
+/* Pour les écrans de mobiles */
+@media (max-width: 576px) {
+    .feed-title, .title {
+        font-size: 20px;
+    }
+
+    .popular-title, .following-title {
+        font-size: 18px;
+    }
+
+    .feed img {
+        width: 25px;
+        height: 25px;
+    }
+
+    .title-line img {
+        width: 20px;
+        height: 10px;
+    }
 }

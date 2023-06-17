@@ -1,68 +1,90 @@
 {{define "topic"}}
 <link rel="stylesheet" href="../CSS/topic.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="../JS/format.js"></script>
-{{range $v := .SortedTopics}}
-<div class="topic-item">
-    <div class="topic-interactions">
-        <p class="view"></p>
-        <script>formatNumber({{$v.Topic_nb_views}})</script>
-    </div>
-    <div class="topic-right">
-        <div class="topic-header">
-            <div class="topic-header-left">
-                <div class="topic-tag-list">
-                    {{range $t := $v.Tags}}
-                    <div class="topic-tag">
-                        <p style="background-color: {{$t.Color}};">#{{$t.Name}}</p>
+<script src="/../JS/format.js"></script>
+    {{range $v := .SortedTopics}}
+        {{ if $v.Topic_private}}
+            {{ if gt $.User.Id 0}} 
+                <div class="topic-item">
+                    <div class="topic-interactions">
+                        <p class="view"></p>
+                        <script>formatNumber({{$v.Topic_nb_views}})</script>
                     </div>
-                    {{end}}
+                    <div class="topic-right">
+                        <div class="topic-header">
+                            <div class="topic-header-left">
+                                <div class="topic-tag-list">
+                                    {{range $t := $v.Tags}}
+                                    <div class="topic-tag">
+                                        <p style="background-color: {{$t.Color}};">#{{$t.Name}}</p>
+                                    </div>
+                                    {{end}}
+                                </div>
+                                <p class="topic-header-info">Posted by @{{$v.User_username}} | <span>{{$v.Topic_created_at}}</span></p>
+                            </div>
+                            <img class="btn-topic-header-right" src="../assets/images/signet.png" alt="plus">
+                        </div>
+                        <a href="/topic/{{$v.Topic_id}}">
+                            <h1 class="topic-title">{{$v.Topic_name}}</h1>
+                            <p class="topic-description">{{$v.Topic_description}}</p>
+                        </a>
+                        <div class="topic-footer">
+                            <div class="topic-section">
+                                <img src="../assets/images/commentaires.png" alt="commentaires">
+                                <p>{{$v.Nb_messages}} comments</p>
+                            </div>
+                            <div class="topic-section">
+                                <img src="../assets/images/cacher.png" alt="hide">
+                                <p>Hide</p>
+                            </div>
+                            <div class="topic-section">
+                                <img src="../assets/images/report.png" alt="report">
+                                <p>Report</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <p class="topic-header-info">Posted by @{{$v.User_username}} | <span>{{$v.Topic_created_at}}</span></p>
-                <script>
-                    function formatRelativeTime(element) {
-                        const date = new Date(element.innerHTML);
-                        date.setHours(date.getHours() - 2);
-                        const now = new Date();
-                        const diff = now - date;
-                        const seconds = Math.floor(diff / 1000);
-                        const minutes = Math.floor(seconds / 60);
-                        const hours = Math.floor(minutes / 60);
-                        const days = Math.floor(hours / 24);
-
-                        if (days > 0) {
-                            element.innerHTML = days + " days ago";
-                        } else if (hours > 0) {
-                            element.innerHTML = hours + " hours ago";
-                        } else if (minutes > 0) {
-                            element.innerHTML = minutes + " minutes ago";
-                        } else {
-                            element.innerHTML = seconds + " seconds ago";
-                        }
-                    }
-                </script>
+            {{end}}
+        {{else}}
+            <div class="topic-item">
+                <div class="topic-interactions">
+                    <p class="view"></p>
+                    <script>formatNumber({{$v.Topic_nb_views}})</script>
+                </div>
+                <div class="topic-right">
+                    <div class="topic-header">
+                        <div class="topic-header-left">
+                            <div class="topic-tag-list">
+                                {{range $t := $v.Tags}}
+                                <div class="topic-tag">
+                                    <p style="background-color: {{$t.Color}};">#{{$t.Name}}</p>
+                                </div>
+                                {{end}}
+                            </div>
+                            <p class="topic-header-info">Posted by @{{$v.User_username}} | <span>{{$v.Topic_created_at}}</span></p>
+                        </div>
+                        <img class="btn-topic-header-right" src="../assets/images/signet.png" alt="plus">
+                    </div>
+                    <a href="/topic/{{$v.Topic_id}}">
+                        <h1 class="topic-title">{{$v.Topic_name}}</h1>
+                        <p class="topic-description">{{$v.Topic_description}}</p>
+                    </a>
+                    <div class="topic-footer">
+                        <div class="topic-section">
+                            <img src="../assets/images/commentaires.png" alt="commentaires">
+                            <p>{{$v.Nb_messages}} comments</p>
+                        </div>
+                        <div class="topic-section">
+                            <img src="../assets/images/cacher.png" alt="hide">
+                            <p>Hide</p>
+                        </div>
+                        <div class="topic-section">
+                            <img src="../assets/images/report.png" alt="report">
+                            <p>Report</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <img class="btn-topic-header-right" src="../assets/images/signet.png" alt="plus">
-        </div>
-        <a href="/topic/{{$v.Topic_id}}">
-            <h1 class="topic-title">{{$v.Topic_name}}</h1>
-            <p class="topic-description">{{$v.Topic_description}}</p>
-        </a>
-        <div class="topic-footer">
-            <div class="topic-section">
-                <img src="../assets/images/commentaires.png" alt="commentaires">
-                <p>{{$v.Nb_messages}} comments</p>
-            </div>
-            <div class="topic-section">
-                <img src="../assets/images/cacher.png" alt="hide">
-                <p>Hide</p>
-            </div>
-            <div class="topic-section">
-                <img src="../assets/images/report.png" alt="report">
-                <p>Report</p>
-            </div>
-        </div>
-    </div>
-</div>
-{{end}}
+        {{end}}
+    {{end}}
 {{end}}

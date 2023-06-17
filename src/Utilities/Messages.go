@@ -18,26 +18,29 @@ func MessagesAdd(db *sql.DB, content string, user_id int, topic_id int) (bool, s
 			return false, err.Error(), 0
 		}
 	}
-	var AnnieMsgID int
-	AnnieTracker, err2 := db.Query(`SELECT id FROM messages WHERE messages.user_id = 3 AND messages.topic_id = ?`, topic_id)
+	var AnneMsgID int
+	AnneTracker, err2 := db.Query(`SELECT id FROM messages WHERE messages.user_id = 3 AND messages.topic_id = ?`, topic_id)
 	if err2 != nil {
 		panic(err2.Error())
 	}
-	defer func(rAnnieTrackerows *sql.Rows) {
-		err2 := AnnieTracker.Close()
-		if err2 != nil {
-			panic(err2.Error())
+	defer func(AnneTracker *sql.Rows) {
+		err := AnneTracker.Close()
+		if err != nil {
+			panic(err.Error())
 		}
-	}(AnnieTracker)
-	for AnnieTracker.Next() {
-		err2 := AnnieTracker.Scan(&AnnieMsgID)
-		fmt.Println(AnnieMsgID)
-		if err2 != nil {
-			panic(err2.Error())
+	}(AnneTracker)
+	for AnneTracker.Next() {
+		err := AnneTracker.Scan(&AnneMsgID)
+		if err != nil {
+			panic(err.Error())
 		}
-		if AnnieMsgID != 0 {
-			MessagesDelete(db, AnnieMsgID, 1) // remplacer le 1 par un user qui a les perms de suppr et c bon
-		}
+	}
+	if err := AnneTracker.Err(); err != nil {
+		panic(err.Error())
+	}
+	if AnneMsgID != 0 {
+		fmt.Println("Anne is deleting her message", AnneMsgID)
+		MessagesDelete(db, AnneMsgID, 3)
 	}
 
 	var result int
@@ -63,6 +66,7 @@ func MessagesAdd(db *sql.DB, content string, user_id int, topic_id int) (bool, s
 	if err := rows.Err(); err != nil {
 		panic(err.Error())
 	}
+	messageUpvoteDownvote(db, message_id)
 	return true, "message successfully send", message_id
 }
 
@@ -134,7 +138,11 @@ func MessagesUpdate(db *sql.DB, id int, content string, user_id int, topic_id in
 
 func MessagesDelete(db *sql.DB, id int, user_id int) {
 	if CheckPermission(db, user_id, 12) {
-		_, err := db.Exec(`DELETE FROM messages WHERE id = ?`, id)
+		_, err := db.Exec(`DELETE FROM users_messages_interactions WHERE message_id = ?`, id)
+		if err != nil {
+			panic(err.Error())
+		}
+		_, err = db.Exec(`DELETE FROM messages WHERE id = ?`, id)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -194,4 +202,12 @@ func GetUsersMessagesInteractions(db *sql.DB, id int) []UsersMessagesInteraction
 		panic(err.Error())
 	}
 	return interaction
+}
+
+func messageUpvoteDownvote(db *sql.DB, message_id int) {
+	//add one upvote and one downvote to the message
+	_, err := db.Exec(`INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, ?, "upvote"), (3, ?, "downvote")`, message_id, message_id)
+	if err != nil {
+		panic(err.Error())
+	}
 }
