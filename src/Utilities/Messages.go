@@ -18,6 +18,28 @@ func MessagesAdd(db *sql.DB, content string, user_id int, topic_id int) (bool, s
 			return false, err.Error(), 0
 		}
 	}
+	var AnnieMsgID int
+	AnnieTracker, err2 := db.Query(`SELECT id FROM messages WHERE messages.user_id = 3 AND messages.topic_id = ?`, topic_id)
+	if err2 != nil {
+		panic(err2.Error())
+	}
+	defer func(rAnnieTrackerows *sql.Rows) {
+		err2 := AnnieTracker.Close()
+		if err2 != nil {
+			panic(err2.Error())
+		}
+	}(AnnieTracker)
+	for AnnieTracker.Next() {
+		err2 := AnnieTracker.Scan(&AnnieMsgID)
+		fmt.Println(AnnieMsgID)
+		if err2 != nil {
+			panic(err2.Error())
+		}
+		if AnnieMsgID != 0 {
+			MessagesDelete(db, AnnieMsgID, 1) // remplacer le 1 par un user qui a les perms de suppr et c bon
+		}
+	}
+
 	var result int
 	rows, err := db.Query(`SELECT id FROM messages WHERE messages.content = ? ORDER BY messages.creation_date DESC`, content)
 	if err != nil {
