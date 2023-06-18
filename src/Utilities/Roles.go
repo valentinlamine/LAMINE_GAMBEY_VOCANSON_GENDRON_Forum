@@ -12,7 +12,6 @@ func RoleAdd(db *sql.DB, name string, color string, user_id int) {
 			panic(err.Error())
 		}
 	}
-
 }
 
 func RoleGet(db *sql.DB, id int) {
@@ -86,4 +85,11 @@ func RolePermission(db *sql.DB, id int) {
 		panic(err.Error())
 	}
 	fmt.Println(permissions)
+}
+
+func UserAddRole(db *sql.DB, user_id int, role_id int) {
+	_, err := db.Exec(`Insert INTO users_roles (user_id,role_id) VALUES (?,?)`, user_id, role_id)
+	if err != nil {
+		panic(err.Error())
+	}
 }

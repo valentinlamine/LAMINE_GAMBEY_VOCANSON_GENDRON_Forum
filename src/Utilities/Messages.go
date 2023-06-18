@@ -6,6 +6,7 @@ import (
 )
 
 func MessagesAdd(db *sql.DB, content string, user_id int, topic_id int) (bool, string, int) {
+	fmt.Println("message add function")
 	if content == "" {
 		return false, "Content is empty", 0
 	}
@@ -17,30 +18,6 @@ func MessagesAdd(db *sql.DB, content string, user_id int, topic_id int) (bool, s
 		if err != nil {
 			return false, err.Error(), 0
 		}
-	}
-	var AnneMsgID int
-	AnneTracker, err2 := db.Query(`SELECT id FROM messages WHERE messages.user_id = 3 AND messages.topic_id = ?`, topic_id)
-	if err2 != nil {
-		panic(err2.Error())
-	}
-	defer func(AnneTracker *sql.Rows) {
-		err := AnneTracker.Close()
-		if err != nil {
-			panic(err.Error())
-		}
-	}(AnneTracker)
-	for AnneTracker.Next() {
-		err := AnneTracker.Scan(&AnneMsgID)
-		if err != nil {
-			panic(err.Error())
-		}
-	}
-	if err := AnneTracker.Err(); err != nil {
-		panic(err.Error())
-	}
-	if AnneMsgID != 0 {
-		fmt.Println("Anne is deleting her message", AnneMsgID)
-		MessagesDelete(db, AnneMsgID, 3)
 	}
 
 	var result int
@@ -67,6 +44,30 @@ func MessagesAdd(db *sql.DB, content string, user_id int, topic_id int) (bool, s
 		panic(err.Error())
 	}
 	messageUpvoteDownvote(db, message_id)
+	var AnneMsgID int
+	AnneTracker, err2 := db.Query(`SELECT id FROM messages WHERE messages.user_id = 3 AND messages.topic_id = ?`, topic_id)
+	if err2 != nil {
+		panic(err2.Error())
+	}
+	defer func(AnneTracker *sql.Rows) {
+		err := AnneTracker.Close()
+		if err != nil {
+			panic(err.Error())
+		}
+	}(AnneTracker)
+	for AnneTracker.Next() {
+		err := AnneTracker.Scan(&AnneMsgID)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+	if err := AnneTracker.Err(); err != nil {
+		panic(err.Error())
+	}
+	if AnneMsgID != 0 {
+		fmt.Println("Anne is deleting her message", AnneMsgID)
+		MessagesDelete(db, AnneMsgID, 3)
+	}
 	return true, "message successfully send", message_id
 }
 
@@ -136,17 +137,33 @@ func MessagesUpdate(db *sql.DB, id int, content string, user_id int, topic_id in
 	}
 }
 
-func MessagesDelete(db *sql.DB, id int, user_id int) {
+func MessagesDelete(db *sql.DB, message_id int, user_id int) (bool, string) {
 	if CheckPermission(db, user_id, 12) {
-		_, err := db.Exec(`DELETE FROM users_messages_interactions WHERE message_id = ?`, id)
+		_, err := db.Exec(`DELETE FROM users_messages_interactions WHERE message_id = ?`, message_id)
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+			return false, err.Error()
 		}
-		_, err = db.Exec(`DELETE FROM messages WHERE id = ?`, id)
+		_, err = db.Exec(`DELETE FROM messages WHERE id = ?`, message_id)
 		if err != nil {
-			panic(err.Error())
+			fmt.Println(err.Error())
+			return false, err.Error()
 		}
+		return true, "message successfully deleted by an admin"
+	} else if CheckPermission(db, user_id, 10) {
+		_, err := db.Exec(`DELETE FROM users_messages_interactions WHERE message_id = ? AND user_id = ?`, message_id, user_id)
+		if err != nil {
+			fmt.Println(err.Error())
+			return false, err.Error()
+		}
+		_, err = db.Exec(`DELETE FROM messages WHERE id = ?`, message_id)
+		if err != nil {
+			fmt.Println(err.Error())
+			return false, err.Error()
+		}
+		return true, "message successfully deleted by the user"
 	}
+	return false, "you don't have the permission to delete this message"
 }
 
 func MessageFile(db *sql.DB, id int) {
@@ -174,13 +191,11 @@ func MessageFile(db *sql.DB, id int) {
 	fmt.Println(files)
 }
 
-func GetUsersMessagesInteractions(db *sql.DB, id int) []UsersMessagesInteractions {
+func GetUsersMessagesInteractions(db *sql.DB, user_id int) []UsersMessagesInteractions {
 	var rows *sql.Rows
 	var err error
-	if id != 0 {
-		rows, err = db.Query(`SELECT * FROM users_messages_interactions WHERE users_messages_interactions.user_id = ?`, id)
-	} else {
-		rows, err = db.Query(`SELECT * FROM users_messages_interactions`)
+	if user_id != 0 {
+		rows, err = db.Query(`SELECT * FROM users_messages_interactions WHERE users_messages_interactions.user_id = ?`, user_id)
 	}
 	if err != nil {
 		panic(err.Error())
@@ -191,7 +206,7 @@ func GetUsersMessagesInteractions(db *sql.DB, id int) []UsersMessagesInteraction
 	for rows.Next() {
 		var i UsersMessagesInteractions
 
-		err := rows.Scan(&i.User_id, &i.Message_id, &i.Status)
+		err := rows.Scan(&i.UserId, &i.MessageId, &i.Status)
 		if err != nil {
 			panic(err.Error())
 		}
@@ -206,8 +221,37 @@ func GetUsersMessagesInteractions(db *sql.DB, id int) []UsersMessagesInteraction
 
 func messageUpvoteDownvote(db *sql.DB, message_id int) {
 	//add one upvote and one downvote to the message
+	fmt.Println("message upvote downvote message_id", message_id)
 	_, err := db.Exec(`INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, ?, "upvote"), (3, ?, "downvote")`, message_id, message_id)
 	if err != nil {
 		panic(err.Error())
 	}
+}
+
+// MessageInteractions(db, data.Type, data.Status, data.UserID, data.MsgID)
+// type == add or remove
+// status == upvote or downvote or report
+// user_id == user_id
+// msg_id == message_id
+func MessageInteractions(db *sql.DB, requestType string, status string, userId int, msgId int) (bool, string) {
+	if requestType == "add" {
+		if status == "upvote" || status == "downvote" || status == "report" {
+			_, err := db.Exec(`INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (?, ?, ?)`, userId, msgId, status)
+			if err != nil {
+				return false, err.Error()
+			}
+			return true, "Successfully added"
+		}
+		return false, "Error, status not found"
+	} else if requestType == "remove" {
+		if status == "upvote" || status == "downvote" || status == "report" {
+			_, err := db.Exec(`DELETE FROM users_messages_interactions WHERE user_id = ? AND message_id = ? AND status = ?`, userId, msgId, status)
+			if err != nil {
+				return false, err.Error()
+			}
+			return true, "Successfully removed"
+		}
+		return false, "Error, status not found"
+	}
+	return false, "Error, request type not found"
 }

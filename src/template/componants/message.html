@@ -1,37 +1,89 @@
 {{define "message"}}
 <link rel="stylesheet" href="/../CSS/message.css">
 <link rel="stylesheet" href="/../CSS/fonts.css">
+<script src="/../JS/topic-detail.js"></script>
 
-
-{{range $i, $v := .TopicMessages}}
-{{$u := index $.MessagesInteractions $i}}
-<div class="topic-detail-ctn">
-    <div class="topic-up-down-ctn">
-            <label class="container">
-                <input type="checkbox" class="up" onclick="upvote(this)">
-                <img class="up arrow-ctn" src="/../assets/images/arrow.png">
-            </label>
-            <p>{{$v.NbUpvote}}</p>
-            <label class="container">
-                <input type="checkbox" class="down" onclick="downvote(this)">
-                <img class="down arrow-ctn" src="/../assets/images/arrow.png">
-            </label>
-    </div>
-    <div class="topic-detail-ctn-content">
-        <div class="user-info-and-text">
-            <div class="left-part">
-                <img src="/../assets/images/topic_icon.png" alt="user-img">
-                <h3>{{$v.Username}}</h3>
-                <h4>{{$v.Created_at}}</h4>
+{{range $v := .TopicMessages}}
+        <div class="topic-detail-ctn">
+            {{if gt $.User.Id 0}}
+                {{range $i := $.MessagesInteractions}}
+                    {{if eq $i.MessageId $v.Id}}
+                        {{if eq $i.UserId $.User.Id}}
+                            {{if ne $i.Status "report"}}
+                                <div class="topic-up-down-ctn" id="up-down-ctn-{{$v.Id}}" style="display: none;">
+                                    <label class="container">
+                                        {{if eq $i.Status "upvote"}}
+                                            <input type="checkbox" class="up" onclick="upvote(this,{{$.User.Id}} ,{{$v.Id}})" checked>
+                                            <img class="up arrow-ctn selected" src="/../assets/images/arrow.png">
+                                        {{else}}
+                                            <input type="checkbox" class="up" onclick="upvote(this,{{$.User.Id}} ,{{$v.Id}})">
+                                            <img class="up arrow-ctn" src="/../assets/images/arrow.png">
+                                        {{end}}
+                                    </label>
+                                    <p>{{$v.NbUpvote}}</p>
+                                    <label class="container">
+                                        {{if eq $i.Status "downvote"}}
+                                            <input type="checkbox" class="down" onclick="downvote(this,{{$.User.Id}} ,{{$v.Id}})" checked>
+                                            <img class="down arrow-ctn selected" src="/../assets/images/arrow.png">
+                                        {{else}}
+                                            <input type="checkbox" class="down" onclick="downvote(this,{{$.User.Id}} ,{{$v.Id}})">
+                                            <img class="down arrow-ctn" src="/../assets/images/arrow.png">
+                                        {{end}}
+                                    </label>                 
+                                    <script>
+                                        addEventListener("load", function() {
+                                            document.getElementById("up-down-ctn-{{$v.Id}}").nextElementSibling.style.display = "none";
+                                            document.getElementById("up-down-ctn-{{$v.Id}}").style.display = "flex";
+                                        });
+                                    </script>
+                                </div>
+                            {{else}} 
+                                <script>
+                                    addEventListener("load", function() {
+                                        document.getElementById("up-down-ctn-{{$v.Id}}").nextElementSibling.nextElementSibling.children[0].children[1].children[0].children[0].src = "/../assets/images/report-full.png";
+                                        document.getElementById("up-down-ctn-{{$v.Id}}").nextElementSibling.nextElementSibling.children[0].children[1].children[0].children[1].textContent = "Reported";
+                                    });
+                                </script>
+                            {{end}}
+                        {{end}}
+                    {{end}}
+                {{end}}
+            {{end}}
+            <div class="topic-up-down-ctn">
+                <label class="container">
+                    <input type="checkbox" class="up" onclick="upvote(this, {{$.User.Id}} ,{{$v.Id}})">
+                    <img class="up arrow-ctn" src="/../assets/images/arrow.png">
+                </label>
+                <p>{{$v.NbUpvote}}</p>
+                <label class="container">
+                    <input type="checkbox" class="down" onclick="downvote(this, {{$.User.Id}} ,{{$v.Id}})">
+                    <img class="down arrow-ctn" src="/../assets/images/arrow.png">
+                </label>
             </div>
-            <div class="flag-report-ctn">
-                <img class="flag" src="/../assets/images/report.png" alt="flag">
-                <h4>Report</h4>
+            <div class="topic-detail-ctn-content">
+                <div class="user-info-and-text">
+                    <div class="left-part">
+                        <img src="/../assets/images/topic_icon.png" alt="user-img">
+                        <h3>{{$v.Username}}</h3>
+                        <h4>{{$v.Created_at}}</h4>
+                    </div>
+                    {{if gt $.User.Id 0}}
+                        <div class="right-part">
+                            <div class="flag-report-ctn" onclick="report(this, {{$.User.Id}} ,{{$v.Id}})">
+                                <img class="flag" src="/../assets/images/report.png" alt="flag">
+                                <h4>Report</h4>
+                            </div>
+                            {{if eq $v.User_id $.User.Id}}
+                                <div class="flag-report-ctn" onclick="deleteMessage({{$.User.Id}} ,{{$v.Id}})">
+                                    <img class="flag" src="/../assets/images/delete.png" alt="delete">
+                                    <h4>Delete</h4>
+                                </div>
+                            {{end}}
+                        </div>
+                    {{end}}
+                </div>
+                <p>{{$v.Content}}</p>
             </div>
         </div>
-        <p>{{$v.Content}}</p>
-    </div>
-</div>
-<script src="/../JS/topic-detail.js"></script>
-{{end}}
+    {{end}}
 {{end}}

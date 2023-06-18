@@ -31,6 +31,9 @@ func main() {
 	r.HandleFunc("/topicCreate", utilities.TopicCreateHandler).Methods("POST")
 	r.HandleFunc("/topicDelete", utilities.TopicDeleteHandler).Methods("POST")
 	r.HandleFunc("/messageCreate", utilities.MessageCreateHandler).Methods("POST")
+	r.HandleFunc("/messageDelete", utilities.MessageDeleteHandler).Methods("POST")
+	//r.HandleFunc("/messageEdit", utilities.MessageEditHandler).Methods("POST")
+	r.HandleFunc("/messageInteractions", utilities.MessageInteractionsHandler).Methods("POST")
 
 	r.HandleFunc("/bookmarkAdd", utilities.BookmarkAddHandler).Methods("POST")
 	r.HandleFunc("/bookmarkRemove", utilities.BookmarkRemoveHandler).Methods("POST")

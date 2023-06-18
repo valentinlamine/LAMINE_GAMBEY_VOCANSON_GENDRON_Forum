@@ -7,9 +7,13 @@ import (
 )
 
 func UsersAdd(db *sql.DB, email string, username string, password string) error {
-	_, err := db.Exec(`Insert INTO users (email,username,password) VALUES (?,?,?)`, email, username, password)
-	return err
 
+	_, err := db.Exec(`Insert INTO users (email,username,password) VALUES (?,?,?)`, email, username, password)
+	if err == nil {
+		User := UsersGetByEmail(db, email)
+		UserAddRole(db, User.Id, 3)
+	}
+	return err
 }
 
 func UsersGet(db *sql.DB, id int) {

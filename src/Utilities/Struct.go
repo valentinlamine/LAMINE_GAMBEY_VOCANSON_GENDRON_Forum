@@ -106,9 +106,9 @@ type GetRole struct {
 }
 
 type UsersMessagesInteractions struct {
-	User_id    int
-	Message_id int
-	Status     string
+	UserId    int
+	MessageId int
+	Status    string
 }
 
 type RoleUser struct {
