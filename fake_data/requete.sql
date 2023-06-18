@@ -346,7 +346,7 @@ FROM users_followed_topics
 INNER JOIN messages ON users_followed_topics.topic_id = messages.topic_id
 GROUP BY messages.topic_id
 
--- calcul du score
+-- calcul du score (annehid algo)
 SELECT (ratio_upvote_downvote * topic.nb_views) + (nb_follow_du_topic * 10) AS score, messages.topic_id
 FROM messages
 INNER JOIN users_messages_interactions ON messages.id = users_messages_interactions.message_id
@@ -439,3 +439,8 @@ INNER JOIN users_messages_interactions ON messages.user_id = users_messages_inte
 INNER JOIN users ON messages.user_id = users.id
 WHERE messages.topic_id = 1
 ORDER BY users_messages_interactions.status = "upvote" DESC
+
+
+--Delete topic 
+DELETE FROM users_messages_interactions WHERE message_id IN (SELECT id FROM messages WHERE topic_id = 86);
+DELETE FROM topics WHERE id = 86;
