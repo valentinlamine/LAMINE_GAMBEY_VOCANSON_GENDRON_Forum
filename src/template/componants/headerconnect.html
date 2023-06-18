@@ -34,6 +34,9 @@
             <ul>
                 <li><a href="/termsofservice"><img src="../assets/images/terms-of-use-white.png" alt="terms of use logo">Terms of use</a></li>
                 <li><a href="/privacypolicy"><img src="../assets/images/privacy-policy-white.png" alt="privacy policy logo">Privacy Policy</a></li>
+                {{if .IsAdmin}}
+                <li><a href="/admin"><img src="../assets/images/admin-white.png" alt="admin logo">Admin</a></li>
+                {{end}}
                 <li><a onclick="Disconnect()"><img src="../assets/images/logout-white.png" alt="log out logo" id="log-out-img">Disconnect</a></li>
             </ul>
         </nav>

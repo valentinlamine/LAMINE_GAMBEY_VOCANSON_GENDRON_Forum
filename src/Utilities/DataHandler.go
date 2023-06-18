@@ -15,3 +15,13 @@ func (data *IndexData) GetData(db *sql.DB) []TopicSortedDrop {
 	}
 	return data.SortedTopics
 }
+
+func (data *IndexData) GetDataFollowed(db *sql.DB, User_id int) []TopicSortedDrop {
+	data.SortedTopics = []TopicSortedDrop{}
+	var resultAlgoFollowed = GetTopicsSortedFollowed(db, User_id)
+	for i := 0; i != len(resultAlgoFollowed); i++ {
+		data.SortedTopics = append(data.SortedTopics, GetTopicById(db, resultAlgoFollowed[i].Topic_id))
+		data.SortedTopics[i].AllFollowers = GetFollowers(db, resultAlgoFollowed[i].Topic_id)
+	}
+	return data.SortedTopics
+}

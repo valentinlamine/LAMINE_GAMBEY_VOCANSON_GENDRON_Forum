@@ -197,6 +197,7 @@ type IndexData struct {
 	SortedTopics []TopicSortedDrop
 	User         GetUser
 	Tags         []GetTag
+	IsAdmin      bool
 }
 
 type DataTopic struct {
@@ -206,4 +207,5 @@ type DataTopic struct {
 	TopicMessages        []GetMessage
 	MessagesInteractions []UsersMessagesInteractions
 	Tags                 []GetTag
+	IsAdmin              bool
 }

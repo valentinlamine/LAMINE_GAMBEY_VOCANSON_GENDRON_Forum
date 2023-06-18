@@ -253,3 +253,32 @@ func UserMessagesInteractions(db *sql.DB, id int) {
 	}
 	fmt.Println(messages)
 }
+
+func IsAdmin(db *sql.DB, id int) bool {
+	rows, err := db.Query(`SELECT roles.id FROM users_roles INNER JOIN roles ON users_roles.role_id = roles.id WHERE users_roles.user_id = ?`, id)
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var roles []string
+	for rows.Next() {
+		var r string
+
+		err := rows.Scan(&r)
+		if err != nil {
+			log.Fatal(err)
+		}
+		roles = append(roles, r)
+
+	}
+	if err := rows.Err(); err != nil {
+		log.Fatal(err)
+	}
+	for _, role := range roles {
+		if role == "admin" {
+			return true
+		}
+	}
+	return false
+}

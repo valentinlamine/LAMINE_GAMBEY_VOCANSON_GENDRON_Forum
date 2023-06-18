@@ -19,6 +19,8 @@ func main() {
 
 	//handle routing
 	r.HandleFunc("/", utilities.IndexHandler)
+	r.HandleFunc("/following", utilities.FollowedHandler)
+	r.HandleFunc("/admin", utilities.AdminHandler)
 	r.HandleFunc("/topic/{id}", utilities.TopicHandler)
 	r.HandleFunc("/termsofservice", utilities.TermsOfServiceHandler)
 	r.HandleFunc("/privacypolicy", utilities.PrivacyPolicyHandler)

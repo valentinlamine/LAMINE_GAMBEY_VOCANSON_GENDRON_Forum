@@ -36,6 +36,7 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 					SortedTopics: indexData.GetData(db),
 					User:         user,
 					Tags:         TagsGetAll(db),
+					IsAdmin:      true,
 				}
 				tmpl.Execute(w, indexData)
 				return
@@ -50,6 +51,54 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, indexData)
 }
 
+func AdminHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		token := r.FormValue("token")
+		if token != "" {
+			var user GetUser
+			Token, _ := strconv.Atoi(token)
+			user = GetUserById(db, Token)
+			admin := IsAdmin(db, Token)
+			if user.Id != 0 { //if user is connected
+				tmpl := generateTemplate("adminConnect.html", []string{"template/base/connected/adminConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbarconnect.html", "template/componants/topic.html", "template/componants/creationTopic.html"})
+				indexData = IndexData{
+					User:    user,
+					IsAdmin: admin,
+				}
+				tmpl.Execute(w, indexData)
+				return
+			}
+		}
+	}
+	tmpl := generateTemplate("admin.html", []string{"template/base/disconnected/admin.html", "template/componants/header.html", "template/componants/leftnavbar.html", "template/componants/topic.html"})
+	tmpl.Execute(w, indexData)
+}
+
+func FollowedHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method == "POST" {
+		token := r.FormValue("token")
+		if token != "" {
+			var user GetUser
+			Token, _ := strconv.Atoi(token)
+			user = GetUserById(db, Token)
+			admin := IsAdmin(db, Token)
+			if user.Id != 0 { //if user is connected
+				tmpl := generateTemplate("followingConnect.html", []string{"template/base/connected/followingConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbarconnect.html", "template/componants/topic.html", "template/componants/creationTopic.html"})
+				indexData = IndexData{
+					SortedTopics: indexData.GetDataFollowed(db, user.Id),
+					User:         user,
+					Tags:         TagsGetAll(db),
+					IsAdmin:      admin,
+				}
+				tmpl.Execute(w, indexData)
+				return
+			}
+		}
+	}
+	tmpl := generateTemplate("following.html", []string{"template/base/disconnected/following.html", "template/componants/header.html", "template/componants/leftnavbar.html", "template/componants/topic.html"})
+	tmpl.Execute(w, indexData)
+}
+
 func TopicHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("TopicHandler")
 	if r.Method == "POST" {
@@ -58,6 +107,7 @@ func TopicHandler(w http.ResponseWriter, r *http.Request) {
 			var user GetUser
 			Token, _ := strconv.Atoi(token)
 			user = GetUserById(db, Token)
+			admin := IsAdmin(db, Token)
 			if user.Id != 0 {
 				tmpl := generateTemplate("topicdetailsConnect.html", []string{"template/base/connected/topicdetailsConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbarconnect.html", "template/componants/message.html", "template/componants/creationMessage.html"})
 				vars := mux.Vars(r)
@@ -70,6 +120,7 @@ func TopicHandler(w http.ResponseWriter, r *http.Request) {
 					TopicMessages:        MessagesGetAllTopic(db, topicId),
 					MessagesInteractions: GetUsersMessagesInteractions(db, user.Id),
 					Tags:                 TagsGetAll(db),
+					IsAdmin:              admin,
 				}
 				AddView(db, topicId)
 				tmpl.Execute(w, TopicHandlerData)
@@ -98,12 +149,14 @@ func TermsOfServiceHandler(w http.ResponseWriter, r *http.Request) {
 			var user GetUser
 			Token, _ := strconv.Atoi(token)
 			user = GetUserById(db, Token)
+			admin := IsAdmin(db, Token)
 			if user.Id != 0 { //if user is connected
 				tmpl := generateTemplate("termsofserviceConnect.html", []string{"template/base/connected/termsofserviceConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbarconnect.html"})
 				indexData = IndexData{
 					SortedTopics: indexData.GetData(db),
 					User:         user,
 					Tags:         TagsGetAll(db),
+					IsAdmin:      admin,
 				}
 				tmpl.Execute(w, indexData)
 				return
@@ -125,12 +178,14 @@ func PrivacyPolicyHandler(w http.ResponseWriter, r *http.Request) {
 			var user GetUser
 			Token, _ := strconv.Atoi(token)
 			user = GetUserById(db, Token)
+			admin := IsAdmin(db, Token)
 			if user.Id != 0 { //if user is connected
 				tmpl := generateTemplate("privacypolicyConnect.html", []string{"template/base/connected/privacypolicyConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbarconnect.html"})
 				indexData = IndexData{
 					SortedTopics: indexData.GetData(db),
 					User:         user,
 					Tags:         TagsGetAll(db),
+					IsAdmin:      admin,
 				}
 				tmpl.Execute(w, indexData)
 				return

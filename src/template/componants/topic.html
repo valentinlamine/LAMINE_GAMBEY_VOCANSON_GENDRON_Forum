@@ -38,13 +38,9 @@
                                 <img src="../assets/images/commentaires.png" alt="commentaires">
                                 <p>{{$v.Nb_messages}} comments</p>
                             </div>
-                            <div class="topic-section">
+                            <div class="topic-section" onclick="this.parentElement.parentElement.parentElement.style.display = 'none';" style="cursor : pointer;">
                                 <img src="../assets/images/cacher.png" alt="hide">
                                 <p>Hide</p>
-                            </div>
-                            <div class="topic-section">
-                                <img src="../assets/images/report.png" alt="report">
-                                <p>Report</p>
                             </div>
                              {{if eq $.User.Username $v.User_username}}
                                 <div class="topic-section" onclick="deleteTopic({{$v.Topic_id}}, {{$.User.Id}})">
@@ -90,13 +86,9 @@
                             <img src="../assets/images/commentaires.png" alt="commentaires">
                             <p>{{$v.Nb_messages}} comments</p>
                         </div>
-                        <div class="topic-section">
+                        <div class="topic-section" onclick="this.parentElement.parentElement.parentElement.style.display = 'none';" style="cursor : pointer;">
                             <img src="../assets/images/cacher.png" alt="hide">
                             <p>Hide</p>
-                        </div>
-                        <div class="topic-section">
-                            <img src="../assets/images/report.png" alt="report">
-                            <p>Report</p>
                         </div>
                         {{if eq $.User.Username $v.User_username}}
                             <div class="topic-section" onclick="deleteTopic({{$v.Topic_id}}, {{$.User.Id}})">

@@ -18,10 +18,12 @@ func MessagesAdd(db *sql.DB, content string, user_id int, topic_id int) (bool, s
 		if err != nil {
 			return false, err.Error(), 0
 		}
+	} else {
+		return false, "User does not have permission", 0
 	}
-
-	var result int
-	rows, err := db.Query(`SELECT id FROM messages WHERE messages.content = ? ORDER BY messages.creation_date DESC`, content)
+	var message_id int
+	message_id = 0
+	rows, err := db.Query(`SELECT id FROM messages WHERE messages.user_id = ? AND messages.topic_id = ? AND messages.content = ? ORDER BY messages.id DESC LIMIT 1`, user_id, topic_id, content)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -31,19 +33,67 @@ func MessagesAdd(db *sql.DB, content string, user_id int, topic_id int) (bool, s
 			panic(err.Error())
 		}
 	}(rows)
-	var message_id int
 	for rows.Next() {
-		err := rows.Scan(&result)
+		err := rows.Scan(&message_id)
 		if err != nil {
 			panic(err.Error())
 		}
-		message_id = result
-
 	}
 	if err := rows.Err(); err != nil {
 		panic(err.Error())
 	}
+	fmt.Println("message id", message_id)
+	rows2, err2 := db.Query(`SELECT count(*) FROM messages WHERE messages.topic_id = ?`, topic_id)
+	if err2 != nil {
+		panic(err2.Error())
+	}
+	defer func(rows2 *sql.Rows) {
+		err := rows2.Close()
+		if err != nil {
+			panic(err.Error())
+		}
+	}(rows2)
+	var count int
+	for rows2.Next() {
+		err := rows2.Scan(&count)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+	if err := rows2.Err(); err != nil {
+		panic(err.Error())
+	}
+	fmt.Println("count", count)
+	if count > 1 {
+		fmt.Println("count is bigger than 1")
+		rows3, err3 := db.Query(`SELECT count(*) FROM messages WHERE messages.user_id = 3 AND messages.topic_id = ?`, topic_id)
+		if err3 != nil {
+			panic(err3.Error())
+		}
+		defer func(rows3 *sql.Rows) {
+			err := rows3.Close()
+			if err != nil {
+				panic(err.Error())
+			}
+		}(rows3)
+		for rows3.Next() {
+			err := rows3.Scan(&count)
+			if err != nil {
+				panic(err.Error())
+			}
+		}
+		if err := rows3.Err(); err != nil {
+			panic(err.Error())
+		}
+		if count == 1 {
+			DeleteDefaultMessage(db, topic_id)
+		}
+	}
 	messageUpvoteDownvote(db, message_id)
+	return true, "message successfully send", message_id
+}
+
+func DeleteDefaultMessage(db *sql.DB, topic_id int) {
 	var AnneMsgID int
 	AnneTracker, err2 := db.Query(`SELECT id FROM messages WHERE messages.user_id = 3 AND messages.topic_id = ?`, topic_id)
 	if err2 != nil {
@@ -68,7 +118,6 @@ func MessagesAdd(db *sql.DB, content string, user_id int, topic_id int) (bool, s
 		fmt.Println("Anne is deleting her message", AnneMsgID)
 		MessagesDelete(db, AnneMsgID, 3)
 	}
-	return true, "message successfully send", message_id
 }
 
 func MessagesGet(db *sql.DB, id int) {
@@ -96,15 +145,15 @@ func MessagesGet(db *sql.DB, id int) {
 }
 
 func MessagesGetAllTopic(db *sql.DB, id int) []GetMessage {
-	rows, err := db.Query(`SELECT DISTINCT messages.id, messages.content,messages.creation_date, messages.user_id,messages.topic_id,users.username, (
+	rows, err := db.Query(`SELECT messages.id, messages.content, messages.creation_date, messages.user_id, messages.topic_id, users.username, (
 		SELECT COUNT(*) AS NbUpvote
 		FROM users_messages_interactions
-		WHERE users_messages_interactions.message_id = messages.id AND users_messages_interactions.status = "upvote") AS NbUpvote
+		WHERE users_messages_interactions.message_id = messages.id AND users_messages_interactions.status = "upvote"
+	) AS NbUpvote
 	FROM messages
-	INNER JOIN users_messages_interactions ON messages.user_id = users_messages_interactions.user_id
 	INNER JOIN users ON messages.user_id = users.id
 	WHERE messages.topic_id = ?
-	ORDER BY users_messages_interactions.status = "upvote" DESC`, id)
+	ORDER BY NbUpvote DESC`, id)
 
 	if err != nil {
 		panic(err.Error())
@@ -125,6 +174,7 @@ func MessagesGetAllTopic(db *sql.DB, id int) []GetMessage {
 	if err := rows.Err(); err != nil {
 		panic(err.Error())
 	}
+	fmt.Println(messages)
 	return messages
 }
 
@@ -220,19 +270,10 @@ func GetUsersMessagesInteractions(db *sql.DB, user_id int) []UsersMessagesIntera
 }
 
 func messageUpvoteDownvote(db *sql.DB, message_id int) {
-	//add one upvote and one downvote to the message
-	fmt.Println("message upvote downvote message_id", message_id)
-	_, err := db.Exec(`INSERT INTO users_messages_interactions (user_id, message_id, status) VALUES (3, ?, "upvote"), (3, ?, "downvote")`, message_id, message_id)
-	if err != nil {
-		panic(err.Error())
-	}
+	MessageInteractions(db, "add", "upvote", 3, message_id)
+	MessageInteractions(db, "add", "downvote", 3, message_id)
 }
 
-// MessageInteractions(db, data.Type, data.Status, data.UserID, data.MsgID)
-// type == add or remove
-// status == upvote or downvote or report
-// user_id == user_id
-// msg_id == message_id
 func MessageInteractions(db *sql.DB, requestType string, status string, userId int, msgId int) (bool, string) {
 	if requestType == "add" {
 		if status == "upvote" || status == "downvote" || status == "report" {

@@ -61,6 +61,32 @@ func GetTopicsSorted(db *sql.DB) []TopicSorted {
 	return sorted
 }
 
+func GetTopicsSortedFollowed(db *sql.DB, User_id int) []TopicSorted {
+	//get all the topic that are followed by the user
+	rows, err := db.Query(`SELECT topic.id FROM topic
+	INNER JOIN users_followed_topics ON topic.id = users_followed_topics.topic_id
+	WHERE users_followed_topics.user_id = ?;`, User_id)
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer rows.Close()
+
+	var sorted []TopicSorted
+	for rows.Next() {
+		var s TopicSorted
+		err = rows.Scan(&s.Topic_id)
+		if err != nil {
+			fmt.Println(err)
+		}
+		sorted = append(sorted, s)
+
+	}
+	if err := rows.Err(); err != nil {
+		panic(err.Error())
+	}
+	return sorted
+}
+
 func GetTopicById(db *sql.DB, id int) TopicSortedDrop {
 	rows, err := db.Query(`(SELECT topic.creation_date,topic.nb_views,topic.id, topic.name, topic.private, topic.description, users.username
 		FROM topic

@@ -23,7 +23,6 @@ func TopicsAdd(db *sql.DB, name string, description string, private bool, user_i
 				return false, err.Error(), 0
 			}
 		}
-
 		var result int
 		rows, err := db.Query(`SELECT id FROM topic WHERE name = ? `, name)
 		if err != nil {
@@ -47,46 +46,48 @@ func TopicsAdd(db *sql.DB, name string, description string, private bool, user_i
 		if err := rows.Err(); err != nil {
 			panic(err.Error())
 		}
-		msg := "Welcome in the topic : " + name + ", feel free to post anything you want ! \n\nThis is a default message, it is automatically deleted when you post your first message."
-		_, err2 := db.Exec(`INSERT INTO messages (content,topic_id,user_id) VALUES (?,?,?)`, msg, topic_id, 3)
-		if err2 != nil {
-			panic(err2.Error())
-		}
-
-		rows2, err2 := db.Query(`SELECT id FROM messages WHERE topic_id = ? `, topic_id)
-		if err2 != nil {
-			panic(err2.Error())
-		}
-		defer func(rows2 *sql.Rows) {
-			err := rows2.Close()
-			if err != nil {
-				panic(err.Error())
-			}
-		}(rows2)
-		var message_id int
-		for rows2.Next() {
-			err := rows2.Scan(&result)
-			if err != nil {
-				panic(err.Error())
-			}
-			message_id = result
-		}
-		_, err3 := db.Exec(`INSERT INTO users_messages_interactions (user_id,message_id,status) VALUES (3,?,"upvote")`, message_id)
-		if err3 != nil {
-			panic(err3.Error())
-		}
-		_, err4 := db.Exec(`INSERT INTO users_messages_interactions (user_id,message_id,status) VALUES (3,?,"downvote")`, message_id)
-		if err4 != nil {
-			panic(err4.Error())
-		}
-		_, err5 := db.Exec(`INSERT INTO users_followed_topics (user_id,topic_id) VALUES (?,?)`, user_id, topic_id)
-		if err5 != nil {
-			panic(err5.Error())
-		}
-
+		CreateDefaultMessage(db, topic_id, name)
+		BookmarksAdd(db, user_id, topic_id)
 		return true, "Topic added", topic_id
 	} else {
 		return false, "You don't have the permission", 0
+	}
+}
+
+func CreateDefaultMessage(db *sql.DB, topic_id int, name string) {
+	msg := `Welcome in the topic : ` + name + `, feel free to post anything you want ! 
+	This is a default message, it is automatically deleted when you post your first message.`
+	_, err2 := db.Exec(`INSERT INTO messages (content,topic_id,user_id) VALUES (?,?,?)`, msg, topic_id, 3)
+	if err2 != nil {
+		panic(err2.Error())
+	}
+	rows2, err2 := db.Query(`SELECT id FROM messages WHERE topic_id = ? `, topic_id)
+	if err2 != nil {
+		panic(err2.Error())
+	}
+	defer func(rows2 *sql.Rows) {
+		err := rows2.Close()
+		if err != nil {
+			panic(err.Error())
+		}
+	}(rows2)
+	var message_id int
+	for rows2.Next() {
+		err := rows2.Scan(&message_id)
+		if err != nil {
+			panic(err.Error())
+		}
+	}
+	if err := rows2.Err(); err != nil {
+		panic(err.Error())
+	}
+	_, err3 := db.Exec(`INSERT INTO users_messages_interactions (user_id,message_id,status) VALUES (3,?,"upvote")`, message_id)
+	if err3 != nil {
+		panic(err3.Error())
+	}
+	_, err4 := db.Exec(`INSERT INTO users_messages_interactions (user_id,message_id,status) VALUES (3,?,"downvote")`, message_id)
+	if err4 != nil {
+		panic(err4.Error())
 	}
 }
 
