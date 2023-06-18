@@ -164,17 +164,61 @@ func TopicsUpdate(db *sql.DB, id int, name string, description string, private b
 	}
 }
 
-func TopicsDelete(db *sql.DB, topicId int, userId int) {
+func TopicsDelete(db *sql.DB, topicId int, userId int) (bool, string) {
+	/* DELETE FROM users_messages_interactions WHERE message_id IN (SELECT id FROM messages WHERE topic_id = 86);
+	DELETE FROM topics WHERE id = 86; */
+
 	if CheckPermission(db, userId, 20) { //can delete any topic
-		_, err := db.Exec(`DELETE FROM topic WHERE id = ?`, topicId) //delete topic
+		_, err := db.Exec(`DELETE FROM users_messages_interactions WHERE message_id IN (SELECT id FROM messages WHERE topic_id = ?)`, topicId) //delete messages interactions
 		if err != nil {
 			panic(err.Error())
 		}
+		_, err = db.Exec(`DELETE FROM topic WHERE id = ?`, topicId) //delete topic (messages are deleted with cascade)
+		if err != nil {
+			panic(err.Error())
+		}
+		return true, "Topic deleted"
 	} else if CheckPermission(db, userId, 17) { //can delete own topic
-		_, err := db.Exec(`DELETE FROM topic WHERE id = ? AND user_id = ?`, topicId, userId) //delete topic
+		var isOwner bool
+		rows, err := db.Query(`SELECT user_id FROM topic WHERE id = ?`, topicId)
 		if err != nil {
 			panic(err.Error())
 		}
+		defer func(rows *sql.Rows) {
+			err := rows.Close()
+			if err != nil {
+
+			}
+		}(rows)
+		for rows.Next() {
+			var r int
+			err := rows.Scan(&r)
+			if err != nil {
+				panic(err.Error())
+			}
+			if r == userId {
+				isOwner = true
+			}
+		}
+		if err := rows.Err(); err != nil {
+			panic(err.Error())
+		}
+		if isOwner {
+			_, err := db.Exec(`DELETE FROM users_messages_interactions WHERE message_id IN (SELECT id FROM messages WHERE topic_id = ?)`, topicId) //delete messages interactions
+			if err != nil {
+				panic(err.Error())
+			}
+			_, err = db.Exec(`DELETE FROM topic WHERE id = ?`, topicId) //delete topic (messages are deleted with cascade)
+			if err != nil {
+				panic(err.Error())
+			}
+			return true, "Topic deleted"
+		} else {
+			return false, "You don't have the permission"
+		}
+	} else {
+		return false, "You don't have the permission"
+
 	}
 }
 
@@ -206,4 +250,56 @@ func TopicTag(db *sql.DB, id int) {
 		log.Fatal(err)
 	}
 	fmt.Println(roles)
+}
+
+func AddView(db *sql.DB, id int) {
+	_, err := db.Exec(`UPDATE topic SET nb_views = nb_views + 1 WHERE id = ?`, id)
+	if err != nil {
+		panic(err.Error())
+	}
+}
+
+func GetFollowers(db *sql.DB, topic_id int) []GetFollowedTopic {
+	rows, err := db.Query(`SELECT * FROM users_followed_topics WHERE topic_id = ?`, topic_id)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+
+		}
+	}(rows)
+
+	var topics []GetFollowedTopic
+	for rows.Next() {
+		var t GetFollowedTopic
+
+		err := rows.Scan(&t.User_id, &t.Topic_id)
+		if err != nil {
+			panic(err.Error())
+		}
+		topics = append(topics, t)
+	}
+	if err := rows.Err(); err != nil {
+		panic(err.Error())
+	}
+	return topics
+}
+
+func BookmarksAdd(db *sql.DB, user_id int, topic_id int) (bool, string) {
+	_, err := db.Exec(`INSERT INTO users_followed_topics (user_id, topic_id) VALUES (?, ?)`, user_id, topic_id)
+	if err != nil {
+		panic(err.Error())
+	}
+	return true, "Bookmark added"
+}
+
+func BookmarksDelete(db *sql.DB, user_id int, topic_id int) (bool, string) {
+	_, err := db.Exec(`DELETE FROM users_followed_topics WHERE user_id = ? AND topic_id = ?`, user_id, topic_id)
+	if err != nil {
+		panic(err.Error())
+	}
+	return true, "Bookmark deleted"
 }

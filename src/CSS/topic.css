@@ -93,6 +93,9 @@
 .btn-topic-header-right {
     width: 30px;
     height: 30px;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
 
 .topic-title {
@@ -131,7 +134,12 @@
     width: 20px;
     height: 20px;
     margin-right: 10px;
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
 }
+
+
 
 /* Pour les écrans d'ordinateurs */
 @media (max-width: 1200px) {

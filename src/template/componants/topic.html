@@ -22,7 +22,12 @@
                                 </div>
                                 <p class="topic-header-info">Posted by @{{$v.User_username}} | <span>{{$v.Topic_created_at}}</span></p>
                             </div>
-                            <img class="btn-topic-header-right" src="../assets/images/signet.png" alt="plus">
+                            {{range $b := $v.AllFollowers}}
+                                {{if eq $b.User_id $.User.Id}}
+                                    <img class="btn-topic-header-right" src="../assets/images/signet-full.png" alt="plus" onclick="removeBookmark(this, {{$v.Topic_id}}, {{$.User.Id}})" onload="this.nextElementSibling.style.display = 'none'">                
+                                {{end}}
+                            {{end}}
+                            <img class="btn-topic-header-right" src="../assets/images/signet.png" alt="plus" onclick="addBookmark(this, {{$v.Topic_id}}, {{$.User.Id}})">
                         </div>
                         <a href="/topic/{{$v.Topic_id}}">
                             <h1 class="topic-title">{{$v.Topic_name}}</h1>
@@ -41,6 +46,12 @@
                                 <img src="../assets/images/report.png" alt="report">
                                 <p>Report</p>
                             </div>
+                             {{if eq $.User.Username $v.User_username}}
+                                <div class="topic-section" onclick="deleteTopic({{$v.Topic_id}}, {{$.User.Id}})">
+                                    <img src="../assets/images/delete.png" alt="delete">
+                                    <p>Delete</p>
+                                </div>
+                            {{end}}
                         </div>
                     </div>
                 </div>
@@ -63,7 +74,12 @@
                             </div>
                             <p class="topic-header-info">Posted by @{{$v.User_username}} | <span>{{$v.Topic_created_at}}</span></p>
                         </div>
-                        <img class="btn-topic-header-right" src="../assets/images/signet.png" alt="plus">
+                        {{range $b := $v.AllFollowers}}
+                            {{if eq $b.User_id $.User.Id}}
+                                <img class="btn-topic-header-right" src="../assets/images/signet-full.png" alt="plus" onclick="removeBookmark(this, {{$v.Topic_id}}, {{$.User.Id}})" onload="this.nextElementSibling.style.display = 'none'">                
+                            {{end}}
+                        {{end}}
+                        <img class="btn-topic-header-right" src="../assets/images/signet.png" alt="plus" onclick="addBookmark(this, {{$v.Topic_id}}, {{$.User.Id}})">
                     </div>
                     <a href="/topic/{{$v.Topic_id}}">
                         <h1 class="topic-title">{{$v.Topic_name}}</h1>
@@ -82,9 +98,95 @@
                             <img src="../assets/images/report.png" alt="report">
                             <p>Report</p>
                         </div>
+                        {{if eq $.User.Username $v.User_username}}
+                            <div class="topic-section" onclick="deleteTopic({{$v.Topic_id}}, {{$.User.Id}})">
+                                <img src="../assets/images/delete.png" alt="delete">
+                                <p>Delete</p>
+                            </div>
+                        {{end}}
                     </div>
                 </div>
             </div>
         {{end}}
     {{end}}
+<script>
+    function deleteTopic(topicId, userId) {
+        if (confirm("Are you sure you want to delete this topic ?")) {
+            fetch('/topicDelete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    TopicID: topicId,
+                    UserID: userId
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                data = JSON.parse(data);
+                if (data.success) {
+                    window.location.href = "/";
+                } else {
+                    alert(data.info);
+                }
+            })
+            .catch(error => console.error(error));
+        }
+    }
+
+    function addBookmark(element, topicId, userId) {
+        if (element.src.includes("signet-full.png")) {
+            removeBookmark(element, topicId, userId);
+        } else {
+            fetch('/bookmarkAdd', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    TopicID: topicId,
+                    UserID: userId
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                data = JSON.parse(data);
+                if (data.success) {
+                    element.src = "../assets/images/signet-full.png";
+                } else {
+                    alert(data.info);
+                }
+            })
+            .catch(error => console.error(error));
+        }
+    }
+
+    function removeBookmark(element, topicId, userId) {
+        if (element.src.includes("signet-full.png")) {
+            fetch('/bookmarkRemove', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    TopicID: topicId,
+                    UserID: userId
+                })
+            })
+            .then(response => response.text())
+            .then(data => {
+                data = JSON.parse(data);
+                if (data.success) {
+                    element.src = "../assets/images/signet.png";
+                } else {
+                    alert(data.info);
+                }
+            })
+            .catch(error => console.error(error));
+        } else {
+            addBookmark(element, topicId, userId);
+        }
+    }
+</script>
 {{end}}

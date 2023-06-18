@@ -71,7 +71,7 @@ func TopicHandler(w http.ResponseWriter, r *http.Request) {
 					MessagesInteractions: GetUsersMessagesInteractions(db, user.Id),
 					Tags:                 TagsGetAll(db),
 				}
-
+				AddView(db, topicId)
 				tmpl.Execute(w, TopicHandlerData)
 				return
 			}
@@ -171,6 +171,7 @@ func TestHandler(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, indexData)
 }
 
+// API HANDLERS
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "POST" { //si la méthode n'est pas POST
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -311,13 +312,62 @@ func TopicCreateHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write(jsonResponse)
 	} else {
 		response := struct {
-			Sucess  bool   `json:"success"`
+			Success bool   `json:"success"`
 			Info    string `json:"info"`
 			TopicId int    `json:"topic_id"`
 		}{
-			Sucess:  false,
+			Success: false,
 			Info:    info,
 			TopicId: topic_id,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	}
+}
+
+func TopicDeleteHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" { //si la méthode n'est pas POST
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Parse the request body
+	var data struct {
+		TopicID int `json:"TopicID"`
+		UserID  int `json:"UserID"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	success, info := TopicsDelete(db, data.TopicID, data.UserID)
+	if success {
+		response := struct {
+			Sucess bool   `json:"success"`
+			Info   string `json:"info"`
+		}{
+			Sucess: true,
+			Info:   info,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	} else {
+		response := struct {
+			Sucess bool   `json:"success"`
+			Info   string `json:"info"`
+		}{
+			Sucess: false,
+			Info:   info,
 		}
 		jsonResponse, err := json.Marshal(response)
 		if err != nil {
@@ -379,6 +429,108 @@ func MessageCreateHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	}
+}
+
+func BookmarkAddHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" { //si la méthode n'est pas POST
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Parse the request body
+	var data struct {
+		UserID  int `json:"UserID"`
+		TopicID int `json:"TopicID"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	success, info := BookmarksAdd(db, data.UserID, data.TopicID)
+	if success {
+		response := struct {
+			Sucess bool   `json:"success"`
+			Info   string `json:"info"`
+		}{
+			Sucess: true,
+			Info:   info,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		fmt.Println(jsonResponse)
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	} else {
+		response := struct {
+			Sucess bool   `json:"success"`
+			Info   string `json:"info"`
+		}{
+			Sucess: false,
+			Info:   info,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		fmt.Println(jsonResponse)
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	}
+}
+
+func BookmarkRemoveHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" { //si la méthode n'est pas POST
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Parse the request body
+	var data struct {
+		UserID  int `json:"UserID"`
+		TopicID int `json:"TopicID"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	success, info := BookmarksDelete(db, data.UserID, data.TopicID)
+	if success {
+		response := struct {
+			Sucess bool   `json:"success"`
+			Info   string `json:"info"`
+		}{
+			Sucess: true,
+			Info:   info,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		fmt.Println(jsonResponse)
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	} else {
+		response := struct {
+			Sucess bool   `json:"success"`
+			Info   string `json:"info"`
+		}{
+			Sucess: false,
+			Info:   info,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		fmt.Println(jsonResponse)
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(jsonResponse)
 	}

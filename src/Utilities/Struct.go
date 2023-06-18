@@ -185,6 +185,12 @@ type TopicSortedDrop struct {
 	Nb_messages       int
 	Tags              []GetTag
 	All_Messages      []GetMessage
+	AllFollowers      []GetFollowedTopic
+}
+
+type GetFollowedTopic struct {
+	User_id  int
+	Topic_id int
 }
 
 type IndexData struct {
