@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 14, 2023 at 07:31 AM
+-- Generation Time: Jun 18, 2023 at 06:42 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `files` (
   `creation_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `file` mediumblob NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
 -- Dumping data for table `files`
@@ -42,7 +42,8 @@ CREATE TABLE IF NOT EXISTS `files` (
 
 INSERT INTO `files` (`id`, `name`, `creation_date`, `file`) VALUES
 (1, 'test', '2023-06-06 00:07:11', 0x74657374),
-(2, 'test2', '2023-06-06 00:07:11', 0x7465737432);
+(2, 'test2', '2023-06-06 00:07:11', 0x7465737432),
+(4, 'test1', '2023-06-14 15:34:16', 0x7465737431);
 
 -- --------------------------------------------------------
 
@@ -53,7 +54,7 @@ INSERT INTO `files` (`id`, `name`, `creation_date`, `file`) VALUES
 DROP TABLE IF EXISTS `messages`;
 CREATE TABLE IF NOT EXISTS `messages` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `content` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `content` mediumtext CHARACTER SET utf16 COLLATE utf16_bin NOT NULL,
   `creation_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_date` datetime DEFAULT NULL,
   `user_id` int NOT NULL,
@@ -61,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `topic_id` (`topic_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
 -- Dumping data for table `messages`
@@ -78,11 +79,13 @@ INSERT INTO `messages` (`id`, `content`, `creation_date`, `update_date`, `user_i
 (8, 'Je suis d\'accord avec toi, la santé mentale est un sujet important. Je pense que nous devrions tous prendre le temps de nous occuper de notre bien-être et de notre santé mentale.', '2023-06-05 20:45:31', NULL, 1, 3),
 (9, 'La santé mentale et le bien-être sont des éléments essentiels pour une vie équilibrée et épanouissante. Explorez des conseils, des pratiques de bien-être et des approches pour cultiver une bonne santé mentale et un équilibre émotionnel.', '2023-06-05 20:45:31', NULL, 1, 3),
 (10, 'Les jeux vidéo sont un sujet qui me tient à coeur. Je pense que nous devrions tous prendre le temps de nous occuper de notre bien-être et de notre santé mentale.', '2023-06-05 20:45:31', NULL, 1, 4),
-(11, 'Les jeux vidéo sont un univers captivant où l\'imagination prend vie. Découvrez les dernières sorties, des astuces et des recommandations pour vivre des expériences de jeu inoubliables et développer votre passion pour cette forme de divertissement interact', '2023-06-05 20:45:31', NULL, 1, 4),
+(11, 'Les jeux vidéo sont un univers captivant où l\'imagination prend vie. Découvrez les dernières sorties, des astuces et des recommandations pour vivre des expériences de jeu inoubliables et développer votre passion pour cette forme de divertissement interactives !', '2023-06-05 20:45:31', NULL, 1, 4),
 (12, 'Plongez dans l\'univers fascinant des jeux vidéo. Explorez des mondes virtuels, défiez vos compétences, et découvrez les dernières sorties, astuces et recommandations pour vivre des expériences de jeu passionnantes.', '2023-06-05 20:45:31', NULL, 1, 4),
 (13, 'L\'environnement et le changement climatique sont des sujets qui me tiennent à coeur. Je pense que nous devrions tous prendre le temps de nous occuper de notre bien-être et de notre santé mentale.', '2023-06-05 20:45:31', NULL, 1, 5),
 (14, 'L\'environnement et le changement climatique sont des sujets qui me tiennent à coeur. Je pense que nous devrions tous prendre le temps de nous occuper de notre bien-être et de notre santé mentale.', '2023-06-05 20:45:31', NULL, 1, 5),
-(15, 'L\'environnement et le changement climatique sont des sujets qui me tiennent à coeur. Je pense que nous devrions tous prendre le temps de nous occuper de notre bien-être et de notre santé mentale.', '2023-06-05 20:45:31', NULL, 1, 5);
+(15, 'L\'environnement et le changement climatique sont des sujets qui me tiennent à coeur. Je pense que nous devrions tous prendre le temps de nous occuper de notre bien-être et de notre santé mentale.', '2023-06-05 20:45:31', NULL, 1, 5),
+(69, 'Use this: \nfunction formatRelativeTime(element) {\n    const date = new Date(element.innerHTML);\n    date.setHours(date.getHours() - 2);\n    const now = new Date();\n    const diff = now - date;\n    const seconds = Math.floor(diff / 1000);\n    const minutes = Math.floor(seconds / 60);\n    const hours = Math.floor(minutes / 60);\n    const days = Math.floor(hours / 24);\n\n    if (days > 0) {\n        element.innerHTML = days + \" days ago\";\n    } else if (hours > 0) {\n        element.innerHTML = hours + \" hours ago\";\n    } else if (minutes > 0) {\n        element.innerHTML = minutes + \" minutes ago\";\n    } else {\n        element.innerHTML = seconds + \" seconds ago\";\n    }\n}', '2023-06-17 17:06:39', NULL, 1, 71),
+(133, 'Tu le fais pas 😭😭😭', '2023-06-18 18:51:01', NULL, 1, 70);
 
 -- --------------------------------------------------------
 
@@ -116,19 +119,43 @@ INSERT INTO `messages_files` (`message_id`, `file_id`) VALUES
 DROP TABLE IF EXISTS `permissions`;
 CREATE TABLE IF NOT EXISTS `permissions` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
-  `description` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `name` varchar(255) COLLATE latin1_bin NOT NULL,
+  `description` varchar(255) COLLATE latin1_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
 -- Dumping data for table `permissions`
 --
 
 INSERT INTO `permissions` (`id`, `name`, `description`) VALUES
-(1, 'create_topic', ''),
-(2, 'edit_topic', '');
+(1, 'change_own_nickname', 'Allow to change own user nickname'),
+(2, 'change_own_avatar', 'Allow to change own user avatar'),
+(3, 'change_own_description', 'Allow to change own user description'),
+(4, 'change_any_nickname', 'Allow to change any user nickname'),
+(5, 'delete_any_avatar', 'Allow to delete any user avatar'),
+(6, 'delete_any_description', 'Allow to delete any user description'),
+(7, 'delete_user', 'Allow to delete any user'),
+(8, 'send_messages', 'Allow to send messages'),
+(9, 'edit_messages', 'Allow to edit own messages'),
+(10, 'delete_own_messages', 'Allow to delete own messages'),
+(11, 'react_messages', 'Allow to react to any messages'),
+(12, 'delete_any_messages', 'Allow to delete any messages'),
+(13, 'upload_files', 'Allow to upload files'),
+(14, 'download_files', 'Allow to download any files'),
+(15, 'delete_any_files', 'Allow to delete any files'),
+(16, 'create_topics', 'Allow to create topics'),
+(17, 'delete_own_topics', 'Allow to delete own topics'),
+(18, 'edit_own_topics', 'Allow to edit own topics'),
+(19, 'follow_topics', 'Allow to follow topics'),
+(20, 'delete_any_topics', 'Allow to delete any topics'),
+(21, 'edit_any_topics', 'Allow to edit any topics'),
+(22, 'create_roles', 'Allow to create roles'),
+(23, 'delete_roles', 'Allow to delete roles'),
+(24, 'edit_roles', 'Allow to edit roles'),
+(25, 'assign_roles', 'Allow to assign roles'),
+(26, 'unassign_roles', 'Allow to unassign roles');
 
 -- --------------------------------------------------------
 
@@ -139,18 +166,21 @@ INSERT INTO `permissions` (`id`, `name`, `description`) VALUES
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE IF NOT EXISTS `roles` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(32) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
-  `color` varchar(32) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `name` varchar(32) COLLATE latin1_bin NOT NULL,
+  `color` varchar(32) COLLATE latin1_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
 -- Dumping data for table `roles`
 --
 
 INSERT INTO `roles` (`id`, `name`, `color`) VALUES
-(1, 'admin', 'red');
+(1, 'admin', '#e74c3c'),
+(2, 'moderator', '#e67e22'),
+(3, 'user', '#99aab5'),
+(4, 'guest', '#2c2f33');
 
 -- --------------------------------------------------------
 
@@ -172,7 +202,64 @@ CREATE TABLE IF NOT EXISTS `roles_permissions` (
 
 INSERT INTO `roles_permissions` (`role_id`, `permission_id`) VALUES
 (1, 1),
-(1, 2);
+(2, 1),
+(3, 1),
+(1, 2),
+(2, 2),
+(3, 2),
+(1, 3),
+(2, 3),
+(3, 3),
+(1, 4),
+(2, 4),
+(1, 5),
+(2, 5),
+(1, 6),
+(2, 6),
+(1, 7),
+(1, 8),
+(2, 8),
+(3, 8),
+(1, 9),
+(2, 9),
+(3, 9),
+(1, 10),
+(2, 10),
+(3, 10),
+(1, 11),
+(2, 11),
+(3, 11),
+(1, 12),
+(2, 12),
+(1, 13),
+(2, 13),
+(3, 13),
+(1, 14),
+(2, 14),
+(3, 14),
+(1, 15),
+(3, 15),
+(1, 16),
+(2, 16),
+(3, 16),
+(1, 17),
+(2, 17),
+(3, 17),
+(1, 18),
+(2, 18),
+(3, 18),
+(1, 19),
+(2, 19),
+(3, 19),
+(1, 20),
+(2, 20),
+(1, 21),
+(2, 21),
+(1, 22),
+(1, 23),
+(1, 24),
+(1, 25),
+(1, 26);
 
 -- --------------------------------------------------------
 
@@ -187,19 +274,26 @@ CREATE TABLE IF NOT EXISTS `tag` (
   `color` varchar(32) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
 -- Dumping data for table `tag`
 --
 
 INSERT INTO `tag` (`id`, `name`, `color`) VALUES
-(1, 'IA', '#FF0000'),
-(2, 'Voyage', '#0000FF'),
-(3, 'Tourisme', '#0000FF'),
-(4, 'Santé mentale', '#00FF00'),
-(5, 'Bien-être', '#00FF00'),
-(6, 'Jeux vidéo', '#FFFF00');
+(1, 'IA', '#312876'),
+(2, 'Voyage', '#765728'),
+(3, 'Tourisme', '#452876'),
+(4, 'Santé mentale', '#764928'),
+(5, 'Bien-être', '#5F2876'),
+(6, 'Jeux vidéo', '#762853'),
+(13, 'developer', '#337628'),
+(14, 'golang', '#286576'),
+(15, 'mux', '#28763A'),
+(16, 'web', '#764228'),
+(17, 'javascript', '#762876'),
+(24, 'aza', '#752848'),
+(25, 'az', '#752867');
 
 -- --------------------------------------------------------
 
@@ -210,27 +304,30 @@ INSERT INTO `tag` (`id`, `name`, `color`) VALUES
 DROP TABLE IF EXISTS `topic`;
 CREATE TABLE IF NOT EXISTS `topic` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
-  `description` varchar(255) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
+  `name` varchar(255) CHARACTER SET utf16 COLLATE utf16_bin NOT NULL,
+  `description` mediumtext CHARACTER SET utf16 COLLATE utf16_bin,
   `private` tinyint(1) NOT NULL DEFAULT '0',
   `creation_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `nb_views` int NOT NULL DEFAULT '0',
+  `nb_views` int NOT NULL DEFAULT '1',
   `user_id` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
 -- Dumping data for table `topic`
 --
 
 INSERT INTO `topic` (`id`, `name`, `description`, `private`, `creation_date`, `nb_views`, `user_id`) VALUES
-(1, 'L\'intelligence artificielle et son impact sur la société', 'L\'intelligence artificielle (IA) a émergé comme une force puissante et révolutionnaire dans notre société moderne, remodelant progressivement la façon dont nous vivons, travaillons et interagissons les uns avec les autres. Cette fusion de la technologie e', 0, '2023-06-05 20:45:07', 450000, 1),
-(2, 'Les voyages et le tourisme', '', 0, '2023-06-05 20:45:07', 2700000, 1),
-(3, 'La santé mentale et le bien-être', '', 0, '2023-06-05 20:45:07', 2147483647, 1),
-(4, 'Les jeux vidéo', '', 0, '2023-06-05 20:45:07', 456, 1),
-(5, 'L\'environnement et le changement climatique', '', 0, '2023-06-05 20:45:07', 12, 1);
+(1, 'L\'intelligence artificielle et son impact sur la société', ' L\'intelligence artificielle a un impact profond sur la société, automatisant des tâches, transformant l\'emploi et influençant notre vie quotidienne. Elle soulève des questions sur la confidentialité des données et l\'autonomie individuelle, tout en offrant des possibilités dans la santé et les sciences.', 0, '2023-06-05 20:45:07', 93, 1),
+(2, 'Les voyages et le tourisme', 'Les voyages et le tourisme sont des activités qui impliquent de se déplacer et d\'explorer de nouveaux endroits à des fins de loisirs, de détente, de découverte culturelle ou de divertissement. Ces activités ont un impact significatif sur les individus, les communautés et les économies. Les voyages permettent de découvrir de nouvelles cultures, de rencontrer des personnes différentes et d\'élargir nos horizons. Ils contribuent également au développement économique en créant des emplois dans l\'industrie du tourisme et en stimulant les dépenses locales. Cependant, le tourisme de masse peut avoir des conséquences néfastes, telles que la surpopulation, la dégradation de l\'environnement et la perte de la culture locale. Il est donc essentiel de promouvoir un tourisme durable et responsable, respectant à la fois les destinations et les communautés visitées.', 0, '2023-06-05 20:45:07', 133, 1),
+(3, 'La santé mentale et le bien-être', 'La santé mentale et le bien-être sont des aspects essentiels de notre vie quotidienne. Ils se réfèrent à notre état émotionnel, psychologique et social, ainsi qu\'à notre capacité à faire face aux défis et à trouver un équilibre dans nos vies. La santé mentale et le bien-être sont cruciaux pour notre bonheur et notre qualité de vie. Ils peuvent être influencés par de nombreux facteurs tels que le stress, les relations interpersonnelles, l\'environnement, les habitudes de vie et les ressources disponibles pour obtenir un soutien. Il est important de promouvoir une prise de conscience et une compréhension accrues de la santé mentale, de lutter contre la stigmatisation associée aux troubles mentaux et de fournir un accès adéquat aux soins et aux ressources nécessaires pour favoriser le bien-être général.', 0, '2023-06-05 20:45:07', 51, 1),
+(4, 'Les jeux vidéo', 'Les jeux vidéo sont des formes de divertissement interactives qui impliquent l\'utilisation d\'appareils électroniques pour jouer à des jeux virtuels. Ils sont devenus une industrie majeure avec une base de fans mondiale. Les jeux vidéo offrent une expérience immersive, stimulante et divertissante, permettant aux joueurs de s\'engager dans des mondes virtuels, de relever des défis et d\'interagir avec d\'autres joueurs. Ils peuvent être joués sur une variété de plateformes, des consoles de jeux aux ordinateurs et aux appareils mobiles. Cependant, l\'utilisation excessive ou addictive des jeux vidéo peut avoir des conséquences négatives sur la santé mentale, les habitudes de vie et les relations interpersonnelles. Il est donc essentiel de promouvoir une utilisation responsable des jeux vidéo en équilibrant le temps passé devant l\'écran avec d\'autres activités, en établissant des limites et en favorisant une approche saine et équilibrée du jeu.', 0, '2023-06-05 20:45:07', 632, 1),
+(5, 'L\'environnement et le changement climatique', 'Le changement climatique menace notre environnement et notre survie. Nous devons agir rapidement pour réduire les émissions de gaz à effet de serre et promouvoir des pratiques durables afin de protéger notre planète.', 0, '2023-06-05 20:45:07', 12, 1),
+(70, 'Comment faire le routage avec mux ?', 'Bonjour, je suis actuellement en train d\'essayer de développer un site avec du Golang en backend (ne me demandez pas pourquoi 😭), et j\'ai un problème j\'essaye de faire mon routage pour le /topic/{id} sauf que le routage ne fonctionne pas, quelqu\'un aurait une idée de pourquoi ?', 0, '2023-06-16 22:21:05', 12, 1),
+(71, 'How to format date in JS', 'I\'m currently trying to transform my SQL date format : \n2023-06-16 22:21:05 +0000 UTC\nto a more cooler format like 2 days ago or 27 minutes ago.\nAnyone know how can i do this ?', 0, '2023-06-16 22:49:27', 7, 1),
+(85, 'How do i make a not equal if with go template web', 'I\'m currently trying to make an if statement in html template with golang, you know with the {{if .Value}}\nBut i don\'t know how can i can i make an not equal statement, I\'ve tried != but it doesn\'t work, any idea ?', 1, '2023-06-17 16:02:30', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -257,7 +354,18 @@ INSERT INTO `topic_tags` (`topic_id`, `tag_id`) VALUES
 (2, 3),
 (3, 4),
 (3, 5),
-(4, 6);
+(4, 6),
+(70, 13),
+(71, 13),
+(85, 13),
+(70, 14),
+(85, 14),
+(70, 15),
+(71, 16),
+(85, 16),
+(71, 17),
+(92, 24),
+(92, 25);
 
 -- --------------------------------------------------------
 
@@ -278,16 +386,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=796 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=804 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `username`, `register_date`, `description`, `birth_date`, `profile_picture`) VALUES
-(1, 'Valentinlamine@proton.me', '$2a$10$fYTlIiwld9bLV7zLAh/E4e1DgqYKGN4k3ISAQZ2ll3OFYq44khUeq', 'Valouz', '2023-06-05 20:44:20', NULL, '1984-06-09', NULL),
+(1, 'valentinlamine@proton.me', '$2a$10$fYTlIiwld9bLV7zLAh/E4e1DgqYKGN4k3ISAQZ2ll3OFYq44khUeq', 'Valouz', '2023-06-05 20:44:20', NULL, '1984-06-09', NULL),
 (2, 'mistersquare7@gmail.com', '$2a$10$fYTlIiwld9bLV7zLAh/E4e1DgqYKGN4k3ISAQZ2ll3OFYq44khUeq', 'Mistersquare7', '2023-06-05 20:44:20', NULL, '1993-10-30', NULL),
-(3, 'valentinlamine@proton.me', '$2a$10$fYTlIiwld9bLV7zLAh/E4e1DgqYKGN4k3ISAQZ2ll3OFYq44khUeq', 'Valou', '2023-06-05 20:47:57', NULL, NULL, NULL),
+(3, 'Bot@bot.com', '$2a$10$fYTlIiwld9bLV7zLAh/E4e1DgqYKGN4k3ISAQZ2ll3OFYq44khUeq', 'AnnehidAlgo', '2023-06-13 16:38:27', NULL, '1999-10-19', NULL),
 (4, 'Mariah77@hotmail.com', '$2a$10$fYTlIiwld9bLV7zLAh/E4e1DgqYKGN4k3ISAQZ2ll3OFYq44khUeq', 'XanderSipes', '2023-06-05 20:44:20', NULL, '1999-10-05', NULL),
 (5, 'Cary_Davis67@yahoo.com', '$2a$10$fYTlIiwld9bLV7zLAh/E4e1DgqYKGN4k3ISAQZ2ll3OFYq44khUeq', 'LilyanBoyle17', '2023-06-05 20:44:20', NULL, '1999-07-22', NULL),
 (6, 'Rogers_Maggio93@hotmail.com', '$2a$10$fYTlIiwld9bLV7zLAh/E4e1DgqYKGN4k3ISAQZ2ll3OFYq44khUeq', 'JonathanMosciski', '2023-06-05 20:44:20', NULL, '1991-09-22', NULL),
@@ -295,7 +403,6 @@ INSERT INTO `users` (`id`, `email`, `password`, `username`, `register_date`, `de
 (8, 'Macey.Heathcote61@gmail.com', '$2a$10$fYTlIiwld9bLV7zLAh/E4e1DgqYKGN4k3ISAQZ2ll3OFYq44khUeq', 'Ollie33', '2023-06-05 20:44:20', NULL, '1996-12-12', NULL),
 (9, 'Clair_Rippin@yahoo.com', '$2a$10$fYTlIiwld9bLV7zLAh/E4e1DgqYKGN4k3ISAQZ2ll3OFYq44khUeq', 'Jovani35', '2023-06-05 20:44:20', NULL, '1998-11-30', NULL),
 (10, 'Sandrine_Greenfelder89@gmail.com', '$2a$10$fYTlIiwld9bLV7zLAh/E4e1DgqYKGN4k3ISAQZ2ll3OFYq44khUeq', 'KenyaBlick76', '2023-06-05 20:44:20', NULL, '1987-10-30', NULL),
-(410, 'Velva.Flatley51@yahoo.com', '$2a$10$YMpQ3IcxHdqKsevwvCNYNu/J9Lta1KLgSBttETcqsy4f7ozUsR3G6', 'CristalKlein13', '2023-06-13 16:38:27', NULL, '1999-10-19', NULL),
 (411, 'Chad85@yahoo.com', '$2a$10$8tQaperV68NNk.lXooYB4egc8BnSS7aitKsYyNovncDkWDhhuilqS', 'Wilma73', '2023-06-13 16:38:27', NULL, '1991-05-02', NULL),
 (412, 'Barton62@gmail.com', '$2a$10$2YRgrm6LAnETTtl3Utz06eJDx0q9mYCag1fhQhGLrQifhEK3HzTgq', 'Modesta75', '2023-06-13 16:38:27', NULL, '1995-12-09', NULL),
 (413, 'Kody.Fahey76@gmail.com', '$2a$10$Tt4iH25HWL.SePBBMpalVOuB2Se9lvkuJml/zNL369Q5Pil2tggIW', 'MichaelDouglas66', '2023-06-13 16:38:27', NULL, '1985-07-07', NULL),
@@ -595,9 +702,9 @@ INSERT INTO `users` (`id`, `email`, `password`, `username`, `register_date`, `de
 (707, 'Adrian.Grady@yahoo.com', '$2a$10$PB4CPrwsa4e57qtVYSvG8u3F1/stivRfkhVUIfNgr/zxBfen2aRYa', 'Henderson24', '2023-06-13 16:38:28', NULL, '1988-07-25', NULL),
 (708, 'Garrett_Russel29@hotmail.com', '$2a$10$UwhOgWf6FbIqH7g0uZyJgeM7AuR2WImOZreR7la7EgU0IfdShK5Sy', 'Deondre24', '2023-06-13 16:38:28', NULL, '1996-04-30', NULL),
 (709, 'Itzel.Ritchie@gmail.com', '$2a$10$1/mJQbhfvkhE7YR1NJb/Vu.4.U8T3L31W08CyYBhnSlFdheT2.cW2', 'Luis10', '2023-06-13 16:38:28', NULL, '1998-03-14', NULL),
-(710, 'Makenna9@gmail.com', '$2a$10$Px.g4JG07IeHO6CNBQMHcObqc.ES8qEqoxi4bpl4OEOOQwP40Itoy', 'GregoryMonahan', '2023-06-13 16:38:28', NULL, '1999-10-26', NULL);
+(710, 'Makenna9@gmail.com', '$2a$10$Px.g4JG07IeHO6CNBQMHcObqc.ES8qEqoxi4bpl4OEOOQwP40Itoy', 'GregoryMonahan', '2023-06-13 16:38:28', NULL, '1999-10-26', NULL),
+(711, 'Anahi_Johnston92@yahoo.com', '$2a$10$/qOmWPPwG/G61eo5/JBkeelvXWAJ.sUUTwkbHYlZ7u2vO9KymuThW', 'JazmynSchultz', '2023-06-13 16:38:28', NULL, '1998-06-27', NULL);
 INSERT INTO `users` (`id`, `email`, `password`, `username`, `register_date`, `description`, `birth_date`, `profile_picture`) VALUES
-(711, 'Anahi_Johnston92@yahoo.com', '$2a$10$/qOmWPPwG/G61eo5/JBkeelvXWAJ.sUUTwkbHYlZ7u2vO9KymuThW', 'JazmynSchultz', '2023-06-13 16:38:28', NULL, '1998-06-27', NULL),
 (712, 'Bradly.Turcotte88@hotmail.com', '$2a$10$nhKAzfxFVlszH1Cs.vSxLup.61PHNNapAlgwsEZbbyBAPMwMWyqva', 'JoyceHuels67', '2023-06-13 16:38:28', NULL, '1994-07-24', NULL),
 (713, 'Giovanna67@yahoo.com', '$2a$10$J3hSHCHWlXhCNUrrnpszW.VXv.WuPerb21s0uSN5Uu5D1lxVPgHdG', 'CeciliaDouglas72', '2023-06-13 16:38:28', NULL, '1996-06-23', NULL),
 (714, 'Lucious_Kautzer0@yahoo.com', '$2a$10$r896bIxoUiihLmBkLDd09OC.6pPYbwlG9JyocaCSS2BvbpEXV68AC', 'KyleQuigley27', '2023-06-13 16:38:28', NULL, '1986-05-07', NULL),
@@ -681,7 +788,14 @@ INSERT INTO `users` (`id`, `email`, `password`, `username`, `register_date`, `de
 (792, 'Janet.Keebler87@yahoo.com', '$2a$10$dDWefpv6bRQlwvAMzG.c6ueyJvKFOGd5SIme0ROzqied6WNnFzmn6', 'HalleLebsack', '2023-06-13 16:38:28', NULL, '1999-03-06', NULL),
 (793, 'Rod_Becker@yahoo.com', '$2a$10$YZcTq0/6sE3Pel.abrQPyOEw3maTuwQoiTm46g2QFohahwkcOuXb6', 'LeonardBednar62', '2023-06-13 16:38:28', NULL, '1992-06-17', NULL),
 (794, 'Elliot61@hotmail.com', '$2a$10$kvFCJKWeb1C0f7s5zlllbeMlhJ97V..V9AWTwZM0hvtdKXeLkG6xG', 'Velma6', '2023-06-13 16:38:28', NULL, '1994-04-27', NULL),
-(795, 'noa@noa.com', '$2a$10$ji2sBJMBrD10EvUL2Zt.LuMi1GE7bG0da0fhrbDeRpJHTN4TfTI1.', 'noa', '2023-06-13 16:46:57', NULL, NULL, NULL);
+(795, 'noa@noa.com', '$2a$10$ji2sBJMBrD10EvUL2Zt.LuMi1GE7bG0da0fhrbDeRpJHTN4TfTI1.', 'noa', '2023-06-13 16:46:57', NULL, NULL, NULL),
+(796, 'test250@gmail.com', '$2a$10$kvwKsNrvKJbgAcSflNcIf.APFNIHt2Xd8zRXklOqMbQ7c6XvfiWM.', 'test250', '2023-06-15 11:49:23', NULL, NULL, NULL),
+(797, 'test500@gmail.com', '$2a$10$eFQc0Ybvwloz/9069ZXGpOrrtsTbegq5M6SIpnBCGdy.kaZI83okK', 'test500', '2023-06-15 12:01:29', NULL, NULL, NULL),
+(799, 'test800@gmail.com', '$2a$10$eT7.U6GFwHY/zUGbtfZSq.IVo8gEV.GQP8YQVDppYrwRu3xghpVHK', 'test800', '2023-06-15 15:17:27', NULL, NULL, NULL),
+(800, 'perso@valentinlamine.fr', '$2a$10$1uVDEbliie0fJbkHQjNUzer.THWyQ7aug.720QJUrxisWOjr9RH2O', 'ValouzVersionUserSansPerm', '2023-06-18 09:46:37', NULL, NULL, NULL),
+(801, 'ratio@valentinlamine.fr', '$2a$10$EUs55TkPWhvBIIyl.IE3Je25pCMvt9.Tm7fUp5ckis9OH7Ofuqt5O', 'Leratioenpersonne', '2023-06-18 15:49:37', NULL, NULL, NULL),
+(802, 'test200@gmail.com', '$2a$10$fI3l4fJZ7AMzyxCn4vCSaeuUXw52JqN18ruH4KvclNqxxRme9nVV2', 'test200', '2023-06-18 18:10:00', NULL, NULL, NULL),
+(803, 'matteoTest@gmail.com', '$2a$10$AzZ9Y/paxyPC58JchNEg5uQoetmETEU7q8aO/K4nbkPm7Arf1qheu', 'TcT_gamerz', '2023-06-18 19:14:32', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -703,11 +817,19 @@ CREATE TABLE IF NOT EXISTS `users_followed_topics` (
 
 INSERT INTO `users_followed_topics` (`user_id`, `topic_id`) VALUES
 (1, 1),
+(800, 1),
+(1, 2),
 (6, 2),
+(1, 3),
 (5, 3),
+(800, 3),
 (1, 4),
 (4, 4),
-(3, 5);
+(800, 4),
+(1, 70),
+(800, 70),
+(1, 71),
+(1, 85);
 
 -- --------------------------------------------------------
 
@@ -720,7 +842,7 @@ CREATE TABLE IF NOT EXISTS `users_messages_interactions` (
   `user_id` int NOT NULL,
   `message_id` int NOT NULL,
   `status` varchar(32) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
-  PRIMARY KEY (`user_id`,`message_id`),
+  PRIMARY KEY (`user_id`,`message_id`,`status`),
   KEY `message_id` (`message_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
@@ -730,75 +852,67 @@ CREATE TABLE IF NOT EXISTS `users_messages_interactions` (
 
 INSERT INTO `users_messages_interactions` (`user_id`, `message_id`, `status`) VALUES
 (1, 1, 'upvote'),
-(1, 2, 'upvote'),
-(1, 3, 'upvote'),
-(1, 4, 'upvote'),
-(1, 5, 'upvote'),
-(1, 6, 'upvote'),
-(1, 7, 'upvote'),
-(1, 8, 'upvote'),
-(1, 9, 'downvote'),
-(1, 10, 'upvote'),
-(1, 11, 'upvote'),
-(1, 12, 'upvote'),
-(1, 13, 'upvote'),
-(1, 14, 'downvote'),
-(1, 15, 'upvote'),
 (2, 1, 'upvote'),
-(2, 2, 'upvote'),
-(2, 3, 'upvote'),
-(2, 4, 'upvote'),
-(2, 5, 'upvote'),
-(2, 6, 'upvote'),
-(2, 7, 'upvote'),
-(2, 8, 'upvote'),
-(2, 9, 'downvote'),
-(2, 10, 'upvote'),
-(2, 11, 'upvote'),
-(2, 12, 'upvote'),
-(2, 13, 'upvote'),
-(2, 14, 'downvote'),
-(2, 15, 'upvote'),
 (3, 1, 'upvote'),
-(3, 2, 'downvote'),
-(3, 3, 'upvote'),
-(3, 4, 'upvote'),
-(3, 5, 'upvote'),
-(3, 6, 'upvote'),
-(3, 7, 'upvote'),
-(3, 8, 'upvote'),
-(3, 9, 'downvote'),
-(3, 10, 'upvote'),
-(3, 11, 'downvote'),
-(3, 12, 'downvote'),
-(3, 13, 'upvote'),
-(3, 14, 'downvote'),
-(3, 15, 'downvote'),
 (4, 1, 'downvote'),
-(4, 2, 'downvote'),
-(4, 3, 'upvote'),
-(4, 4, 'upvote'),
-(4, 5, 'upvote'),
-(4, 6, 'upvote'),
-(4, 7, 'downvote'),
-(4, 8, 'downvote'),
-(4, 9, 'downvote'),
-(4, 12, 'downvote'),
-(4, 13, 'upvote'),
-(4, 14, 'downvote'),
-(4, 15, 'downvote'),
 (5, 1, 'downvote'),
+(1, 2, 'upvote'),
+(2, 2, 'upvote'),
+(4, 2, 'downvote'),
 (5, 2, 'downvote'),
+(1, 3, 'upvote'),
+(2, 3, 'upvote'),
+(4, 3, 'upvote'),
 (5, 3, 'upvote'),
+(1, 4, 'upvote'),
+(2, 4, 'upvote'),
+(4, 4, 'upvote'),
 (5, 4, 'upvote'),
+(1, 5, 'upvote'),
+(2, 5, 'upvote'),
+(4, 5, 'upvote'),
 (5, 5, 'downvote'),
+(1, 6, 'upvote'),
+(2, 6, 'upvote'),
+(4, 6, 'upvote'),
 (5, 6, 'downvote'),
+(1, 7, 'upvote'),
+(2, 7, 'upvote'),
+(4, 7, 'downvote'),
 (5, 7, 'downvote'),
+(1, 8, 'upvote'),
+(2, 8, 'upvote'),
+(4, 8, 'downvote'),
 (5, 8, 'downvote'),
+(1, 9, 'upvote'),
+(2, 9, 'downvote'),
+(4, 9, 'downvote'),
 (5, 9, 'downvote'),
-(5, 12, 'downvote'),
 (6, 9, 'downvote'),
-(7, 9, 'downvote');
+(7, 9, 'downvote'),
+(1, 10, 'report'),
+(1, 10, 'upvote'),
+(2, 10, 'upvote'),
+(1, 11, 'upvote'),
+(2, 11, 'upvote'),
+(1, 12, 'upvote'),
+(2, 12, 'upvote'),
+(4, 12, 'downvote'),
+(5, 12, 'downvote'),
+(1, 13, 'upvote'),
+(2, 13, 'upvote'),
+(4, 13, 'upvote'),
+(1, 14, 'downvote'),
+(2, 14, 'downvote'),
+(4, 14, 'downvote'),
+(1, 15, 'upvote'),
+(2, 15, 'upvote'),
+(4, 15, 'downvote'),
+(1, 69, 'upvote'),
+(3, 69, 'downvote'),
+(3, 69, 'upvote'),
+(1, 133, 'downvote'),
+(1, 133, 'upvote');
 
 -- --------------------------------------------------------
 
@@ -819,7 +933,413 @@ CREATE TABLE IF NOT EXISTS `users_roles` (
 --
 
 INSERT INTO `users_roles` (`user_id`, `role_id`) VALUES
-(1, 1);
+(1, 1),
+(3, 1),
+(2, 2),
+(3, 2),
+(1, 3),
+(2, 3),
+(3, 3),
+(4, 3),
+(5, 3),
+(6, 3),
+(7, 3),
+(8, 3),
+(9, 3),
+(10, 3),
+(411, 3),
+(412, 3),
+(413, 3),
+(414, 3),
+(415, 3),
+(416, 3),
+(417, 3),
+(418, 3),
+(419, 3),
+(420, 3),
+(421, 3),
+(422, 3),
+(423, 3),
+(424, 3),
+(425, 3),
+(426, 3),
+(427, 3),
+(428, 3),
+(429, 3),
+(430, 3),
+(431, 3),
+(432, 3),
+(433, 3),
+(434, 3),
+(435, 3),
+(436, 3),
+(437, 3),
+(438, 3),
+(439, 3),
+(440, 3),
+(441, 3),
+(442, 3),
+(443, 3),
+(444, 3),
+(445, 3),
+(446, 3),
+(447, 3),
+(448, 3),
+(449, 3),
+(450, 3),
+(451, 3),
+(452, 3),
+(453, 3),
+(454, 3),
+(455, 3),
+(456, 3),
+(457, 3),
+(458, 3),
+(459, 3),
+(460, 3),
+(461, 3),
+(462, 3),
+(463, 3),
+(464, 3),
+(465, 3),
+(466, 3),
+(467, 3),
+(468, 3),
+(469, 3),
+(470, 3),
+(471, 3),
+(472, 3),
+(473, 3),
+(474, 3),
+(475, 3),
+(476, 3),
+(477, 3),
+(478, 3),
+(479, 3),
+(480, 3),
+(481, 3),
+(482, 3),
+(483, 3),
+(484, 3),
+(485, 3),
+(486, 3),
+(487, 3),
+(488, 3),
+(489, 3),
+(490, 3),
+(491, 3),
+(492, 3),
+(493, 3),
+(494, 3),
+(495, 3),
+(496, 3),
+(497, 3),
+(498, 3),
+(499, 3),
+(500, 3),
+(501, 3),
+(502, 3),
+(503, 3),
+(504, 3),
+(505, 3),
+(506, 3),
+(507, 3),
+(508, 3),
+(509, 3),
+(510, 3),
+(511, 3),
+(512, 3),
+(513, 3),
+(514, 3),
+(515, 3),
+(516, 3),
+(517, 3),
+(518, 3),
+(519, 3),
+(520, 3),
+(521, 3),
+(522, 3),
+(523, 3),
+(524, 3),
+(525, 3),
+(526, 3),
+(527, 3),
+(528, 3),
+(529, 3),
+(530, 3),
+(531, 3),
+(532, 3),
+(533, 3),
+(534, 3),
+(535, 3),
+(536, 3),
+(537, 3),
+(538, 3),
+(539, 3),
+(540, 3),
+(541, 3),
+(542, 3),
+(543, 3),
+(544, 3),
+(545, 3),
+(546, 3),
+(547, 3),
+(548, 3),
+(549, 3),
+(550, 3),
+(551, 3),
+(552, 3),
+(553, 3),
+(554, 3),
+(555, 3),
+(556, 3),
+(557, 3),
+(558, 3),
+(559, 3),
+(560, 3),
+(561, 3),
+(562, 3),
+(563, 3),
+(564, 3),
+(565, 3),
+(566, 3),
+(567, 3),
+(568, 3),
+(569, 3),
+(570, 3),
+(571, 3),
+(572, 3),
+(573, 3),
+(574, 3),
+(575, 3),
+(576, 3),
+(577, 3),
+(578, 3),
+(579, 3),
+(580, 3),
+(581, 3),
+(582, 3),
+(583, 3),
+(584, 3),
+(585, 3),
+(586, 3),
+(587, 3),
+(588, 3),
+(589, 3),
+(590, 3),
+(591, 3),
+(592, 3),
+(593, 3),
+(594, 3),
+(595, 3),
+(596, 3),
+(597, 3),
+(598, 3),
+(599, 3),
+(600, 3),
+(601, 3),
+(602, 3),
+(603, 3),
+(604, 3),
+(605, 3),
+(606, 3),
+(607, 3),
+(608, 3),
+(609, 3),
+(610, 3),
+(611, 3),
+(612, 3),
+(613, 3),
+(614, 3),
+(615, 3),
+(616, 3),
+(617, 3),
+(618, 3),
+(619, 3),
+(620, 3),
+(621, 3),
+(622, 3),
+(623, 3),
+(624, 3),
+(625, 3),
+(626, 3),
+(627, 3),
+(628, 3),
+(629, 3),
+(630, 3),
+(631, 3),
+(632, 3),
+(633, 3),
+(634, 3),
+(635, 3),
+(636, 3),
+(637, 3),
+(638, 3),
+(639, 3),
+(640, 3),
+(641, 3),
+(642, 3),
+(643, 3),
+(644, 3),
+(645, 3),
+(646, 3),
+(647, 3),
+(648, 3),
+(649, 3),
+(650, 3),
+(651, 3),
+(652, 3),
+(653, 3),
+(654, 3),
+(655, 3),
+(656, 3),
+(657, 3),
+(658, 3),
+(659, 3),
+(660, 3),
+(661, 3),
+(662, 3),
+(663, 3),
+(664, 3),
+(665, 3),
+(666, 3),
+(667, 3),
+(668, 3),
+(669, 3),
+(670, 3),
+(671, 3),
+(672, 3),
+(673, 3),
+(674, 3),
+(675, 3),
+(676, 3),
+(677, 3),
+(678, 3),
+(679, 3),
+(680, 3),
+(681, 3),
+(682, 3),
+(683, 3),
+(684, 3),
+(685, 3),
+(686, 3),
+(687, 3),
+(688, 3),
+(689, 3),
+(690, 3),
+(691, 3),
+(692, 3),
+(693, 3),
+(694, 3),
+(695, 3),
+(696, 3),
+(697, 3),
+(698, 3),
+(699, 3),
+(700, 3),
+(701, 3),
+(702, 3),
+(703, 3),
+(704, 3),
+(705, 3),
+(706, 3),
+(707, 3),
+(708, 3),
+(709, 3),
+(710, 3),
+(711, 3),
+(712, 3),
+(713, 3),
+(714, 3),
+(715, 3),
+(716, 3),
+(717, 3),
+(718, 3),
+(719, 3),
+(720, 3),
+(721, 3),
+(722, 3),
+(723, 3),
+(724, 3),
+(725, 3),
+(726, 3),
+(727, 3),
+(728, 3),
+(729, 3),
+(730, 3),
+(731, 3),
+(732, 3),
+(733, 3),
+(734, 3),
+(735, 3),
+(736, 3),
+(737, 3),
+(738, 3),
+(739, 3),
+(740, 3),
+(741, 3),
+(742, 3),
+(743, 3),
+(744, 3),
+(745, 3),
+(746, 3),
+(747, 3),
+(748, 3),
+(749, 3),
+(750, 3),
+(751, 3),
+(752, 3),
+(753, 3),
+(754, 3),
+(755, 3),
+(756, 3),
+(757, 3),
+(758, 3),
+(759, 3),
+(760, 3),
+(761, 3),
+(762, 3),
+(763, 3),
+(764, 3),
+(765, 3),
+(766, 3),
+(767, 3),
+(768, 3),
+(769, 3),
+(770, 3),
+(771, 3),
+(772, 3),
+(773, 3),
+(774, 3),
+(775, 3),
+(776, 3),
+(777, 3),
+(778, 3),
+(779, 3),
+(780, 3),
+(781, 3),
+(782, 3),
+(783, 3),
+(784, 3),
+(785, 3),
+(786, 3),
+(787, 3),
+(788, 3),
+(789, 3),
+(790, 3),
+(791, 3),
+(792, 3),
+(793, 3),
+(794, 3),
+(795, 3),
+(796, 3),
+(797, 3),
+(799, 3),
+(800, 3),
+(801, 3),
+(802, 3),
+(803, 3),
+(5, 4);
 
 --
 -- Constraints for dumped tables
@@ -829,8 +1349,8 @@ INSERT INTO `users_roles` (`user_id`, `role_id`) VALUES
 -- Constraints for table `messages`
 --
 ALTER TABLE `messages`
-  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`);
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `messages_files`
@@ -856,15 +1376,14 @@ ALTER TABLE `topic`
 -- Constraints for table `topic_tags`
 --
 ALTER TABLE `topic_tags`
-  ADD CONSTRAINT `topic_tags_ibfk_1` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`),
   ADD CONSTRAINT `topic_tags_ibfk_2` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`);
 
 --
 -- Constraints for table `users_followed_topics`
 --
 ALTER TABLE `users_followed_topics`
-  ADD CONSTRAINT `users_followed_topics_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `users_followed_topics_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`);
+  ADD CONSTRAINT `users_followed_topics_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `users_followed_topics_ibfk_2` FOREIGN KEY (`topic_id`) REFERENCES `topic` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `users_messages_interactions`

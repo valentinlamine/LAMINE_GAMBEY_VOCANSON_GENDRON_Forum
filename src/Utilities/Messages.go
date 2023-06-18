@@ -174,7 +174,6 @@ func MessagesGetAllTopic(db *sql.DB, id int) []GetMessage {
 	if err := rows.Err(); err != nil {
 		panic(err.Error())
 	}
-	fmt.Println(messages)
 	return messages
 }
 
@@ -201,19 +200,33 @@ func MessagesDelete(db *sql.DB, message_id int, user_id int) (bool, string) {
 		}
 		return true, "message successfully deleted by an admin"
 	} else if CheckPermission(db, user_id, 10) {
-		_, err := db.Exec(`DELETE FROM users_messages_interactions WHERE message_id = ? AND user_id = ?`, message_id, user_id)
-		if err != nil {
-			fmt.Println(err.Error())
-			return false, err.Error()
+		if CheckMessageOwner(db, message_id, user_id) {
+			_, err := db.Exec(`DELETE FROM users_messages_interactions WHERE message_id = ?`, message_id)
+			if err != nil {
+				fmt.Println(err.Error())
+				return false, err.Error()
+			}
+			_, err = db.Exec(`DELETE FROM messages WHERE id = ?`, message_id)
+			if err != nil {
+				fmt.Println(err.Error())
+				return false, err.Error()
+			}
+			return true, "message successfully deleted by the user"
 		}
-		_, err = db.Exec(`DELETE FROM messages WHERE id = ?`, message_id)
-		if err != nil {
-			fmt.Println(err.Error())
-			return false, err.Error()
-		}
-		return true, "message successfully deleted by the user"
 	}
 	return false, "you don't have the permission to delete this message"
+}
+
+func CheckMessageOwner(db *sql.DB, message_id int, user_id int) bool {
+	var msg_user_id int
+	err := db.QueryRow(`SELECT user_id FROM messages WHERE id = ?`, message_id).Scan(&msg_user_id)
+	if err != nil {
+		panic(err.Error())
+	}
+	if msg_user_id == user_id {
+		return true
+	}
+	return false
 }
 
 func MessageFile(db *sql.DB, id int) {
