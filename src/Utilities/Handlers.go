@@ -52,25 +52,32 @@ func IndexHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminHandler(w http.ResponseWriter, r *http.Request) {
+	var adminData AdminData
 	if r.Method == "POST" {
+
 		token := r.FormValue("token")
 		if token != "" {
 			var user GetUser
 			Token, _ := strconv.Atoi(token)
 			user = GetUserById(db, Token)
 			if user.Id != 0 { //if user is connected
-				tmpl := generateTemplate("adminConnect.html", []string{"template/base/connected/adminConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbarconnect.html", "template/componants/topic.html", "template/componants/creationTopic.html"})
-				indexData = IndexData{
-					User:    user,
-					IsAdmin: IsAdmin(db, Token),
+				tmpl := generateTemplate("adminConnect.html", []string{"template/base/connected/adminConnect.html", "template/componants/headerConnect.html", "template/componants/leftnavbarconnect.html", "template/componants/topic.html", "template/componants/creationTopic.html", "template/componants/message-panel-admin.html"})
+				adminData = AdminData{
+					Roles:            RoleGetAll(db),
+					Permissions:      PermissionsGetAll(db),
+					SortedTopics:     indexData.GetData(db),
+					ReportedMessages: GetReportedMessages(db),
+					User:             user,
+					Tags:             TagsGetAll(db),
+					IsAdmin:          IsAdmin(db, Token),
 				}
-				tmpl.Execute(w, indexData)
+				tmpl.Execute(w, adminData)
 				return
 			}
 		}
 	}
 	tmpl := generateTemplate("admin.html", []string{"template/base/disconnected/admin.html", "template/componants/header.html", "template/componants/leftnavbar.html", "template/componants/topic.html"})
-	tmpl.Execute(w, indexData)
+	tmpl.Execute(w, adminData)
 }
 
 func FollowedHandler(w http.ResponseWriter, r *http.Request) {
@@ -648,6 +655,205 @@ func MessageInteractionsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	success, info := MessageInteractions(db, data.Type, data.Status, data.UserID, data.MsgID)
+	if success {
+		response := struct {
+			Sucess bool   `json:"success"`
+			Info   string `json:"info"`
+		}{
+			Sucess: true,
+			Info:   info,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	} else {
+		response := struct {
+			Sucess bool   `json:"success"`
+			Info   string `json:"info"`
+		}{
+			Sucess: false,
+			Info:   info,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	}
+}
+
+func AddRoleHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" { //si la méthode n'est pas POST
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Parse the request body
+	var data struct {
+		Role     string `json:"Role"`
+		UserName string `json:"UserName"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	success, info := UserRoleAdd(db, data.Role, data.UserName)
+	fmt.Println(success, info)
+	if success {
+		response := struct {
+			Sucess bool   `json:"success"`
+			Info   string `json:"info"`
+		}{
+			Sucess: true,
+			Info:   info,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	} else {
+		response := struct {
+			Sucess bool   `json:"success"`
+			Info   string `json:"info"`
+		}{
+			Sucess: false,
+			Info:   info,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	}
+}
+
+func SupprUserRoleHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" { //si la méthode n'est pas POST
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Parse the request body
+	var data struct {
+		UserName string `json:"UserName"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	success, info := UserRoleSuppr(db, data.UserName)
+	fmt.Println(success, info)
+	if success {
+		response := struct {
+			Sucess bool   `json:"success"`
+			Info   string `json:"info"`
+		}{
+			Sucess: true,
+			Info:   info,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	} else {
+		response := struct {
+			Sucess bool   `json:"success"`
+			Info   string `json:"info"`
+		}{
+			Sucess: false,
+			Info:   info,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	}
+}
+
+func CreateRoleHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" { //si la méthode n'est pas POST
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Parse the request body
+	var data struct {
+		RoleName string `json:"RoleName"`
+		Color    string `json:"Color"`
+		Roles    []int  `json:"Roles"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	success, info := RoleCreate(db, data.RoleName, data.Color, data.Roles)
+	fmt.Println(success, info)
+	if success {
+		response := struct {
+			Sucess bool   `json:"success"`
+			Info   string `json:"info"`
+		}{
+			Sucess: true,
+			Info:   info,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	} else {
+		response := struct {
+			Sucess bool   `json:"success"`
+			Info   string `json:"info"`
+		}{
+			Sucess: false,
+			Info:   info,
+		}
+		jsonResponse, err := json.Marshal(response)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
+	}
+}
+
+func SupprRoleHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != "POST" { //si la méthode n'est pas POST
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+
+	// Parse the request body
+	var data struct {
+		RoleName string `json:"RoleName"`
+	}
+	if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	success, info := RoleSuppr(db, data.RoleName)
+	fmt.Println(success, info)
 	if success {
 		response := struct {
 			Sucess bool   `json:"success"`

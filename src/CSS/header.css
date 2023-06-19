@@ -449,6 +449,10 @@
     content: url(../assets/images/sign-up-black.png);
 }
 
+.header-ctn .menu ul li:hover img#admin-logo {
+    content: url(../assets/images/admin-black.png);
+}
+
 @media screen and (max-width: 1024px) {
     .header-search-box {
         width: 60%;

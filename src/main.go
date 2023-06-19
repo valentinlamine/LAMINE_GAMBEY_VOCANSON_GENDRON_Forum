@@ -39,6 +39,10 @@ func main() {
 
 	r.HandleFunc("/bookmarkAdd", utilities.BookmarkAddHandler).Methods("POST")
 	r.HandleFunc("/bookmarkRemove", utilities.BookmarkRemoveHandler).Methods("POST")
+	r.HandleFunc("/addRoleHandler", utilities.AddRoleHandler).Methods("POST")
+	r.HandleFunc("/SupprUserRoleHandler", utilities.SupprUserRoleHandler).Methods("POST")
+	r.HandleFunc("/createRoleHandler", utilities.CreateRoleHandler).Methods("POST")
+	r.HandleFunc("/SupprRoleHandler", utilities.SupprRoleHandler).Methods("POST")
 
 	fmt.Println("server is running on port 8080 : http://localhost:8080")
 	if err := http.ListenAndServe(":8080", r); err != nil {

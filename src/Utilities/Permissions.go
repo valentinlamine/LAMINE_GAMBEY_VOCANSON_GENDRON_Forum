@@ -38,6 +38,31 @@ func PermissionsGet(db *sql.DB, id int) {
 	fmt.Println(permissions)
 }
 
+func PermissionsGetAll(db *sql.DB) []GetPermission {
+	rows, err := db.Query(`SELECT permissions.id,permissions.name,permissions.description FROM permissions`)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var permissions []GetPermission
+	for rows.Next() {
+		var p GetPermission
+
+		err := rows.Scan(&p.Id, &p.Name, &p.Description)
+		if err != nil {
+			panic(err.Error())
+		}
+		permissions = append(permissions, p)
+
+	}
+	if err := rows.Err(); err != nil {
+		panic(err.Error())
+	}
+	return permissions
+}
+
 func PermissionsUpdate(db *sql.DB, id int, name string, description string) {
 	_, err := db.Exec(`UPDATE permissions SET name = ?, description = ? WHERE id = ?`, name, description, id)
 	if err != nil {

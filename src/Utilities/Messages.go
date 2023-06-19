@@ -309,3 +309,36 @@ func MessageInteractions(db *sql.DB, requestType string, status string, userId i
 	}
 	return false, "Error, request type not found"
 }
+
+func GetReportedMessages(db *sql.DB) []GetMessage {
+	rows, err := db.Query(`SELECT messages.id, messages.content, messages.creation_date, messages.user_id, messages.topic_id, users.username, (
+		SELECT COUNT(*) AS NbUpvote
+		FROM users_messages_interactions
+		WHERE users_messages_interactions.message_id = messages.id AND users_messages_interactions.status = "upvote"
+	) AS NbUpvote
+	FROM messages
+	INNER JOIN users ON messages.user_id = users.id
+	INNER JOIN users_messages_interactions ON messages.id = users_messages_interactions.message_id
+	WHERE users_messages_interactions.status = "report"`)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var messages []GetMessage
+	for rows.Next() {
+		var m GetMessage
+
+		err := rows.Scan(&m.Id, &m.Content, &m.Created_at, &m.User_id, &m.Topic_id, &m.Username, &m.NbUpvote)
+		if err != nil {
+			panic(err.Error())
+		}
+		messages = append(messages, m)
+	}
+	fmt.Println(messages)
+	if err := rows.Err(); err != nil {
+		panic(err.Error())
+	}
+	return messages
+}

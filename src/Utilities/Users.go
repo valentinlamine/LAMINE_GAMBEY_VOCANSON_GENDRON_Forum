@@ -282,3 +282,109 @@ func IsAdmin(db *sql.DB, id int) bool {
 	}
 	return false
 }
+
+func UserRoleAdd(db *sql.DB, role string, username string) (bool, string) {
+	if role == "" {
+		return false, "Content is empty"
+	}
+	if username == "" {
+		return false, "Username is empty"
+	}
+	_, err := db.Exec(`Insert INTO users_roles (user_id,role_id) VALUES ((SELECT users.id FROM users WHERE users.username = ?),(SELECT roles.id FROM roles WHERE roles.name = ?))`, username, role)
+	if err != nil {
+		return false, err.Error()
+	}
+	return true, "role successfully added"
+}
+
+func UserRoleSuppr(db *sql.DB, username string) (bool, string) {
+	if username == "" {
+		return false, "Username is empty"
+	}
+	rows, err := db.Query(`SELECT users.id FROM users WHERE users.username = ?`, username)
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+
+	var userID int
+	for rows.Next() {
+		err := rows.Scan(&userID)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	_, err = db.Exec(`DELETE FROM users_roles WHERE user_id = ?`, userID)
+	if err != nil {
+		return false, err.Error()
+	}
+	UserRoleAdd(db, "user", username)
+	return true, "role successfully deleted"
+}
+
+func RoleCreate(db *sql.DB, roleName string, color string, roles []int) (bool, string) {
+	var allRole []GetRole = RoleGetAll(db)
+	if roleName == "" {
+		return false, "RoleName is empty"
+	}
+	for i := 0; i != len(allRole); i++ {
+		if allRole[i].Name == roleName {
+			return false, "Role already exist"
+		}
+	}
+	_, err := db.Exec(`Insert INTO roles (name,color) VALUES (?,?)`, roleName, color)
+	if err != nil {
+		return false, err.Error()
+	}
+	rows, err := db.Query(`SELECT roles.id FROM roles WHERE roles.name = ?`, roleName)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+	var roleID int
+	for rows.Next() {
+
+		err := rows.Scan(&roleID)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	for i := 0; i != len(roles); i++ {
+		_, err = db.Exec(`Insert INTO roles_permissions (role_id,permission_id) VALUES (?,?)`, roleID, roles[i])
+		if err != nil {
+			return false, err.Error()
+		}
+	}
+	return true, "role successfully created"
+}
+
+func RoleSuppr(db *sql.DB, roleName string) (bool, string) {
+	if roleName == "" {
+		return false, "RoleName is empty"
+	}
+	rows, err := db.Query(`SELECT roles.id FROM roles WHERE roles.name = ?`, roleName)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	defer rows.Close()
+	var roleID int
+	for rows.Next() {
+
+		err := rows.Scan(&roleID)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+	_, err = db.Exec(`DELETE FROM roles_permissions WHERE roles_permissions.role_id = ?`, roleID)
+	if err != nil {
+		return false, err.Error()
+	}
+	_, err = db.Exec(`DELETE FROM roles WHERE roles.id = ?`, roleID)
+	if err != nil {
+		return false, err.Error()
+	}
+	return true, "role successfully deleted"
+}

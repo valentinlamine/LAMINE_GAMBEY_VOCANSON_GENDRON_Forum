@@ -44,6 +44,36 @@ func RoleGet(db *sql.DB, id int) {
 	fmt.Println(roles)
 }
 
+func RoleGetAll(db *sql.DB) []GetRole {
+	rows, err := db.Query(`SELECT roles.id,roles.name,roles.color FROM roles`)
+
+	if err != nil {
+		panic(err.Error())
+	}
+	defer func(rows *sql.Rows) {
+		err := rows.Close()
+		if err != nil {
+
+		}
+	}(rows)
+
+	var roles []GetRole
+	for rows.Next() {
+		var r GetRole
+
+		err := rows.Scan(&r.Id, &r.Name, &r.Color)
+		if err != nil {
+			panic(err.Error())
+		}
+		roles = append(roles, r)
+
+	}
+	if err := rows.Err(); err != nil {
+		panic(err.Error())
+	}
+	return roles
+}
+
 func RoleUpdate(db *sql.DB, id int, name string, color string, user_id int) {
 	if CheckPermission(db, user_id, 24) {
 		_, err := db.Exec(`UPDATE roles SET name = ?, color = ? WHERE id = ?`, name, color, id)

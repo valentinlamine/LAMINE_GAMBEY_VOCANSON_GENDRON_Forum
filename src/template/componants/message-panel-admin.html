@@ -1,0 +1,36 @@
+{{define "message-panel-admin"}}
+<link rel="stylesheet" href="/../CSS/message.css">
+<link rel="stylesheet" href="/../CSS/fonts.css">
+<script src="/../JS/topic-detail.js"></script>
+<p>Reported messages</p>
+{{range $v := .ReportedMessages}}
+        <div class="topic-detail-ctn">
+            <div class="topic-up-down-ctn">
+                <label class="container">
+                    <input type="checkbox" class="up">
+                    <img class="up arrow-ctn" src="/../assets/images/arrow.png">
+                </label>
+                <p>{{$v.NbUpvote}}</p>
+                <label class="container">
+                    <input type="checkbox" class="down">
+                    <img class="down arrow-ctn" src="/../assets/images/arrow.png">
+                </label>
+            </div>
+            <div class="topic-detail-ctn-content">
+                <div class="user-info-and-text">
+                    <div class="left-part">
+                        <img src="/../assets/images/topic_icon.png" alt="user-img">
+                        <h3>{{$v.Username}}</h3>
+                        <h4>{{$v.Created_at}}</h4>
+                    </div>
+                    <div class="right-part">
+                        <div class="flag-report-ctn">
+                            <img class="flag" src="/../assets/images/report.png" alt="flag">
+                            <h4>Report</h4>
+                        </div>
+                    </div>
+                <p>{{$v.Content}}</p>
+            </div>
+        </div>
+    {{end}}
+{{end}}

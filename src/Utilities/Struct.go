@@ -100,9 +100,17 @@ type GetTopic struct {
 }
 
 type GetRole struct {
-	Id    int
-	Name  string
-	Color string
+	Id             int
+	Name           string
+	Color          string
+	HavePermission []PermissionRole
+}
+
+type PermissionRole struct {
+	HavePermission bool
+	Id             int
+	Name           string
+	Description    string
 }
 
 type UsersMessagesInteractions struct {
@@ -134,7 +142,7 @@ type MessageUser struct {
 }
 
 type GetPermission struct {
-	Id          any
+	Id          int
 	Name        string
 	Description string
 }
@@ -208,4 +216,14 @@ type DataTopic struct {
 	MessagesInteractions []UsersMessagesInteractions
 	Tags                 []GetTag
 	IsAdmin              bool
+}
+
+type AdminData struct {
+	Roles            []GetRole
+	Permissions      []GetPermission
+	SortedTopics     []TopicSortedDrop
+	ReportedMessages []GetMessage
+	User             GetUser
+	Tags             []GetTag
+	IsAdmin          bool
 }

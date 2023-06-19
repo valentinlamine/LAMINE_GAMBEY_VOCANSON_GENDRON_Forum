@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="CSS/style.css">
     <link rel="stylesheet" href="CSS/fonts.css">
-    <title>Upit</title>
+    <link rel="stylesheet" href="CSS/adminPannel.css">
+    <script src="../../../JS/adminScript.js"></script>
+            <title>Upit</title>
 </head>
 <body>
     {{ template "headerConnect" .}}
@@ -16,10 +18,62 @@
         </div>
         <div class="content">
             {{if .IsAdmin}}
-            test
+            <div class="panel-componant">
+                <h1>ajouter role a utilisateur</h1>
+                <form onsubmit='return false'>
+                    <label for="roles">role: </label>
+                    <select name="roles" id="roles">
+                        {{range $r := .Roles}}
+                        <option name="role" value="{{$r.Name}}">{{$r.Name}}</option>
+                        {{end}}
+                    </select>
+                    <textarea name="username" placeholder="username" rows="1"></textarea>
+                    <input type="submit" value="Submit" onclick="AddRole(this.form.roles.value, this.form.username.value)">
+                </form>
+            </div>
+            <div class="panel-componant">
+                <h1>réinitialise un role utilisateur</h1>
+                <form onsubmit='return false'>
+                    <textarea name="username" placeholder="username" rows="1"></textarea>
+                    <input type="submit" value="Submit" onclick="SupprUserRole(this.form.username.value)">
+                </form>
+            </div>
+            <div class="panel-componant">
+                <h1>créer un role</h1>
+                <form>
+                    {{range $p:= .Permissions}}
+                        {{if $.IsAdmin}}
+                            <input class="permsClass" type="checkbox" id="{{$p.Id}}" name="perms" value="{{$p.Name}}" checked><label for="{{$p.Id}}"> {{$p.Description}}</label><br>
+                        {{else}}    
+                            <input class="permsClass" type="checkbox" id="{{$p.Id}}" name="perms" value="{{$p.Name}}"><label for="{{$p.Id}}"> {{$p.Description}}</label><br>            
+                        {{end}}
+                    {{end}}
+                    <textarea name="rolename" placeholder="rolename" rows="1"></textarea>
+                    <input type="color" id="head" name="color" value="#e66465">
+                    <input type="submit" value="Submit" onclick="CreateRole(this.form.rolename.value, this.form.color.value)">
+                </form>
+            </div>
+            <div class="panel-componant">
+                <h1>supprimer un role</h1>
+                <form>
+                    <label for="roles">role: </label>
+                    <select name="roles" id="roles">
+                        {{range $r := .Roles}}
+                        <option name="role" value="{{$r.Name}}">{{$r.Name}}</option>
+                        {{end}}
+                    </select>
+                    <input type="submit" value="Submit" onclick="SupprRole(this.form.roles.value)">
+                </form>
+            </div>
+            changer permission role
+            afficher liste message signalé
+            {{template "message-panel-admin" .}}
+            supprimer utilisateur
             {{else}}
             bah t pas admin mon reuf
             {{end}}
+
+
         </div>
     </div>
     <script>
