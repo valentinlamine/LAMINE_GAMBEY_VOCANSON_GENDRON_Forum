@@ -19,18 +19,22 @@
             {{ template "leftnavbar" .}}
         </div>
         <div class="content">
-            <div class="topics">
-                <h1>Popular  Topics</h1>
-                {{ template "topic" .}}
-            </div>
+            bah t pas admin mon reuf
+            <button onclick="rickrolled()">cliquez pour avoir les droits d'admin</button>
             <script>
                 document.querySelectorAll(".topic-header-info span").forEach(element => {
                     formatRelativeTime(element);
                 });
-
+                
                 document.querySelectorAll("item-list-topic a").forEach(element => {
                     formatEllipsis(element);
                 });
+                function rickrolled() {
+                    var tmp = document.getElementsByClassName('content')
+                    for (i = 0; i != tmp.length; i++) {
+                        tmp[i].style.backgroundImage = "url('/../assets/images/rick.gif')";
+                    }
+                }
             </script>
         </div>
     </div>

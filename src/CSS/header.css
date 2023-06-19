@@ -453,6 +453,10 @@
     content: url(../assets/images/admin-black.png);
 }
 
+.header-ctn .menu ul li img#admin-logo {
+    transform: rotate(0deg);
+}
+
 .header-ctn .menu ul img#admin-logo {
     transform: rotate(180deg);
 }

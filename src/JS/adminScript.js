@@ -83,3 +83,7 @@ function SupprRole(rolename) {
     })
     .catch(error => console.error(error));
 }
+
+function rickroll() {
+    var content = document.getElementsByClassName("content")[0].style.backgroundImage = "url('../assets/images/rick.gif')";
+}

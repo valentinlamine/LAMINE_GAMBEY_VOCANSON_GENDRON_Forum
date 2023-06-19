@@ -336,7 +336,6 @@ func GetReportedMessages(db *sql.DB) []GetMessage {
 		}
 		messages = append(messages, m)
 	}
-	fmt.Println(messages)
 	if err := rows.Err(); err != nil {
 		panic(err.Error())
 	}

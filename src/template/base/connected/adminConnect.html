@@ -19,44 +19,44 @@
         <div class="content">
             {{if .IsAdmin}}
             <div class="panel-componant">
-                <h1>ajouter role a utilisateur</h1>
+                <h1>Ajouter un role à un utilisateur</h1>
                 <form onsubmit='return false'>
-                    <label for="roles">role: </label>
                     <select name="roles" id="roles">
                         {{range $r := .Roles}}
                         <option name="role" value="{{$r.Name}}">{{$r.Name}}</option>
                         {{end}}
                     </select>
-                    <textarea name="username" placeholder="username" rows="1"></textarea>
+                    <input name="username" placeholder="username" rows="1"></input>
                     <input type="submit" value="Submit" onclick="AddRole(this.form.roles.value, this.form.username.value)">
                 </form>
             </div>
             <div class="panel-componant">
-                <h1>réinitialise un role utilisateur</h1>
+                <h1>Rénitiliser les roles d'un utilisateur</h1>
                 <form onsubmit='return false'>
-                    <textarea name="username" placeholder="username" rows="1"></textarea>
+                    <input name="username" placeholder="username" rows="1"></input>
                     <input type="submit" value="Submit" onclick="SupprUserRole(this.form.username.value)">
                 </form>
             </div>
             <div class="panel-componant">
-                <h1>créer un role</h1>
-                <form>
-                    {{range $p:= .Permissions}}
-                        {{if $.IsAdmin}}
-                            <input class="permsClass" type="checkbox" id="{{$p.Id}}" name="perms" value="{{$p.Name}}" checked><label for="{{$p.Id}}"> {{$p.Description}}</label><br>
-                        {{else}}    
-                            <input class="permsClass" type="checkbox" id="{{$p.Id}}" name="perms" value="{{$p.Name}}"><label for="{{$p.Id}}"> {{$p.Description}}</label><br>            
+                <h1>Créer un role</h1>
+                <form class="column">
+                    <div class="permlist">
+                        {{range $p:= .Permissions}}
+                            <div class="perm">
+                                <input class="permsClass" type="checkbox" id="{{$p.Id}}" name="perms" value="{{$p.Name}}"><label for="{{$p.Id}}"> {{$p.Description}}</label></input>
+                            </div>
                         {{end}}
-                    {{end}}
-                    <textarea name="rolename" placeholder="rolename" rows="1"></textarea>
-                    <input type="color" id="head" name="color" value="#e66465">
-                    <input type="submit" value="Submit" onclick="CreateRole(this.form.rolename.value, this.form.color.value)">
+                    </div>
+                    <div class="role">
+                        <input name="rolename" placeholder="rolename" rows="1"></input>
+                        <input type="color" id="head" name="color" value="#e66465"></input>
+                        <input type="submit" value="Submit" onclick="CreateRole(this.form.rolename.value, this.form.color.value)">
+                    </div>
                 </form>
             </div>
             <div class="panel-componant">
-                <h1>supprimer un role</h1>
+                <h1>Supprimer un role</h1>
                 <form>
-                    <label for="roles">role: </label>
                     <select name="roles" id="roles">
                         {{range $r := .Roles}}
                         <option name="role" value="{{$r.Name}}">{{$r.Name}}</option>
@@ -65,12 +65,15 @@
                     <input type="submit" value="Submit" onclick="SupprRole(this.form.roles.value)">
                 </form>
             </div>
-            changer permission role
+            <div class="panel-componant column">
+                <h1>Liste des messages signalés</h1>
+                {{template "message-panel-admin" .}}
+            </div>
             afficher liste message signalé
-            {{template "message-panel-admin" .}}
             supprimer utilisateur
             {{else}}
             bah t pas admin mon reuf
+            <button onclick="rickrolled()">cliquez pour avoir les droits d'admin</button>
             {{end}}
 
 
@@ -84,6 +87,10 @@
         document.querySelectorAll("item-list-topic a").forEach(element => {
             formatEllipsis(element);
         });
+
+        function rickrolled() {
+            document.getElementsByClassName('content')[0].style.backgroundImage = "url('/../assets/images/rick.gif')";
+        }
     </script>
     <style>
         .popular-title {
