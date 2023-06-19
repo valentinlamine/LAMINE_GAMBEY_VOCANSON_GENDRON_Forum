@@ -15,7 +15,11 @@
             {{ template "leftnavbarconnect" .}}
         </div>
         <div class="content">
-            <!-- ici pour le code bg -->
+            {{if .IsAdmin}}
+            test
+            {{else}}
+            bah t pas admin mon reuf
+            {{end}}
         </div>
     </div>
     <script>

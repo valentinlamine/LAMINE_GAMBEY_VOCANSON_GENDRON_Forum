@@ -255,7 +255,7 @@ func UserMessagesInteractions(db *sql.DB, id int) {
 }
 
 func IsAdmin(db *sql.DB, id int) bool {
-	rows, err := db.Query(`SELECT roles.id FROM users_roles INNER JOIN roles ON users_roles.role_id = roles.id WHERE users_roles.user_id = ?`, id)
+	rows, err := db.Query(`SELECT roles.name FROM users_roles INNER JOIN roles ON users_roles.role_id = roles.id WHERE users_roles.user_id = ?`, id)
 	if err != nil {
 		panic(err.Error())
 	}
