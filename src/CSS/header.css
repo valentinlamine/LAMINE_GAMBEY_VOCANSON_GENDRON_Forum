@@ -453,6 +453,10 @@
     content: url(../assets/images/admin-black.png);
 }
 
+.header-ctn .menu ul img#admin-logo {
+    transform: rotate(180deg);
+}
+
 @media screen and (max-width: 1024px) {
     .header-search-box {
         width: 60%;
