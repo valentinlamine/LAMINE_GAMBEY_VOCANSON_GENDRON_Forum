@@ -251,5 +251,19 @@
         width: 15px;
         height: 15px;
     }
+    
+    .topic-item {
+        flex-direction: column;
+    }
+    .topic-interactions {
+        width: 100%;
+        margin-bottom: 10px;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .topic-right {
+        width: 100%;
+        border-radius: 0 0 10px 10px;
+    }
 }
 

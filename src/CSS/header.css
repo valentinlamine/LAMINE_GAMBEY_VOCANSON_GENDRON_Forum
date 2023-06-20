@@ -263,20 +263,6 @@
     transform: rotate(180deg);
 }
 
-/*Responsive*/
-
-@media screen and (max-width: 1200px) {
-    .header-search-box {
-        width: 500px;
-    }
-}
-
-@media screen and (max-width: 1000px) {
-    .header-search-box {
-        width: 400px;
-    }
-}
-
 
 /* login & register modal */
 
@@ -461,78 +447,26 @@
     transform: rotate(180deg);
 }
 
-@media screen and (max-width: 1024px) {
-    .header-search-box {
-        width: 60%;
-    }
+/*Responsive*/
 
-    .login-button, .signup-button {
-        font-size: 24px;
-        padding: 0 20px;
-    }
+@media screen and (max-width: 1024px) {
     
-    .header-ctn {
-        padding: 10px;
-    }
-    
-    .header-ctn {
-        flex-direction: column;
-        align-items: stretch; 
-    }
-    
-    .header-login-section {
-        justify-content: center;
-        width: 100%;
-        margin-top: 20px;
+    .user-section.connected {
+        margin-left: 10px;
     }
 }
 
 @media screen and (max-width: 768px) {
+    .header-ctn .header-class-user {
+        display: none;
+    }    
     .header-search-box {
-        width: 80%;
-    }
-    
-    .login-button, .signup-button {
-        font-size: 20px;
+        width: 50%;
     }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 425px) {
     .header-search-box {
-        width: 100%;
-    }
-    
-    .logo a {
-        width: 60px;
-        height: 60px;
-    }
-
-    .logo img {
-        height: 30px;
-    }
-
-    .logo h1 {
-        font-size: 20px;
-    }
-
-    .header-class-user {
-        font-size: 24px;
-    }
-
-    .login-button, .signup-button {
-        font-size: 18px;
-        height: 50px;
-        padding: 0 20px;
-    }
-
-    .user-section {
-        margin-left: 20px;
-    }
-}
-
-@media screen and (max-width: 480px) and (orientation: landscape) {
-    .header-ctn {
-        flex-direction: column;
-        align-items: center;
+        display: none;
     }
 }

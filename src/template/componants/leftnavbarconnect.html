@@ -1,7 +1,23 @@
 {{define "leftnavbarconnect"}}
 <link rel="stylesheet" href="../CSS/leftnavbar.css">
 <script src="../JS/leftnavbar.js"></script>
-
+<div class="mobile-div">
+    <button class="mobile-button" onclick="toggleLeftNavBar()">
+        <img src="../assets/images/menu.png" alt="menu">
+    </button>
+    <script>
+        function toggleLeftNavBar() {
+            var x = document.querySelector(".left-sticky-nav-bar");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                x.parentElement.style.height = "100%";
+            } else {
+                x.style.display = "none";
+                x.parentElement.style.height = "50px";
+            }
+        }
+    </script>
+</div>
 <div class="left-sticky-nav-bar">
     <h2 class="title" id="feed-title">Feeds</h2>
     <div class="feed">
