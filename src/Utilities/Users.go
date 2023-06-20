@@ -382,6 +382,10 @@ func RoleSuppr(db *sql.DB, roleName string) (bool, string) {
 	if err != nil {
 		return false, err.Error()
 	}
+	_, err = db.Exec(`DELETE FROM users_roles WHERE users_roles.role_id = ?`, roleID)
+	if err != nil {
+		return false, err.Error()
+	}
 	_, err = db.Exec(`DELETE FROM roles WHERE roles.id = ?`, roleID)
 	if err != nil {
 		return false, err.Error()
