@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jun 18, 2023 at 06:42 PM
+-- Generation Time: Jun 20, 2023 at 06:50 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.0.26
 
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `messages` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `topic_id` (`topic_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=171 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=172 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
 -- Dumping data for table `messages`
@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `roles` (
   `color` varchar(32) COLLATE latin1_bin NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
 
 --
 -- Dumping data for table `roles`
@@ -320,12 +320,12 @@ CREATE TABLE IF NOT EXISTS `topic` (
 --
 
 INSERT INTO `topic` (`id`, `name`, `description`, `private`, `creation_date`, `nb_views`, `user_id`) VALUES
-(1, 'L\'intelligence artificielle et son impact sur la société', ' L\'intelligence artificielle a un impact profond sur la société, automatisant des tâches, transformant l\'emploi et influençant notre vie quotidienne. Elle soulève des questions sur la confidentialité des données et l\'autonomie individuelle, tout en offrant des possibilités dans la santé et les sciences.', 0, '2023-06-05 20:45:07', 93, 1),
+(1, 'L\'intelligence artificielle et son impact sur la société', ' L\'intelligence artificielle a un impact profond sur la société, automatisant des tâches, transformant l\'emploi et influençant notre vie quotidienne. Elle soulève des questions sur la confidentialité des données et l\'autonomie individuelle, tout en offrant des possibilités dans la santé et les sciences.', 0, '2023-06-05 20:45:07', 94, 1),
 (2, 'Les voyages et le tourisme', 'Les voyages et le tourisme sont des activités qui impliquent de se déplacer et d\'explorer de nouveaux endroits à des fins de loisirs, de détente, de découverte culturelle ou de divertissement. Ces activités ont un impact significatif sur les individus, les communautés et les économies. Les voyages permettent de découvrir de nouvelles cultures, de rencontrer des personnes différentes et d\'élargir nos horizons. Ils contribuent également au développement économique en créant des emplois dans l\'industrie du tourisme et en stimulant les dépenses locales. Cependant, le tourisme de masse peut avoir des conséquences néfastes, telles que la surpopulation, la dégradation de l\'environnement et la perte de la culture locale. Il est donc essentiel de promouvoir un tourisme durable et responsable, respectant à la fois les destinations et les communautés visitées.', 0, '2023-06-05 20:45:07', 133, 1),
 (3, 'La santé mentale et le bien-être', 'La santé mentale et le bien-être sont des aspects essentiels de notre vie quotidienne. Ils se réfèrent à notre état émotionnel, psychologique et social, ainsi qu\'à notre capacité à faire face aux défis et à trouver un équilibre dans nos vies. La santé mentale et le bien-être sont cruciaux pour notre bonheur et notre qualité de vie. Ils peuvent être influencés par de nombreux facteurs tels que le stress, les relations interpersonnelles, l\'environnement, les habitudes de vie et les ressources disponibles pour obtenir un soutien. Il est important de promouvoir une prise de conscience et une compréhension accrues de la santé mentale, de lutter contre la stigmatisation associée aux troubles mentaux et de fournir un accès adéquat aux soins et aux ressources nécessaires pour favoriser le bien-être général.', 0, '2023-06-05 20:45:07', 51, 1),
-(4, 'Les jeux vidéo', 'Les jeux vidéo sont des formes de divertissement interactives qui impliquent l\'utilisation d\'appareils électroniques pour jouer à des jeux virtuels. Ils sont devenus une industrie majeure avec une base de fans mondiale. Les jeux vidéo offrent une expérience immersive, stimulante et divertissante, permettant aux joueurs de s\'engager dans des mondes virtuels, de relever des défis et d\'interagir avec d\'autres joueurs. Ils peuvent être joués sur une variété de plateformes, des consoles de jeux aux ordinateurs et aux appareils mobiles. Cependant, l\'utilisation excessive ou addictive des jeux vidéo peut avoir des conséquences négatives sur la santé mentale, les habitudes de vie et les relations interpersonnelles. Il est donc essentiel de promouvoir une utilisation responsable des jeux vidéo en équilibrant le temps passé devant l\'écran avec d\'autres activités, en établissant des limites et en favorisant une approche saine et équilibrée du jeu.', 0, '2023-06-05 20:45:07', 632, 1),
+(4, 'Les jeux vidéo', 'Les jeux vidéo sont des formes de divertissement interactives qui impliquent l\'utilisation d\'appareils électroniques pour jouer à des jeux virtuels. Ils sont devenus une industrie majeure avec une base de fans mondiale. Les jeux vidéo offrent une expérience immersive, stimulante et divertissante, permettant aux joueurs de s\'engager dans des mondes virtuels, de relever des défis et d\'interagir avec d\'autres joueurs. Ils peuvent être joués sur une variété de plateformes, des consoles de jeux aux ordinateurs et aux appareils mobiles. Cependant, l\'utilisation excessive ou addictive des jeux vidéo peut avoir des conséquences négatives sur la santé mentale, les habitudes de vie et les relations interpersonnelles. Il est donc essentiel de promouvoir une utilisation responsable des jeux vidéo en équilibrant le temps passé devant l\'écran avec d\'autres activités, en établissant des limites et en favorisant une approche saine et équilibrée du jeu.', 0, '2023-06-05 20:45:07', 645, 1),
 (5, 'L\'environnement et le changement climatique', 'Le changement climatique menace notre environnement et notre survie. Nous devons agir rapidement pour réduire les émissions de gaz à effet de serre et promouvoir des pratiques durables afin de protéger notre planète.', 0, '2023-06-05 20:45:07', 12, 1),
-(70, 'Comment faire le routage avec mux ?', 'Bonjour, je suis actuellement en train d\'essayer de développer un site avec du Golang en backend (ne me demandez pas pourquoi 😭), et j\'ai un problème j\'essaye de faire mon routage pour le /topic/{id} sauf que le routage ne fonctionne pas, quelqu\'un aurait une idée de pourquoi ?', 0, '2023-06-16 22:21:05', 12, 1),
+(70, 'Comment faire le routage avec mux ?', 'Bonjour, je suis actuellement en train d\'essayer de développer un site avec du Golang en backend (ne me demandez pas pourquoi 😭), et j\'ai un problème j\'essaye de faire mon routage pour le /topic/{id} sauf que le routage ne fonctionne pas, quelqu\'un aurait une idée de pourquoi ?', 0, '2023-06-16 22:21:05', 13, 1),
 (71, 'How to format date in JS', 'I\'m currently trying to transform my SQL date format : \n2023-06-16 22:21:05 +0000 UTC\nto a more cooler format like 2 days ago or 27 minutes ago.\nAnyone know how can i do this ?', 0, '2023-06-16 22:49:27', 7, 1),
 (85, 'How do i make a not equal if with go template web', 'I\'m currently trying to make an if statement in html template with golang, you know with the {{if .Value}}\nBut i don\'t know how can i can i make an not equal statement, I\'ve tried != but it doesn\'t work, any idea ?', 1, '2023-06-17 16:02:30', 2, 1);
 
@@ -893,6 +893,7 @@ INSERT INTO `users_messages_interactions` (`user_id`, `message_id`, `status`) VA
 (1, 10, 'report'),
 (1, 10, 'upvote'),
 (2, 10, 'upvote'),
+(1, 11, 'report'),
 (1, 11, 'upvote'),
 (2, 11, 'upvote'),
 (1, 12, 'upvote'),
