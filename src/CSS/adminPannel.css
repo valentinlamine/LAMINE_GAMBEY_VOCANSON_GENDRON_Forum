@@ -139,4 +139,5 @@
 
 .panel-componant.column {
     flex-direction: column;
+    gap: 30px;
 }
